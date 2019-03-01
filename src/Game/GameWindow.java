@@ -97,7 +97,8 @@ public class GameWindow implements GLEventListener
 	public void display(GLAutoDrawable drawable)
 	{
 		GL4 gl = drawable.getGL().getGL4();
-		gl.glClear(GL4.GL_COLOR_BUFFER_BIT | GL4.GL_DEPTH_BUFFER_BIT | GL4.GL_STENCIL_BUFFER_BIT);
+		gl.glClear(GL4.GL_COLOR_BUFFER_BIT);
+		gl.glDrawArrays(GL4.GL_TRIANGLES, 0, 3);
 	}
 
 	/**
