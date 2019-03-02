@@ -2,7 +2,7 @@ package Game;
 
 import com.jogamp.nativewindow.WindowClosingProtocol;
 import com.jogamp.newt.opengl.GLWindow;
-import com.jogamp.opengl.GL4;
+import com.jogamp.opengl.GL3;
 import com.jogamp.opengl.GLAutoDrawable;
 import com.jogamp.opengl.GLCapabilities;
 import com.jogamp.opengl.GLEventListener;
@@ -85,7 +85,10 @@ public class GameWindow implements GLEventListener
 	@Override
 	public void init(GLAutoDrawable drawable)
 	{
-		GL4 gl = drawable.getGL().getGL4();
+		GL3 gl = drawable.getGL().getGL3();
+
+		//Set the clear color to black
+		gl.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 		
 		renderer = new Renderer(gl);
 	}
@@ -96,9 +99,8 @@ public class GameWindow implements GLEventListener
 	@Override
 	public void display(GLAutoDrawable drawable)
 	{
-		GL4 gl = drawable.getGL().getGL4();
-		gl.glClear(GL4.GL_COLOR_BUFFER_BIT);
-		gl.glDrawArrays(GL4.GL_TRIANGLES, 0, 3);
+		GL3 gl = drawable.getGL().getGL3();
+		renderer.draw();
 	}
 
 	/**
@@ -118,7 +120,7 @@ public class GameWindow implements GLEventListener
 	@Override
 	public void reshape(GLAutoDrawable drawable, int x, int y, int width, int height)
 	{
-		GL4 gl = drawable.getGL().getGL4();
+		GL3 gl = drawable.getGL().getGL3();
 		gl.glViewport(x, y, width, height);
 	}
 	
