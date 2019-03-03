@@ -30,7 +30,7 @@ public class Renderer
 	/**
 	 * The OpenGL context the renderer will use for all its operations.
 	 */
-	private GL3 gl;
+	//private GL3 gl;
 	private VertexArrayObject vao;
 	
 	/**
@@ -39,13 +39,17 @@ public class Renderer
 	 */
 	public Renderer(GL3 _gl)
 	{
-		gl = _gl;
+		//gl = _gl;
 		
-		vao = new VertexArrayObject(gl);
+		vao = new VertexArrayObject(_gl);
 	}
 	
-	public void draw()
+	public void draw(GL3 gl)
 	{
+		gl.glBindVertexArray(vao.getHandle());
+		gl.glBindBuffer(GL3.GL_ELEMENT_ARRAY_BUFFER, vao.getElementBuffer());
+		gl.glBindTexture(GL3.GL_TEXTURE_2D, vao.getTexture());
 		gl.glDrawElements(GL3.GL_TRIANGLES, 6, GL3.GL_UNSIGNED_INT, 0);
+		gl.glBindVertexArray(0);
 	}
 }

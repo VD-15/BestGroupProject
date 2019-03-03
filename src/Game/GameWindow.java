@@ -100,7 +100,7 @@ public class GameWindow implements GLEventListener
 	public void display(GLAutoDrawable drawable)
 	{
 		GL3 gl = drawable.getGL().getGL3();
-		renderer.draw();
+		renderer.draw(gl);
 	}
 
 	/**

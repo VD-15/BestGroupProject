@@ -1,6 +1,8 @@
 package Graphics;
 
+import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.nio.ByteBuffer;
@@ -8,18 +10,33 @@ import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 import java.nio.charset.StandardCharsets;
 
+import javax.imageio.ImageIO;
+
 import com.jogamp.opengl.GL3;
 import com.jogamp.opengl.GL4;
 
+/**
+ * Vertex Array Objects store the configuration of the GL
+ * machine so that it can be loaded later. This is important
+ * because the machine needs to be configured differently
+ * depending on what we're drawing: primitives, sprites, etc.
+ * Instead of rebinding everything ourselves, we can just
+ * use a VAO and do it all at once. The VAO needs to be bound
+ * before it can record any other bindings we set, so bind it
+ * before doing anything else. Failure to do so can actually
+ * crash the Java VM and no amount of catch statements can
+ * salvage that shit.
+ */
 public class VertexArrayObject
 {
 	//TODO: remove
 	private static final float[] VERTICIES = 
 	{
-	    -0.5f,  0.5f, 1.0f, 0.0f, 0.0f, // Top-left
-	     0.5f,  0.5f, 0.0f, 1.0f, 0.0f, // Top-right
-	     0.5f, -0.5f, 0.0f, 0.0f, 1.0f, // Bottom-right
-	    -0.5f, -0.5f, 1.0f, 1.0f, 0.0f  // Bottom-left
+		//Position		Color				UV
+	    -0.5f,  0.5f, 	1.0f, 1.0f, 1.0f, 	0.0f, 0.0f, // Top-left
+	     0.5f,  0.5f, 	1.0f, 1.0f, 1.0f, 	1.0f, 0.0f, // Top-right
+	     0.5f, -0.5f, 	1.0f, 1.0f, 1.0f, 	1.0f, 1.0f, // Bottom-right
+	    -0.5f, -0.5f, 	1.0f, 1.0f, 1.0f, 	0.0f, 1.0f  // Bottom-left
 	};
 	
 	//TODO: remove
@@ -33,34 +50,41 @@ public class VertexArrayObject
 	private int vertexBuffer;
 	private int elementBuffer;
 	private int shaderProgram;
+	private int texture;
 	
 	public VertexArrayObject(GL3 gl)
 	{
-		/**
-		 * Vertex Array Objects store the configuration of the GL
-		 * machine so that it can be loaded later. This is important
-		 * because the machine needs to be configured differently
-		 * depending on what we're drawing: primitives, sprites, etc.
-		 * Instead of rebinding everything ourselves, we can just
-		 * use a VAO and do it all at once. The VAO needs to be bound
-		 * before it can record any other bindings we set, so bind it
-		 * before doing anything else. Failure to do so can actually
-		 * crash the Java VM and no amount of catch statements can
-		 * salvage that shit.
-		 */
-		IntBuffer vao = IntBuffer.allocate(1);
-		gl.glGenVertexArrays(1, vao);
+		{
+
+			IntBuffer vao = IntBuffer.allocate(1);
+			gl.glGenVertexArrays(1, vao);
+			arrayObject = vao.get(0);
+			
+			IntBuffer vbo = IntBuffer.allocate(1);
+			IntBuffer ebo = IntBuffer.allocate(1);
+			gl.glGenBuffers(1,  vbo);
+			gl.glGenBuffers(1,  ebo);
+			vertexBuffer = vbo.get(0);
+			elementBuffer = ebo.get(0);
+			
+			IntBuffer textures = IntBuffer.allocate(1);
+			gl.glGenTextures(1, textures);
+			texture = textures.get(0);
+		}
 		
-		arrayObject = vao.get(0);
 		gl.glBindVertexArray(arrayObject);
 		
 		/**
-		 * Virtual buffer objects allow the CPU to write data to the GPU
-		 * in the form of various buffers. The GPU can then use these to
-		 * execute draw commands based on the data inside the buffers.
+		 * Shaders are programs that get executed on the GPU instead 
+		 * of the CPU. Shaders are written in GLSL (OpenGL Shader 
+		 * Language) and in this particular case, they are loaded as
+		 * source files then compiled at runtime. If shader
+		 * compilation fails, then there's a sizable chance that
+		 * nothing will get drawn at all.
 		 */
-		IntBuffer vbo = IntBuffer.allocate(2);
-		gl.glGenBuffers(2,  vbo);
+		String fragSource = loadFile("shaders/shader.frag");
+		String vertSource = loadFile("shaders/shader.vert");
+		int[] imageData = loadImage("content/testImage.png", 512, 512);
 
 		/**
 		 * The vertex buffer contains attributes about the vertices we
@@ -68,7 +92,6 @@ public class VertexArrayObject
 		 * machine cannot discern any of these attributes from the
 		 * data alone. See glVertexAttribPointer.
 		 */
-		vertexBuffer = vbo.get(0);
 		gl.glBindBuffer(GL3.GL_ARRAY_BUFFER, vertexBuffer);
 		gl.glBufferData(GL3.GL_ARRAY_BUFFER, VERTICIES.length * 4, FloatBuffer.wrap(VERTICIES), GL3.GL_STATIC_DRAW);
 
@@ -83,20 +106,20 @@ public class VertexArrayObject
 		 * as oppose to glDrawArrays. This saves memory and reduces
 		 * the bottleneck that exists when writing data to the GPU.
 		 */
-		elementBuffer = vbo.get(1);
 		gl.glBindBuffer(GL3.GL_ELEMENT_ARRAY_BUFFER, elementBuffer);
 		gl.glBufferData(GL3.GL_ELEMENT_ARRAY_BUFFER, ELEMENTS.length * 4, IntBuffer.wrap(ELEMENTS), GL3.GL_STATIC_DRAW);
-
+		
 		/**
-		 * Shaders are programs that get executed on the GPU instead 
-		 * of the CPU. Shaders are written in GLSL (OpenGL Shader 
-		 * Language) and in this particular case, they are loaded as
-		 * source files then compiled at runtime. If shader
-		 * compilation fails, then there's a sizable chance that
-		 * nothing will get drawn at all.
+		 * Texture
 		 */
-		String fragSource = loadFile("shaders/shader.frag");
-		String vertSource = loadFile("shaders/shader.vert");
+		gl.glActiveTexture(GL3.GL_TEXTURE0);
+		gl.glBindTexture(GL3.GL_TEXTURE_2D, texture);
+		gl.glTexImage2D(GL3.GL_TEXTURE_2D, 0, GL3.GL_RGBA, 512, 512, 0, GL3.GL_BGRA, GL3.GL_UNSIGNED_BYTE, IntBuffer.wrap(imageData));
+		gl.glTexParameteri(GL3.GL_TEXTURE_2D, GL3.GL_TEXTURE_WRAP_S, GL3.GL_CLAMP_TO_EDGE);
+		gl.glTexParameteri(GL3.GL_TEXTURE_2D, GL3.GL_TEXTURE_WRAP_T, GL3.GL_CLAMP_TO_EDGE);
+		gl.glTexParameteri(GL3.GL_TEXTURE_2D, GL3.GL_TEXTURE_MIN_FILTER, GL3.GL_LINEAR_MIPMAP_LINEAR);
+		gl.glTexParameteri(GL3.GL_TEXTURE_2D, GL3.GL_TEXTURE_MAG_FILTER, GL3.GL_LINEAR);
+		gl.glGenerateMipmap(GL3.GL_TEXTURE_2D);
 
 		/**
 		 * Vertex shaders are called per-vertex and dictate where the
@@ -171,10 +194,12 @@ public class VertexArrayObject
 		 * be matched up to the variables declared in the shaders.
 		 * These need to be enabled before they can be used.
 		 */
-		gl.glVertexAttribPointer(0, 2, GL3.GL_FLOAT, false, 5 * 4, 0);
-		gl.glVertexAttribPointer(1, 3, GL3.GL_FLOAT, false, 5 * 4, 2 * 4);
+		gl.glVertexAttribPointer(0, 2, GL3.GL_FLOAT, false, 7 * 4, 0);
+		gl.glVertexAttribPointer(1, 3, GL3.GL_FLOAT, false, 7 * 4, 2 * 4);
+		gl.glVertexAttribPointer(2, 2, GL3.GL_FLOAT, false, 7 * 4, 5 * 4);
 		gl.glEnableVertexAttribArray(0);
 		gl.glEnableVertexAttribArray(1);
+		gl.glEnableVertexAttribArray(2);
 	}
 	
 	/**
@@ -214,6 +239,11 @@ public class VertexArrayObject
 		return shaderProgram;
 	}
 	
+	public int getTexture()
+	{
+		return texture;
+	}
+	
 	/**
 	 * Loads a file from the given path.
 	 * @param path The path to the file resource.
@@ -234,6 +264,36 @@ public class VertexArrayObject
 			}
 			
 			reader.close();
+		}
+		catch (IOException ex)
+		{
+			ex.printStackTrace();
+		}
+		
+		return data;
+	}
+	
+	/**
+	 * Loads an image from the given path
+	 * @param path The path to the file resource
+	 * @param width The width of the image
+	 * @param height The height of the image
+	 * @return The pixel data of the image as an int array
+	 */
+	private static int[] loadImage(String path, int width, int height)
+	{
+		/**
+		 * The loaded image will have 4 channels per pixel, each get
+		 * their own 32-bit int for some reason.
+		 */
+		int[] data = new int[width * height * 4];
+		
+		BufferedImage img = null;
+	
+		try
+		{
+			img = ImageIO.read(new File("content/testImage.png"));
+			img.getRGB(0, 0, width, height, data, 0, width);
 		}
 		catch (IOException ex)
 		{

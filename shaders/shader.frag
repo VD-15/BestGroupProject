@@ -2,10 +2,13 @@
 #extension GL_ARB_separate_shader_objects : enable
 
 layout (location = 0) in vec3 inColor;
+layout (location = 1) in vec2 inUV;
 
 layout (location = 0) out vec4 outColor;
 
+uniform sampler2D uTexture;
+
 void main()
 {
-	outColor = vec4(inColor, 1.0);
+	outColor = vec4(inColor, 1.0) * texture(uTexture, inUV);
 }
