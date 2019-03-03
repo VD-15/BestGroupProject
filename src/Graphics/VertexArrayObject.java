@@ -33,10 +33,10 @@ public class VertexArrayObject
 	private static final float[] VERTICIES = 
 	{
 		//Position		Color				UV
-	    -0.5f,  0.5f, 	1.0f, 1.0f, 1.0f, 	0.0f, 0.0f, // Top-left
-	     0.5f,  0.5f, 	1.0f, 1.0f, 1.0f, 	1.0f, 0.0f, // Top-right
-	     0.5f, -0.5f, 	1.0f, 1.0f, 1.0f, 	1.0f, 1.0f, // Bottom-right
-	    -0.5f, -0.5f, 	1.0f, 1.0f, 1.0f, 	0.0f, 1.0f  // Bottom-left
+	    -256f,  256f, 	1.0f, 1.0f, 1.0f, 	0.0f, 0.0f, // Top-left
+	     256f,  256f, 	1.0f, 1.0f, 1.0f, 	1.0f, 0.0f, // Top-right
+	     256f, -256f, 	1.0f, 1.0f, 1.0f, 	1.0f, 1.0f, // Bottom-right
+	    -256f, -256f, 	1.0f, 1.0f, 1.0f, 	0.0f, 1.0f  // Bottom-left
 	};
 	
 	//TODO: remove
@@ -84,7 +84,7 @@ public class VertexArrayObject
 		 */
 		String fragSource = loadFile("shaders/shader.frag");
 		String vertSource = loadFile("shaders/shader.vert");
-		int[] imageData = loadImage("content/testImage.png", 512, 512);
+		int[] imageData = loadImage("content/testImage.png", 1024, 1024);
 
 		/**
 		 * The vertex buffer contains attributes about the vertices we
@@ -114,7 +114,7 @@ public class VertexArrayObject
 		 */
 		gl.glActiveTexture(GL3.GL_TEXTURE0);
 		gl.glBindTexture(GL3.GL_TEXTURE_2D, texture);
-		gl.glTexImage2D(GL3.GL_TEXTURE_2D, 0, GL3.GL_RGBA, 512, 512, 0, GL3.GL_BGRA, GL3.GL_UNSIGNED_BYTE, IntBuffer.wrap(imageData));
+		gl.glTexImage2D(GL3.GL_TEXTURE_2D, 0, GL3.GL_RGBA, 1024, 1024, 0, GL3.GL_BGRA, GL3.GL_UNSIGNED_BYTE, IntBuffer.wrap(imageData));
 		gl.glTexParameteri(GL3.GL_TEXTURE_2D, GL3.GL_TEXTURE_WRAP_S, GL3.GL_CLAMP_TO_EDGE);
 		gl.glTexParameteri(GL3.GL_TEXTURE_2D, GL3.GL_TEXTURE_WRAP_T, GL3.GL_CLAMP_TO_EDGE);
 		gl.glTexParameteri(GL3.GL_TEXTURE_2D, GL3.GL_TEXTURE_MIN_FILTER, GL3.GL_LINEAR_MIPMAP_LINEAR);
@@ -200,6 +200,7 @@ public class VertexArrayObject
 		gl.glEnableVertexAttribArray(0);
 		gl.glEnableVertexAttribArray(1);
 		gl.glEnableVertexAttribArray(2);
+		gl.glUniform1i(0, 0);
 	}
 	
 	/**

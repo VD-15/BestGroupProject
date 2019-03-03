@@ -1,6 +1,7 @@
 package Game;
 
 import com.jogamp.nativewindow.WindowClosingProtocol;
+import com.jogamp.nativewindow.util.Rectangle;
 import com.jogamp.newt.opengl.GLWindow;
 import com.jogamp.opengl.GL3;
 import com.jogamp.opengl.GLAutoDrawable;
@@ -53,14 +54,12 @@ public class GameWindow implements GLEventListener
 		GLProfile profile = GLProfile.get(GLProfile.GL4);
 		GLCapabilities capabilities = new GLCapabilities(profile);
 		window = GLWindow.create(capabilities);
-		//window.setContextCreationFlags(GLContext.CTX_OPTION_DEBUG);
 		
 		//Setup the window
 		window.setTitle(_title);
 		window.setSize(_width, _height);
 		window.setVisible(false);
 		window.setResizable(true);
-		
 		window.addGLEventListener(this);
 		window.setDefaultCloseOperation(WindowClosingProtocol.WindowClosingMode.DISPOSE_ON_CLOSE);
 		
@@ -122,6 +121,12 @@ public class GameWindow implements GLEventListener
 	{
 		GL3 gl = drawable.getGL().getGL3();
 		gl.glViewport(x, y, width, height);
+		if (renderer != null)
+		{
+			Rectangle r = new Rectangle(x, y, width, height);
+			renderer.setViewport(r);
+			//System.out.println(r.toString());
+		}
 	}
 	
 }
