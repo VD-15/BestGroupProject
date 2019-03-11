@@ -1,130 +1,99 @@
 package Utils;
 
-/**
- * <h1>Vector2</h1>
- * A two-dimensional vector that stores two floating 
- * point values to represent a position in 2D space
- * and is capable of basic transformations.
- * <p>
- * 
- * @author Team 26
- * @version 1.0
- * @since 28-02-2019
- */
-public class Vector2
+public final class Vector2 implements Cloneable
 {
-	/**
-	 * The X component of the vector.
-	 */
 	public float x;
-	
-	/**
-	 * The Y component of the vector.
-	 */
 	public float y;
 	
-	/**
-	 * Initialize a Vector2 object at the origin (0, 0).
-	 */
 	public Vector2()
 	{
-		x = 0f;
-		y = 0f;
+		this.x = 0f;
+		this.y = 0f;
 	}
 	
-	/**
-	 * Initialize a Vector2 object with the given x and
-	 * y coordinates.
-	 * 
-	 * @param _x The X component of the vector.
-	 * @param _y The Y component of the vector.
-	 */
-	public Vector2(float _x, float _y)
+	public Vector2(float xy)
 	{
-		x = _x;
-		y = _y;
+		this.x = xy;
+		this.y = xy;
 	}
 	
-	/**
-	 * Adds the vector provided to this vector.
-	 * @param v The vector to add.
-	 */
-	public void add(final Vector2 v)
+	public Vector2(float x, float y)
 	{
-		x += v.x;
-		y += v.y;
+		this.x = x;
+		this.y = y;
 	}
 	
-	/**
-	 * Subtract the vector provided from this vector.
-	 * @param v The vector to subtract.
-	 */
-	public void subtract(final Vector2 v)
+	public float[] getArray()
 	{
-		x -= v.x;
-		y -= v.y;
+		return new float[] {x, y};
 	}
 	
-	/**
-	 * Negates this vector. Has the same effect as 
-	 * multiplying by -1.
-	 */
-	public final void negate()
+	public Vector2 rotate(float a)
 	{
-		x = -x;
-		y = -y;
+		float cosa = (float)Math.cos(a);
+		float sina = (float)Math.sin(a);
+		
+		float newX = (x * cosa) - (y * sina);
+		float newY = (y * cosa) + (x * sina);
+		
+		return new Vector2(newX, newY);
 	}
 	
-	/**
-	 * Scales this vector by the scale factor provided.
-	 * @param factor The factor to scale this vector by.
-	 */
-	public void scale(float factor)
+	public Vector2 rotateAround(float a, Vector2 o)
 	{
-		x *= factor;
-		y *= factor;
+		float cosa = (float)Math.cos(a);
+		float sina = (float)Math.sin(a);
+		
+		float newX = ((x - o.x) * cosa) - ((o.y - y) * sina) + o.x;
+		float newY = ((o.y - y) * cosa) - ((x - o.x) * sina) + o.y;
+		
+		return new Vector2(newX, newY);
 	}
 	
-	/**
-	 * Adds two vectors together.
-	 * @param v1 The first vector to add.
-	 * @param v2 The second vector to add.
-	 * @return A {@link Vector2} representing the sum of the two vectors.
-	 */
-	public static Vector2 add(final Vector2 v1, final Vector2 v2)
+	public Vector2 scale(float s)
 	{
-		return new Vector2(v1.x + v2.x, v1.y + v2.y);
-	}
-
-	/**
-	 * Adds two vectors together.
-	 * @param v1 The vector to be subtracted from.
-	 * @param v2 The vector to subtract.
-	 * @return A {@link Vector2} representing the difference of the two vectors.
-	 */
-	public static Vector2 subtract(final Vector2 v1, final Vector2 v2)
-	{
-		return new Vector2(v1.x - v2.x, v1.y - v2.y);
+		return new Vector2(x * s, y * s);
 	}
 	
-	/**
-	 * Negates a vector.
-	 * @param v The vector to negate.
-	 * @return A {@link Vector2} that is the negative of the first vector.
-	 */
-	public static Vector2 negate(final Vector2 v)
+	public void setX(float x)
 	{
-		return new Vector2(-v.x, -v.y);
+		this.x = x;
 	}
-
-	/**
-	 * Scales the vector by the scale factor provided.
-	 * @param v The vector to scale
-	 * @param factor The factor to scale this vector by.
-	 * @return A {@link Vector2} that is 
-	 */
-	public static Vector2 scale(final Vector2 v, float factor)
+	
+	public void setY(float y)
 	{
-		return new Vector2(v.x * factor, v.y * factor);
+		this.y = y;
+	}
+	
+	public void set(float x, float y)
+	{
+		this.x = x;
+		this.y = y;
+	}
+	
+	public void set(Vector2 v)
+	{
+		this.x = v.x;
+		this.y = v.y;
+	}
+	
+	@Override
+	public boolean equals(Object o)
+	{
+		if (o.getClass() ==  Vector2.class)
+		{
+			Vector2 v = (Vector2)o;
+			return (v.x == this.x && v.y == this.y);
+		}
+		else
+		{
+			return false;
+		}
+	}
+	
+	@Override
+	public Vector2 clone()
+	{
+		return new Vector2(this.x, this.y);
 	}
 }

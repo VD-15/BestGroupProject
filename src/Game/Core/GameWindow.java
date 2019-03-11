@@ -1,4 +1,7 @@
-package Game;
+package Game.Core;
+
+import java.nio.Buffer;
+import java.nio.ByteBuffer;
 
 import com.jogamp.nativewindow.WindowClosingProtocol;
 import com.jogamp.nativewindow.util.Rectangle;
@@ -11,6 +14,9 @@ import com.jogamp.opengl.GLProfile;
 import com.jogamp.opengl.util.Animator;
 
 import Graphics.Renderer;
+import Utils.LogSeverity;
+import Utils.Logger;
+import Utils.Vector2;
 
 /**
  * <h1>GameWindow</h1>
@@ -22,6 +28,8 @@ import Graphics.Renderer;
  */
 public class GameWindow implements GLEventListener
 {	
+	public static GameWindow INSTANCE = null;
+	
 	/**
 	 * OpenGL rendering target and actual application window
 	 */
@@ -31,8 +39,10 @@ public class GameWindow implements GLEventListener
 	 * Facilitates drawing every frame
 	 */
 	private Animator animator;
-	
 	private Renderer renderer;
+	
+	private Game game;
+	private Vector2 viewport;
 
 	/**
 	 * Creates a GameWindow object of size 640x480 pixels with the title of "Game Window"
@@ -50,22 +60,35 @@ public class GameWindow implements GLEventListener
 	 */
 	public GameWindow(int _width, int _height, String _title)
 	{
+		if (GameWindow.INSTANCE != null)
+		{
+			System.out.println("[Game Window]: (ERROR) Multiple windows running, application may not function correctly.");
+		}
+		else
+		{
+			GameWindow.INSTANCE = this;
+		}
+		
 		//Create an OpenGL context and create the window
 		GLProfile profile = GLProfile.get(GLProfile.GL4);
 		GLCapabilities capabilities = new GLCapabilities(profile);
-		window = GLWindow.create(capabilities);
+		this.window = GLWindow.create(capabilities);
 		
 		//Setup the window
-		window.setTitle(_title);
-		window.setSize(_width, _height);
-		window.setVisible(false);
-		window.setResizable(true);
-		window.addGLEventListener(this);
-		window.setDefaultCloseOperation(WindowClosingProtocol.WindowClosingMode.DISPOSE_ON_CLOSE);
+		this.window.setTitle(_title);
+		this.window.setSize(_width, _height);
+		this.window.setVisible(false);
+		this.window.setResizable(true);
+		this.window.addGLEventListener(this);
+		this.window.setDefaultCloseOperation(WindowClosingProtocol.WindowClosingMode.DISPOSE_ON_CLOSE);
 		
 		//Create the animator
-		animator = new Animator(window);
-		animator.start();
+		this.animator = new Animator(this.window);
+		
+		//Create the game
+		this.viewport = new Vector2(640, 480);
+		this.game = new Game();
+		this.renderer = new Renderer();
 	}
 	
 	/**
@@ -73,9 +96,14 @@ public class GameWindow implements GLEventListener
 	 */
 	public void run()
 	{
-		System.out.println("Run");
+		Logger.log(this, LogSeverity.INFO, "Running.");
 		window.setVisible(true);
-		window.setUpdateFPSFrames(15, null);
+		//window.setUpdateFPSFrames(15, null);
+	}
+	
+	public Vector2 getViewport()
+	{
+		return this.viewport;
 	}
 	
 	/**
@@ -88,8 +116,12 @@ public class GameWindow implements GLEventListener
 
 		//Set the clear color to black
 		gl.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-		
-		renderer = new Renderer(gl);
+
+		ContentManager.setRootDirectory("content/");
+		ContentManager.loadImage(gl, "testImage.png", "testImage", 1024, 1024);
+		animator.start();
+		renderer.init(gl);
+		game.init();
 	}
 	
 	/**
@@ -99,7 +131,8 @@ public class GameWindow implements GLEventListener
 	public void display(GLAutoDrawable drawable)
 	{
 		GL3 gl = drawable.getGL().getGL3();
-		renderer.draw(gl);
+		game.update();
+		renderer.draw(gl, game);
 	}
 
 	/**
@@ -108,7 +141,7 @@ public class GameWindow implements GLEventListener
 	@Override
 	public void dispose(GLAutoDrawable drawable)
 	{
-		System.out.println("Disposed.");
+		Logger.log(this, LogSeverity.INFO, "Disposed.");
 		animator.stop();
 		System.exit(1);
 	}
@@ -121,12 +154,11 @@ public class GameWindow implements GLEventListener
 	{
 		GL3 gl = drawable.getGL().getGL3();
 		gl.glViewport(x, y, width, height);
-		if (renderer != null)
-		{
-			Rectangle r = new Rectangle(x, y, width, height);
-			renderer.setViewport(r);
-			//System.out.println(r.toString());
-		}
+		
+		Rectangle r = new Rectangle(x, y, width, height);
+		viewport.set(width, height);
+		renderer.setViewport(r);
+		//System.out.println(r.toString());
 	}
 	
 }
