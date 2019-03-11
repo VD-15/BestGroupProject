@@ -7,6 +7,8 @@ import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 import com.jogamp.nativewindow.util.Rectangle;
 import com.jogamp.opengl.GL3;
@@ -46,6 +48,12 @@ public class Renderer
 	private int elementBuffer;
 	private int vertexBufferAllocation;
 	private int elementBufferAllocation;
+	
+	//Position:	vec3	3 * 4
+	//Color:	vec3	3 * 4
+	//UV:		vec2	2 * 4
+	//Size		=		8 * 4 = 32
+	private static int VERTEX_SIZE = 32;
 	
 	/**
 	 * Creates a renderer with the given GL context.
@@ -172,11 +180,6 @@ public class Renderer
 		 * These need to be enabled before they can be used.
 		 */
 		
-		//Position	vec3 3 * 4
-		//Color		vec3 3 * 4
-		//UV coord	vec2 3 * 2
-		//Texture	uniform
-		
 		//TODO:
 		gl.glVertexAttribPointer(0, 2, GL3.GL_FLOAT, false, 7 * 4, 0);
 		gl.glVertexAttribPointer(1, 3, GL3.GL_FLOAT, false, 7 * 4, 2 * 4);
@@ -184,7 +187,6 @@ public class Renderer
 		gl.glEnableVertexAttribArray(0);
 		gl.glEnableVertexAttribArray(1);
 		gl.glEnableVertexAttribArray(2);
-		gl.glUniform1i(0, GL3.GL_TEXTURE0);
 		
 		//gl.glBindTexture(GL3.GL_TEXTURE0, testTexture);
 	}
@@ -195,9 +197,24 @@ public class Renderer
 		viewportMatrix.makeOrtho(0, v.getWidth(), v.getHeight(), 0, -1f, 100f);
 	}
 	
-	public void draw(GL3 gl, Game g)
+	public void draw(GL3 gl, RenderBatch batch)
 	{
-		gl.glClear(GL3.GL_COLOR_BUFFER_BIT | GL3.GL_DEPTH_BUFFER_BIT);
+		ArrayList<RenderInstance> instances = batch.getInstances();
+
+		HashMap<Integer, ArrayList<RenderInstance>> renderPasses = new HashMap<Integer, ArrayList<RenderInstance>>();
+		
+		for (RenderInstance r : instances)
+		{
+			if (renderPasses.containsKey(r.textureID))
+			{
+				renderPasses.get(r.textureID).add(r);
+			}
+			else
+			{
+				renderPasses.put(r.textureID, new ArrayList<RenderInstance>() {r});
+			}
+		}
+		
 		gl.glBindVertexArray(arrayObject);
 		gl.glBindBuffer(GL3.GL_ELEMENT_ARRAY_BUFFER, elementBuffer);
 		gl.glUniformMatrix4fv(1, 1, false, FloatBuffer.wrap(viewportMatrix.getMatrix()));

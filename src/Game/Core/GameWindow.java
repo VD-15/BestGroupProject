@@ -13,6 +13,7 @@ import com.jogamp.opengl.GLEventListener;
 import com.jogamp.opengl.GLProfile;
 import com.jogamp.opengl.util.Animator;
 
+import Graphics.RenderBatch;
 import Graphics.Renderer;
 import Utils.LogSeverity;
 import Utils.Logger;
@@ -132,7 +133,10 @@ public class GameWindow implements GLEventListener
 	{
 		GL3 gl = drawable.getGL().getGL3();
 		game.update();
-		renderer.draw(gl, game);
+		
+		RenderBatch renderBatch = new RenderBatch();
+		game.draw(renderBatch);
+		renderer.draw(gl, renderBatch);
 	}
 
 	/**

@@ -6,6 +6,9 @@ import java.util.HashSet;
 
 import Game.TestObject;
 import Graphics.IDrawable;
+import Graphics.RenderBatch;
+import Utils.LogSeverity;
+import Utils.Logger;
 import Utils.Region;
 import Utils.Vector2;
 
@@ -22,7 +25,7 @@ public class Game
 	{
 		if (Game.INSTANCE != null)
 		{
-			System.out.println("[Game]: (ERROR) Multiple games running, application may not function correctly.");
+			Logger.log(this, LogSeverity.WARNING, "Multiple games running, application may not function correctly.");
 		}
 		else
 		{
@@ -53,9 +56,19 @@ public class Game
 			}
 		}
 		
-		
-		
 		this.lastNano = newNano;
+	}
+	
+	public void draw(RenderBatch b)
+	{
+		for (GameObject g : objects)
+		{
+			if (g instanceof IDrawable)
+			{
+				IDrawable i = (IDrawable)g;
+				i.draw(b);
+			}
+		}
 	}
 	
 	public void destroy()

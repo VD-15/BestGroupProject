@@ -1,6 +1,6 @@
 package Graphics;
 
-public final class Color
+public final class Color implements Cloneable
 {
 	public float r;
 	public float g;
@@ -41,9 +41,15 @@ public final class Color
 		return new Color(this.r * c.r, this.g * c.g, this.b * c.b, this.a * c.a);
 	}
 	
-	public Color multiple(float f)
+	public Color multiply(float f)
 	{
 		return new Color(this.r, this.g, this.b, this.a * f);
+	}
+	
+	@Override
+	public Color clone()
+	{
+		return new Color(this.r, this.g, this.b, this.a);
 	}
 	
 	public static Color WHITE()

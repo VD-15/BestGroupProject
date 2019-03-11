@@ -9,7 +9,7 @@ public class Logger
 	
 	public static void log(Class<?> source, LogSeverity severity, String message)
 	{
-		System.out.println("[" + source.getSimpleName() + "]:\t(" + getSeverityString(severity) + ")\t" + message);
+		System.out.println(String.format("%-" + 20 + "s", "[" + source.getSimpleName() + "]:") + "(" + getSeverityString(severity) + ")\t" + message);
 	}
 	
 	public static String getSeverityString(LogSeverity s)

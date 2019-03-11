@@ -40,12 +40,13 @@ public class ContentManager
 			if (!ContentManager.TEXTURES.containsKey(name))
 			{
 				ContentManager.TEXTURES.put(name, new Texture(gl, img));
+				Logger.log(ContentManager.class, LogSeverity.INFO, "Loaded texture: {" + path + "} as {" + name + "}");
 				return true;
 			}
 		}
 		catch (IOException ex)
 		{
-			System.out.println("[Content Manager]: (ERROR) Failed to load file: " + path);
+			Logger.log(ContentManager.class, LogSeverity.ERROR, "Failed to load file {" + path + "}");
 			ex.printStackTrace();
 		}
 		

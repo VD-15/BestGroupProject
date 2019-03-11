@@ -56,4 +56,9 @@ public class RenderBatch
 		
 		instances.add(r);
 	}
+	
+	public ArrayList<RenderInstance> getInstances()
+	{
+		return instances;
+	}
 }
