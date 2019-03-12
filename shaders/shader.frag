@@ -11,5 +11,10 @@ layout (location = 0) uniform sampler2D uTexture;
 
 void main()
 {
-	outColor = vec4(inColor) * texture(uTexture, inUV);
+	vec4 fragColor = vec4(inColor) * texture(uTexture, inUV);
+	
+	if (fragColor.a < 1)
+		discard;
+	else
+		outColor = fragColor;
 }

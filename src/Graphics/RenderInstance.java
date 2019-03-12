@@ -4,7 +4,7 @@ import Utils.Region;
 
 public class RenderInstance
 {
-	public int textureID;
+	public Texture texture;
 	public Region destination;
 	public Region source;
 	public Color color;
@@ -12,7 +12,7 @@ public class RenderInstance
 	
 	public RenderInstance()
 	{
-		this.textureID = 0;
+		this.texture = null;
 		this.destination = new Region();
 		this.source = new Region();
 		this.color = Color.WHITE();

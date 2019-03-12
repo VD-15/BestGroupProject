@@ -38,7 +38,10 @@ public class Game
 	
 	public void init()
 	{
-		this.objects.add(new TestObject());
+		this.objects.add(new TestObject(new Vector2(400, 400)));
+		this.objects.add(new TestObject(new Vector2(600, 600)));
+		this.objects.add(new TestObject(new Vector2(600, 400)));
+		this.objects.add(new TestObject(new Vector2(400, 600)));
 		this.lastNano = System.nanoTime();
 	}
 	

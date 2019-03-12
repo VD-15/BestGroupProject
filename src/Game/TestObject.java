@@ -12,9 +12,9 @@ import Utils.Vector2;
 
 public class TestObject extends GameObject implements IDrawable, IUpdatable
 {
-	public TestObject()
+	public TestObject(Vector2 v)
 	{
-		super(new Vector2(), "testObject");
+		super(v.clone(), "testObject");
 	}
 
 	@Override
@@ -26,14 +26,13 @@ public class TestObject extends GameObject implements IDrawable, IUpdatable
 	@Override
 	public void update(double time)
 	{
-		this.location = this.location.rotateAround((float)time, new Vector2(1024));
-		//Logger.log(this, LogSeverity.VERBOSE, Double.toString(time));
+		this.location = this.location.rotateAround((float)time, new Vector2(500, 500));
 	}
 
 	@Override
 	public void draw(RenderBatch b)
 	{
-		b.draw("testImage", new Region(this.location, new Vector2(1024), true), Color.WHITE(), 0f);
+		b.draw("testImage2", new Region(this.location, new Vector2(631, 270), true), Color.WHITE(), 1f);
 	}
 	
 }

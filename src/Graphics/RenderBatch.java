@@ -29,7 +29,7 @@ public class RenderBatch
 		RenderInstance r = new RenderInstance();
 		Texture t = ContentManager.getImageByName(textureName);
 		
-		r.textureID = t.getID();
+		r.texture = t;
 		r.destination = destination.clone();
 		r.source = new Region(0, 0, t.getWidth(), t.getHeight());
 		r.color = color;
@@ -48,7 +48,7 @@ public class RenderBatch
 		RenderInstance r = new RenderInstance();
 		Texture t = ContentManager.getImageByName(textureName);
 		
-		r.textureID = t.getID();
+		r.texture = t;
 		r.destination = destination.clone();
 		r.source = source.clone();
 		r.color = color;

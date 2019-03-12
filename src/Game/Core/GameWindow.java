@@ -109,6 +109,9 @@ public class GameWindow implements GLEventListener
 	
 	/**
 	 * Called once when the window is first displayed
+	 * 
+	 * ### HOPE NOBODY'S PARKED HERE BECAUSE THIS###
+	 * ###     IS A DESIGNATED LOADING ZONE!     ###
 	 */	
 	@Override
 	public void init(GLAutoDrawable drawable)
@@ -120,6 +123,7 @@ public class GameWindow implements GLEventListener
 
 		ContentManager.setRootDirectory("content/");
 		ContentManager.loadImage(gl, "testImage.png", "testImage", 1024, 1024);
+		ContentManager.loadImage(gl, "testImage2.png", "testImage2", 631, 270);
 		animator.start();
 		renderer.init(gl);
 		game.init();

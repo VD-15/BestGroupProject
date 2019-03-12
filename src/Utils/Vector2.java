@@ -43,9 +43,11 @@ public final class Vector2 implements Cloneable
 	{
 		float cosa = (float)Math.cos(a);
 		float sina = (float)Math.sin(a);
+		float xdiff = this.x - o.x;
+		float ydiff = this.y - o.y;
 		
-		float newX = ((x - o.x) * cosa) - ((o.y - y) * sina) + o.x;
-		float newY = ((o.y - y) * cosa) - ((x - o.x) * sina) + o.y;
+		float newX = cosa * xdiff - sina * ydiff + o.x;
+		float newY = sina * xdiff + cosa * ydiff + o.y;
 		
 		return new Vector2(newX, newY);
 	}
