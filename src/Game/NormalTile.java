@@ -1,5 +1,7 @@
 package Game;
 
+import Graphics.RenderBatch;
+
 /**
  * Normal Tile. Blank tile that does nothing
  * 
@@ -27,6 +29,18 @@ public class NormalTile extends Location {
 	*/
 	@Override
 	public void onLanded(Robot robot) { }
+
+	@Override
+	public void draw(RenderBatch b) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void update(double time) {
+		// TODO Auto-generated method stub
+		
+	}
 
 
 

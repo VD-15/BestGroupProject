@@ -1,5 +1,9 @@
 package Game;
 
+import Game.Core.IUpdatable;
+import Graphics.IDrawable;
+import Graphics.RenderBatch;
+
 /**
  * Flag Tile
  * 
@@ -21,6 +25,18 @@ public class FlagTile extends Location {
 
 	@Override
 	public void onLanded(Robot robot) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void draw(RenderBatch b) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void update(double time) {
 		// TODO Auto-generated method stub
 		
 	}

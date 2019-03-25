@@ -1,5 +1,7 @@
 package Game;
 
+import Graphics.RenderBatch;
+
 /**
  * Pit Tile
  * 
@@ -22,6 +24,18 @@ public class PitTile extends Location {
 	@Override
 	public void onLanded(Robot robot) {
 		robot.resetLocation();
+		
+	}
+
+	@Override
+	public void draw(RenderBatch b) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void update(double time) {
+		// TODO Auto-generated method stub
 		
 	}
 

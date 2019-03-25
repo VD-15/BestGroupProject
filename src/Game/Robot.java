@@ -4,6 +4,9 @@ import java.net.URL;
 import java.util.Queue;
 
 import Game.Core.GameObject;
+import Game.Core.IUpdatable;
+import Graphics.IDrawable;
+import Graphics.RenderBatch;
 
 /**
  * Robot
@@ -11,7 +14,7 @@ import Game.Core.GameObject;
  * @author Jedd Morgan
  * @version 25/03/2019
  */
-public class Robot extends GameObject {
+public class Robot extends GameObject implements IDrawable, IUpdatable {
 
 	/** x index in the {@link Game#boardArray} */
 	private int x;
@@ -63,11 +66,23 @@ public class Robot extends GameObject {
 	}
 	
 	/**
-	 * Reset the location of {@link Robot} back to its starting position
+	 * Reset the Location of Robot back to its starting position
 	 */
 	public void resetLocation() {
 		//TODO Implementation required: Robot is destroyed (eg. from a PitTile) and its Location should be reset to it's starting Location
 		//May need to store a reference to it's starting Location?
+	}
+
+	@Override
+	public void update(double time) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void draw(RenderBatch b) {
+		// TODO Auto-generated method stub
+		
 	}
 
 	
