@@ -10,8 +10,8 @@ import Utils.Vector2;
 /**
  * Flag Tile
  * 
- * @author Jedd Morgan
- * @version 25/03/2019
+ * @author Jedd Morgan, Vanessa Kostadinova
+ * @version 01/04/2019
  */
 public class FlagTile extends Location {
 

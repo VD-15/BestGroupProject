@@ -8,8 +8,8 @@ import Utils.Vector2;
 /**
  * Normal Tile. Blank tile that does nothing
  * 
- * @author Jedd Morgan
- * @version 25/03/2019
+ * @author Jedd Morgan, Vanessa Kostadinova
+ * @version 01/04/2019
  */
 public class NormalTile extends Location {
 

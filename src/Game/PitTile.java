@@ -8,8 +8,8 @@ import Utils.Vector2;
 /**
  * Pit Tile
  * 
- * @author Jedd Morgan
- * @version 25/03/2019
+ * @author Jedd Morgan, Vanessa Kostadinova
+ * @version 01/04/2019
  */
 public class PitTile extends Location
 {
