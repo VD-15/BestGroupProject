@@ -13,6 +13,7 @@ import Utils.Vector2;
  */
 public abstract class Location extends GameObject implements IDrawable  {
 	
+	protected Robot currentRobot;
 	
 	/** Tile action, called at end of game turn*/
 	public abstract void act();

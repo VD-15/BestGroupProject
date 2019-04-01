@@ -16,9 +16,9 @@ import Graphics.RenderBatch;
  */
 public class Robot extends GameObject implements IDrawable, IUpdatable {
 
-	/** x index in the {@link Game#boardArray} */
+	/** x index in the {@link GameManager#boardArray} */
 	private int x;
-	/** y index in the {@link Game#boardArray} */
+	/** y index in the {@link GameManager#boardArray} */
 	private int y;
 	
 	/** queue of actions to be committed*/

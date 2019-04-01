@@ -8,12 +8,12 @@ import java.net.URL;
  * @author Jedd Morgan
  * @version 25/03/2019
  */
-public class Game {
+public class GameManager {
 
 	private static Location[][] boardArray;
 	private static Robot[] robots;
 	
-	public Game(URL file) {
+	public GameManager(URL file) {
 		//TODO implementation
 		//Read from board parse text file
 	}
