@@ -16,7 +16,6 @@ import Utils.Vector2;
 public class BeltTile extends Location {
 	
 	private Direction direction;
-
 	/**
 	 * 
 	 * @param placement The location where the tile is drawn.
