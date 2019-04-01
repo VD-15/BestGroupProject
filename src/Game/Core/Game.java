@@ -4,6 +4,7 @@ import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.HashSet;
 
+import Game.GearTile;
 import Game.PitTile;
 import Game.TestObject;
 import Graphics.IDrawable;
@@ -43,7 +44,7 @@ public class Game
 		this.objects.add(new TestObject(new Vector2(600, 600)));
 		this.objects.add(new TestObject(new Vector2(600, 400)));
 		this.objects.add(new TestObject(new Vector2(400, 600)));
-		//this.objects.add(new PitTile());
+		this.objects.add(new GearTile(new Vector2(64,64), false));
 		this.lastNano = System.nanoTime();
 	}
 	

@@ -1,8 +1,11 @@
 package Game;
 
 import Game.Core.IUpdatable;
+import Graphics.Color;
 import Graphics.IDrawable;
 import Graphics.RenderBatch;
+import Utils.Region;
+import Utils.Vector2;
 
 /**
  * Flag Tile
@@ -12,6 +15,10 @@ import Graphics.RenderBatch;
  */
 public class FlagTile extends Location {
 
+	public FlagTile(Vector2 placement) {
+		super();
+		this.location = placement;
+	}
 	@Override
 	public void init() {
 		// TODO Auto-generated method stub
@@ -31,8 +38,7 @@ public class FlagTile extends Location {
 
 	@Override
 	public void draw(RenderBatch b) {
-		// TODO Auto-generated method stub
-		
+		b.draw("tileFlag", new Region(this.location, new Vector2(64, 64), true), Color.WHITE(), 1f);
 	}
 
 	@Override

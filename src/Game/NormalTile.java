@@ -1,6 +1,9 @@
 package Game;
 
+import Graphics.Color;
 import Graphics.RenderBatch;
+import Utils.Region;
+import Utils.Vector2;
 
 /**
  * Normal Tile. Blank tile that does nothing
@@ -10,6 +13,11 @@ import Graphics.RenderBatch;
  */
 public class NormalTile extends Location {
 
+	public NormalTile(Vector2 placement) {
+		super();
+		this.location = placement;
+	}
+	
 	@Override
 	public void init() {
 		// TODO Auto-generated method stub
@@ -27,13 +35,13 @@ public class NormalTile extends Location {
 	 * {@inheritDoc}
 	 * No implementation required
 	*/
+	
 	@Override
 	public void onLanded(Robot robot) { }
 
 	@Override
 	public void draw(RenderBatch b) {
-		// TODO Auto-generated method stub
-		
+		b.draw("", new Region(this.location, new Vector2(64, 64), true), Color.WHITE(), 1f);
 	}
 
 	@Override
