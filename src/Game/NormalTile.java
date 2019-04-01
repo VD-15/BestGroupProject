@@ -43,13 +43,4 @@ public class NormalTile extends Location {
 	public void draw(RenderBatch b) {
 		b.draw("", new Region(this.location, new Vector2(64, 64), true), Color.WHITE(), 1f);
 	}
-
-	@Override
-	public void update(double time) {
-		// TODO Auto-generated method stub
-		
-	}
-
-
-
 }

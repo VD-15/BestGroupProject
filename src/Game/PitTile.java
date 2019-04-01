@@ -40,10 +40,4 @@ public class PitTile extends Location
 	public void draw(RenderBatch b) {
 		b.draw("tilePit", new Region(this.location, new Vector2(64, 64), true), Color.WHITE(), 1f);
 	}
-
-	@Override
-	public void update(double time) {
-		
-	}
-
 }

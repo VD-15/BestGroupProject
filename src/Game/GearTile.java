@@ -50,11 +50,6 @@ public class GearTile extends Location {
 	}
 
 	@Override
-	public void update(double time) {
-		
-	}
-
-	@Override
 	public void draw(RenderBatch b) {
 		String gearType;
 		

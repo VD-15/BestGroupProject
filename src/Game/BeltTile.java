@@ -45,11 +45,6 @@ public class BeltTile extends Location {
 	}
 
 	@Override
-	public void update(double time) {
-		// No implementation
-	}
-
-	@Override
 	public void draw(RenderBatch b) {
 		b.draw("tileBelt", new Region(this.location, new Vector2(64, 64), true), Color.WHITE(), 1f);
 		
