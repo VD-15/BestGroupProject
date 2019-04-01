@@ -124,6 +124,7 @@ public class GameWindow implements GLEventListener
 		ContentManager.setRootDirectory("content/");
 		ContentManager.loadImage(gl, "testImage.png", "testImage", 1024, 1024);
 		ContentManager.loadImage(gl, "testImage2.png", "testImage2", 631, 270);
+		ContentManager.loadImage(gl, "TestTextures/TilePit.bmp", "tilePit", 64, 64);
 		animator.start();
 		renderer.init(gl);
 		game.init();
