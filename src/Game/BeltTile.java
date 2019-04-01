@@ -30,8 +30,7 @@ public class BeltTile extends Location {
 	
 	@Override
 	public void init() {
-		// TODO Auto-generated method stub
-		
+		// No implementation
 	}
 	
 	@Override
@@ -47,8 +46,7 @@ public class BeltTile extends Location {
 
 	@Override
 	public void update(double time) {
-		// TODO Auto-generated method stub
-		
+		// No implementation
 	}
 
 	@Override
