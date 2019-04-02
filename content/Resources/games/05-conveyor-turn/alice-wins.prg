@@ -1,0 +1,5 @@
+format 1
+Alice Bob
+FWFWF LRLRL
+FWFWR LRLRL
+FWFWL LRLRL
