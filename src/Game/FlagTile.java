@@ -14,10 +14,12 @@ import Utils.Vector2;
  * @version 01/04/2019
  */
 public class FlagTile extends Location {
+	
+	private int FlagNumber;
 
 	public FlagTile(Vector2 placement) {
 		super();
-		this.location = placement;
+		this.location = placement; 
 	}
 	@Override
 	public void init() {

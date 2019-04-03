@@ -28,6 +28,11 @@ public final class Vector2 implements Cloneable
 		return new float[] {x, y};
 	}
 	
+	public Vector2 add(Vector2 v)
+	{
+		return new Vector2(x + v.getArray()[0], y + v.getArray()[1]);
+	}
+	
 	public Vector2 rotate(float a)
 	{
 		float cosa = (float)Math.cos(a);

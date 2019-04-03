@@ -1,5 +1,6 @@
 package Game;
 
+import java.io.File;
 import java.net.URL;
 import java.util.Queue;
 
@@ -21,6 +22,8 @@ public class Robot extends GameObject implements IDrawable, IUpdatable {
 	/** y index in the {@link GameManager#boardArray} */
 	private int y;
 	
+	Location location;
+	
 	/** queue of actions to be committed*/
 	private Queue<Instruction> actions;
 	/** Maximum number of actions allowed in the queue*/
@@ -33,8 +36,10 @@ public class Robot extends GameObject implements IDrawable, IUpdatable {
 	
 	/**
 	 * Robot Constructor
+	 * @param location starting location
 	 * */
-	public Robot() {
+	public Robot(Location location) {
+		this.location = location;
 		facingDirection = Direction.South;
 	}
 	
@@ -49,10 +54,10 @@ public class Robot extends GameObject implements IDrawable, IUpdatable {
 	
 	/**
 	 * Read Instructions from file
-	 * @param URL to text file containing instructions
+	 * @param File to text file containing instructions
 	 * @return boolean for whether the file parsed successfully
 	 */
-	public boolean readInstructionsFromFile(URL file) {
+	public boolean readInstructionsFromFile(File file) {
 		//TODO Implementation required: Parse instructions from file, check they are valid and push them to queue
 		//boolean return may not be necessary?
 		return false;
