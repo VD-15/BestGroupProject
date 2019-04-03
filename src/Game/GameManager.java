@@ -24,6 +24,8 @@ public class GameManager {
 	
 	public GameManager() {
 		robots = new Robot[NUMBER_OF_ROBOTS];
+		//FIXME
+		boardArray = new Location[9][5];
 	}
 
 	public static Location getLocation(int x, int y) {
@@ -51,9 +53,9 @@ public class GameManager {
 		Vector2 origin = new Vector2(0,0);
 		
 		while((i=reader.read()) != -1) {
-			x++;
 			Location newTile = null;
 			
+			//This probably isn't the best way of doing this btw...
 			switch ((char)i) {
 			case '.': 
 				//Normal Tile
@@ -91,7 +93,7 @@ public class GameManager {
 				//End of line
 				x = 0;
 				y++;
-				break;
+				continue;
 			default: 
 				if (Character.isLetter((char)i)) {
 					//Start tile
@@ -111,11 +113,13 @@ public class GameManager {
 					//Error tile
 					//TODO decide on how to handle error tiles
 				}
-				boardArray[x][y] = newTile;
+				
 			}
+			boardArray[x][y] = newTile;
+			x++;
 			
-			reader.close();
-
 		}
+		
+		reader.close();
 	}
 }
