@@ -47,7 +47,7 @@ public class GameManager {
 		
 		while((i=reader.read()) != -1) {
 			x++;
-			Location newTile;
+			Location newTile = null;
 			
 			switch ((char)i) {
 			case '.': 
@@ -101,10 +101,12 @@ public class GameManager {
 				}
 				else if (Character.isDigit((char)i)) {
 					//Flag tile
+					newTile = new FlagTile(new Vector2(x * TILE_SIZE, y * TILE_SIZE).add(origin), (Character.getNumericValue((char)i)));
 				} else {
 					//Error tile
-					
+					//TODO decide on how to handle error tiles
 				}
+				boardArray[x][y] = newTile;
 			}
 
 			System.out.print((char)i);    

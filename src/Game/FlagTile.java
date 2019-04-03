@@ -15,11 +15,12 @@ import Utils.Vector2;
  */
 public class FlagTile extends Location {
 	
-	private int FlagNumber;
+	private int flagNumber;
 
-	public FlagTile(Vector2 placement) {
+	public FlagTile(Vector2 placement, int flagNumber) {
 		super();
 		this.location = placement; 
+		this.flagNumber = flagNumber;
 	}
 	@Override
 	public void init() {
@@ -40,7 +41,7 @@ public class FlagTile extends Location {
 
 	@Override
 	public void draw(RenderBatch b) {
-		b.draw("tileFlag", new Region(this.location, new Vector2(64, 64), true), Color.WHITE(), 1f);
+		b.draw("tileFlag" + flagNumber, new Region(this.location, new Vector2(64, 64), true), Color.WHITE(), 1f);
 	}
 
 }
