@@ -50,7 +50,7 @@ public class GameManager {
 		FileReader reader = new FileReader(file);    
 		int i, x = 0 , y = 0;
 		
-		Vector2 origin = new Vector2(0,0);
+		Vector2 origin = new Vector2(TILE_SIZE / 1,TILE_SIZE / 1);
 		
 		while((i=reader.read()) != -1) {
 			Location newTile = null;
