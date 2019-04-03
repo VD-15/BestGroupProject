@@ -2,6 +2,8 @@ package Game.Core;
 
 import java.nio.Buffer;
 import java.nio.ByteBuffer;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import com.jogamp.nativewindow.WindowClosingProtocol;
 import com.jogamp.nativewindow.util.Rectangle;
@@ -100,6 +102,18 @@ public class GameWindow implements GLEventListener
 		Logger.log(this, LogSeverity.INFO, "Running.");
 		window.setVisible(true);
 		//window.setUpdateFPSFrames(15, null);
+		
+		//Run the garbage collector every 5 seconds to avoid big boi memory leaks.
+		Timer t = new Timer();
+		t.schedule(new TimerTask()
+		{
+
+			@Override
+			public void run() 
+			{
+				Runtime.getRuntime().gc();
+			}
+		}, 0, 5000);
 	}
 	
 	public Vector2 getViewport()
