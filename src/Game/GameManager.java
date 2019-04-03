@@ -55,39 +55,39 @@ public class GameManager {
 		while((i=reader.read()) != -1) {
 			Location newTile = null;
 			
-			//This probably isn't the best way of doing this btw...
+			Vector2 pos = new Vector2(x * TILE_SIZE, y * TILE_SIZE).add(origin);
 			switch ((char)i) {
 			case '.': 
 				//Normal Tile
-				newTile = new NormalTile(new Vector2(x * TILE_SIZE, y * TILE_SIZE).add(origin));
+				newTile = new NormalTile(pos);
 				break;
 			case '+':
 				//Clockwise gear
-				newTile = new GearTile(new Vector2(x * TILE_SIZE, y * TILE_SIZE).add(origin), true);
+				newTile = new GearTile(pos, true);
 				break;
 			case '-': 
 				//CClockwise gear
-				newTile = new GearTile(new Vector2(x * TILE_SIZE, y * TILE_SIZE).add(origin), false);
+				newTile = new GearTile(pos, false);
 				break;
 			case 'x':
 				//Pit
-				newTile = new PitTile(new Vector2(x * TILE_SIZE, y * TILE_SIZE).add(origin));
+				newTile = new PitTile(pos);
 				break;
 			case 'v': 
 				//South Belt
-				newTile = new BeltTile(new Vector2(x * TILE_SIZE, y * TILE_SIZE).add(origin), Direction.South);
+				newTile = new BeltTile(pos, Direction.South);
 				break;
 			case '>': 
 				//East Belt
-				newTile = new BeltTile(new Vector2(x * TILE_SIZE, y * TILE_SIZE).add(origin), Direction.East);
+				newTile = new BeltTile(pos, Direction.East);
 				break;
 			case '<': 
 				//West Belt
-				newTile = new BeltTile(new Vector2(x * TILE_SIZE, y * TILE_SIZE).add(origin), Direction.West);
+				newTile = new BeltTile(pos, Direction.West);
 				break;
 			case '^': 
 				//North Belt
-				newTile = new BeltTile(new Vector2(x * TILE_SIZE, y * TILE_SIZE).add(origin), Direction.North);
+				newTile = new BeltTile(pos, Direction.North);
 				break;
 			case '\n': 
 				//End of line
@@ -97,7 +97,7 @@ public class GameManager {
 			default: 
 				if (Character.isLetter((char)i)) {
 					//Start tile
-					newTile = new NormalTile(new Vector2(x * TILE_SIZE, y * TILE_SIZE).add(origin));
+					newTile = new NormalTile(pos);
 					
 					//FIXME Not the best implementation using NUMBER_OF_ROBOTS
 					if (((char)i - 'a') <= NUMBER_OF_ROBOTS) {
@@ -108,7 +108,7 @@ public class GameManager {
 				}
 				else if (Character.isDigit((char)i)) {
 					//Flag tile
-					newTile = new FlagTile(new Vector2(x * TILE_SIZE, y * TILE_SIZE).add(origin), (Character.getNumericValue((char)i)));
+					newTile = new FlagTile(pos, (Character.getNumericValue((char)i)));
 				} else {
 					//Error tile
 					//TODO decide on how to handle error tiles
