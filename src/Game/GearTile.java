@@ -23,7 +23,6 @@ public class GearTile extends Location {
 	 * @param placement The place where the tile is drawn.
 	 * @param clockwise True = clockwise. False = counterclockwise.
 	 */
-	
 	public GearTile(Vector2 placement, boolean clockwise) {
 		super();
 		this.location = placement;
