@@ -40,7 +40,6 @@ public class ContentManager
 			if (!ContentManager.TEXTURES.containsKey(name))
 			{
 				ContentManager.TEXTURES.put(name, new Texture(gl, img));
-				System.out.println(img.getType());
 				Logger.log(ContentManager.class, LogSeverity.INFO, "Loaded texture {" + path + "} as {" + name + "}");
 				return true;
 			}
