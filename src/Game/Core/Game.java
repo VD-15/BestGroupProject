@@ -57,7 +57,7 @@ public class Game
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			System.out.println("REEEEEE!!!");
+			Logger.log(this, LogSeverity.WARNING, "Read an invalid character whilst trying to generate board from file");
 		}
 		
 		this.lastNano = System.nanoTime();
