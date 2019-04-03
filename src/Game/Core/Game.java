@@ -46,7 +46,8 @@ public class Game
 	{
 		GameManager g = new GameManager();
 		try {
-			g.generateBoard(new File("C:\\Users\\Jedd\\git\\BestGroupProject\\Resources\\boards\\testboard.brd"));
+			
+			g.generateBoard(new File("Resources/boards/testboard.brd"));
 			
 			for (Location[] a : g.getArray())
 				for (Location l : a) {
