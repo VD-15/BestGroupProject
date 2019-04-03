@@ -12,7 +12,7 @@ import Utils.Vector2;
  * Game
  * 
  * @author Jedd Morgan
- * @version 25/03/2019
+ * @version 3/04/2019
  */
 public class GameManager {
 
