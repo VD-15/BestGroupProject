@@ -130,6 +130,11 @@ public class GameWindow implements GLEventListener
 		ContentManager.loadImage(gl, "TestTextures/TileGearC.bmp", "tileGearC", 64, 64);
 		ContentManager.loadImage(gl, "TestTextures/TileGearCC.bmp", "tileGearCC", 64, 64);
 		ContentManager.loadImage(gl, "TestTextures/TileFlag1.bmp", "tileFlag1", 64, 64);
+		ContentManager.loadImage(gl, "TestTextures/TileFlag2.bmp", "tileFlag2", 64, 64);
+		ContentManager.loadImage(gl, "TestTextures/TileFlag3.bmp", "tileFlag3", 64, 64);
+		ContentManager.loadImage(gl, "TestTextures/TileFlag4.bmp", "tileFlag4", 64, 64);
+		ContentManager.loadImage(gl, "TestTextures/TileFlag5.bmp", "tileFlag5", 64, 64);
+		ContentManager.loadImage(gl, "TestTextures/TileFlag6.bmp", "tileFlag6", 64, 64);
 		animator.start();
 		renderer.init(gl);
 		game.init();

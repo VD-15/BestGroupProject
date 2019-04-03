@@ -56,7 +56,7 @@ public class Game
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			System.out.println("ErrorFile");
+			System.out.println("REEEEEE!!!");
 		}
 		
 		this.lastNano = System.nanoTime();

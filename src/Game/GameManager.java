@@ -19,7 +19,7 @@ public class GameManager {
 	private static Location[][] boardArray;
 	private static Robot[] robots;
 	
-	private static final int TILE_SIZE = 30;
+	private static final int TILE_SIZE = 64;
 	private static final int NUMBER_OF_ROBOTS = 4;
 	
 	public GameManager() {
@@ -112,6 +112,7 @@ public class GameManager {
 				} else {
 					//Error tile
 					//TODO decide on how to handle error tiles
+					System.out.println("Reeee");
 				}
 				
 			}
