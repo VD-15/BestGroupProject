@@ -30,7 +30,12 @@ public class GameManager {
 		//TODO check that x and y are with in bounds of array
 		return boardArray[x][y];
 	}
-
+	
+	public static Location[][] getArray() {
+		return boardArray;
+	}
+	
+	
 	/**
 	 * generates boardArray
 	 * @throws IOException 

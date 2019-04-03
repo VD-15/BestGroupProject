@@ -1,10 +1,14 @@
 package Game.Core;
 
+import java.io.File;
+import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.HashSet;
 
+import Game.GameManager;
 import Game.GearTile;
+import Game.Location;
 import Game.PitTile;
 import Game.TestObject;
 import Graphics.IDrawable;
@@ -40,11 +44,21 @@ public class Game
 	
 	public void init()
 	{
-		this.objects.add(new TestObject(new Vector2(400, 400)));
-		this.objects.add(new TestObject(new Vector2(600, 600)));
-		this.objects.add(new TestObject(new Vector2(600, 400)));
-		this.objects.add(new TestObject(new Vector2(400, 600)));
-		this.objects.add(new GearTile(new Vector2(64,64), false));
+		GameManager g = new GameManager();
+		try {
+			g.generateBoard(new File("C:\\Users\\Jedd\\git\\BestGroupProject\\Resources\\boards\\testboard.brd"));
+			
+			for (Location[] a : g.getArray())
+				for (Location l : a) {
+					this.objects.add(l);
+				}
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			System.out.println("ErrorFile");
+		}
+		
 		this.lastNano = System.nanoTime();
 	}
 	
