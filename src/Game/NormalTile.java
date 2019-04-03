@@ -41,6 +41,6 @@ public class NormalTile extends Location {
 
 	@Override
 	public void draw(RenderBatch b) {
-		b.draw("TileNormal", new Region(this.location, new Vector2(64, 64), true), Color.WHITE(), 1f);
+		b.draw("tileNormal", new Region(this.location, new Vector2(64, 64), true), Color.WHITE(), 1f);
 	}
 }
