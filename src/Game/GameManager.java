@@ -31,7 +31,7 @@ public class GameManager {
 		return boardArray[x][y];
 	}
 	
-	public static Location[][] getArray() {
+	public Location[][] getArray() {
 		return boardArray;
 	}
 	
@@ -113,10 +113,8 @@ public class GameManager {
 				}
 				boardArray[x][y] = newTile;
 			}
-
-			System.out.print((char)i);    
+			
 			reader.close();
-
 
 		}
 	}
