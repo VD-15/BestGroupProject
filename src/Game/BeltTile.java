@@ -45,7 +45,7 @@ public class BeltTile extends Location {
 
 	@Override
 	public void draw(RenderBatch b) {
-		b.draw("tileBelt", new Region(this.location, new Vector2(64, 64), true), Color.WHITE(), 1f);
+		b.draw("tileBelt" + direction, new Region(this.location, new Vector2(64, 64), true), Color.WHITE(), 1f);
 		
 	}
 
