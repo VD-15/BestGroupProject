@@ -7,12 +7,12 @@ package Game;
  * @version 25/03/2019
  */
 public enum Instruction {
-	F, //Forward 1 Tile
-	B, //Backwards 1 Tile
-	R, //Turn 90° right
-	L, //Turn 90° left
-	U, //Turn 180°
-	W, //Wait
+	FORWARD, //Forward 1 Tile
+	BACKWARD, //Backwards 1 Tile
+	RIGHT, //Turn 90° right
+	LEFT, //Turn 90° left
+	UTURN, //Turn 180°
+	WAIT, //Wait
 	
 	//FIXME Might be better to have this as a class,
 	//containing an int for translation and something for angle,

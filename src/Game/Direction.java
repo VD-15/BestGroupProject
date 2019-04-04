@@ -7,8 +7,8 @@ package Game;
  * @version 25/03/2019
  */
 public enum Direction {
-	North,
-	East,
-	South,
-	West;
+	NORTH,
+	EAST,
+	SOUTH,
+	WEST;
 }
