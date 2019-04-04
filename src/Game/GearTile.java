@@ -1,9 +1,7 @@
 package Game;
 
-import Game.Core.IUpdatable;
-import Graphics.Color;
-import Graphics.IDrawable;
 import Graphics.RenderBatch;
+import Graphics.RenderInstance;
 import Utils.Region;
 import Utils.Vector2;
 
@@ -23,14 +21,16 @@ public class GearTile extends Location {
 	 * @param placement The place where the tile is drawn.
 	 * @param clockwise True = clockwise. False = counterclockwise.
 	 */
-	public GearTile(Vector2 placement, boolean clockwise) {
+	public GearTile(Vector2 placement, boolean clockwise) 
+	{
 		super();
 		this.location = placement;
 		this.clockwise = clockwise;
 	}
 	
 	@Override
-	public void init() {
+	public void init()
+	{
 		
 	}
 
@@ -39,27 +39,27 @@ public class GearTile extends Location {
 	 * Rotates the robot 90°
 	 * */
 	@Override
-	public void act() {
+	public void act()
+	{
 		// currentRobot.rotate();
 	}
 	
 	@Override
-	public void onLanded(Robot robot) {
+	public void onLanded(Robot robot)
+	{
 		currentRobot = robot;
 	}
 
 	@Override
-	public void draw(RenderBatch b) {
-		String gearType;
+	public void draw(RenderBatch b)
+	{
+		String gearType = (clockwise) ? "tileGearC" : "tileGearCC";
 		
-		if(clockwise) {
-			gearType = "tileGearC";
-		}
-		else {
-			gearType = "tileGearCC";
-		}
-		
-		b.draw(gearType, new Region(this.location, new Vector2(64, 64), true), Color.WHITE(), 1f);
+		b.draw(new RenderInstance()
+			.withTexture(gearType)
+			.withDestinationRegion(new Region(this.location, new Vector2(64), true))
+			.withDepth(1f)
+			);
 	}
 
 	

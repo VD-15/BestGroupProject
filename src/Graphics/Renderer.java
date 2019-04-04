@@ -5,7 +5,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
-import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -15,9 +14,9 @@ import com.jogamp.nativewindow.util.Rectangle;
 import com.jogamp.opengl.GL3;
 import com.jogamp.opengl.math.Matrix4;
 
-import Game.Core.Game;
 import Utils.LogSeverity;
 import Utils.Logger;
+import Utils.Vector4;
 
 /**
  * <h1>Renderer</h1>
@@ -39,7 +38,6 @@ public class Renderer
 	/**
 	 * The OpenGL context the renderer will use for all its operations.
 	 */
-	private GL3 gl;
 	private Matrix4 viewportMatrix;
 	
 	private int arrayObject;
@@ -63,7 +61,6 @@ public class Renderer
 	//TODO: move this to an init() method
 	public Renderer()
 	{
-		this.gl = null;
 		this.viewportMatrix = new Matrix4();
 		this.arrayObject = 0;
 		this.vertexBuffer = 0;
@@ -75,8 +72,6 @@ public class Renderer
 	
 	public void init(GL3 gl)
 	{
-		this.gl = gl;
-		
 		viewportMatrix = new Matrix4();
 		
 		//TODO: move these to their own functions
@@ -244,9 +239,33 @@ public class Renderer
 			{
 				RenderInstance r = renderPass.get(j);
 				
+				Vector4[] points = new Vector4[]
+				{
+					new Vector4(r.destination.x, r.destination.y, 0f, 1f),
+					new Vector4(r.destination.x + r.destination.width, r.destination.y, 0f, 1f),
+					new Vector4(r.destination.x + r.destination.width, r.destination.y + r.destination.height, 0f, 1f),
+					new Vector4(r.destination.x, r.destination.y + r.destination.height, 0f, 1f)
+				};
+				
+				if (r.rotation != 0f)
+				{
+					Matrix4 rotator = new Matrix4();
+					rotator.loadIdentity();
+					rotator.translate(r.rotationOrigin.x, r.rotationOrigin.y, 0);
+					rotator.rotate(r.rotation, 0, 0, 1);
+					rotator.translate(-r.rotationOrigin.x, -r.rotationOrigin.y, 0);
+					
+					for (int i = 0; i < 4; i++)
+					{
+						float[] arr_out = new float[4];
+						rotator.multVec(points[i].getArray(), arr_out);
+						points[i] = new Vector4(arr_out);
+					}
+				}
+				
 				//Put top-left vertex
-				renderData.putFloat(r.destination.x);
-				renderData.putFloat(r.destination.y);
+				renderData.putFloat(points[0].x);
+				renderData.putFloat(points[0].y);
 				renderData.putFloat(r.depth);
 				renderData.putFloat(r.color.r);
 				renderData.putFloat(r.color.g);
@@ -256,8 +275,8 @@ public class Renderer
 				renderData.putFloat(r.source.y);
 				
 				//Put top-right vertex
-				renderData.putFloat(r.destination.x + r.destination.width);
-				renderData.putFloat(r.destination.y);
+				renderData.putFloat(points[1].x);
+				renderData.putFloat(points[1].y);
 				renderData.putFloat(r.depth);
 				renderData.putFloat(r.color.r);
 				renderData.putFloat(r.color.g);
@@ -267,8 +286,8 @@ public class Renderer
 				renderData.putFloat(r.source.y);
 				
 				//Put bottom-right vertex
-				renderData.putFloat(r.destination.x + r.destination.width);
-				renderData.putFloat(r.destination.y + r.destination.height);
+				renderData.putFloat(points[2].x);
+				renderData.putFloat(points[2].y);
 				renderData.putFloat(r.depth);
 				renderData.putFloat(r.color.r);
 				renderData.putFloat(r.color.g);
@@ -278,8 +297,8 @@ public class Renderer
 				renderData.putFloat(r.source.y + r.source.height);
 				
 				//Put bottom-left vertex
-				renderData.putFloat(r.destination.x);
-				renderData.putFloat(r.destination.y + r.destination.height);
+				renderData.putFloat(points[3].x);
+				renderData.putFloat(points[3].y);
 				renderData.putFloat(r.depth);
 				renderData.putFloat(r.color.r);
 				renderData.putFloat(r.color.g);

@@ -2,6 +2,8 @@ package Utils;
 
 public class Logger
 {
+	private static LogSeverity minLogSeverity = LogSeverity.VERBOSE;
+	
 	public static void log(Object source, LogSeverity severity, String message)
 	{
 		log(source.getClass(), severity, message);
@@ -9,7 +11,15 @@ public class Logger
 	
 	public static void log(Class<?> source, LogSeverity severity, String message)
 	{
-		System.out.println(String.format("%-" + 20 + "s", "[" + source.getSimpleName() + "]:") + "(" + getSeverityString(severity) + ")\t" + message);
+		if (severity.ordinal() >= minLogSeverity.ordinal())
+		{
+			System.out.println(String.format("%-" + 20 + "s", "[" + source.getSimpleName() + "]:") + "(" + getSeverityString(severity) + ")\t" + message);
+		}
+	}
+	
+	public static void setLogSeverity(LogSeverity severity)
+	{
+		minLogSeverity = severity;
 	}
 	
 	public static String getSeverityString(LogSeverity s)

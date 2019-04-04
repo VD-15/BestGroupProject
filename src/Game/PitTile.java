@@ -2,6 +2,7 @@ package Game;
 
 import Graphics.Color;
 import Graphics.RenderBatch;
+import Graphics.RenderInstance;
 import Utils.Region;
 import Utils.Vector2;
 
@@ -21,23 +22,31 @@ public class PitTile extends Location
 	
 	
 	@Override
-	public void init() {
+	public void init()
+	{
 		
 	}
 	
 	@Override
-	public void act() {
+	public void act()
+	{
 		//No implementation required
 	}
 
 	@Override
-	public void onLanded(Robot robot) {
+	public void onLanded(Robot robot)
+	{
 		robot.resetLocation();
 		
 	}
 
 	@Override
-	public void draw(RenderBatch b) {
-		b.draw("tilePit", new Region(this.location, new Vector2(64, 64), true), Color.WHITE(), 1f);
+	public void draw(RenderBatch b)
+	{
+		b.draw(new RenderInstance()
+				.withTexture("tilePit")
+				.withDestinationRegion(new Region(this.location, new Vector2(64), true))
+				.withDepth(1f)
+				);
 	}
 }

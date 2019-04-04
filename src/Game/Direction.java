@@ -6,7 +6,10 @@ package Game;
  * @author Jedd Morgan
  * @version 25/03/2019
  */
-public enum Direction {
+
+//TODO: Rename these to UP, DOWN, LEFT and RIGHT
+public enum Direction
+{
 	North,
 	East,
 	South,

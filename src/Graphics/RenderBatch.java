@@ -2,8 +2,10 @@ package Graphics;
 
 import java.util.ArrayList;
 
-import Game.Core.ContentManager;
+import Utils.LogSeverity;
+import Utils.Logger;
 import Utils.Region;
+import Utils.Vector2;
 
 public class RenderBatch
 {
@@ -14,47 +16,51 @@ public class RenderBatch
 		instances = new ArrayList<RenderInstance>();
 	}
 	
-	public void draw(String textureName, Region destination)
+	public void draw(RenderInstance i)
 	{
-		draw(textureName, destination, Color.WHITE(), 0f);
-	}
-	
-	public void draw(String textureName, Region destination, float depth)
-	{
-		draw(textureName, destination, Color.WHITE(), 0f);
-	}
-	
-	public void draw(String textureName, Region destination, Color color, float depth)
-	{
-		RenderInstance r = new RenderInstance();
-		Texture t = ContentManager.getImageByName(textureName);
+		if (i.texture == null)
+		{
+			Logger.log(this, LogSeverity.ERROR, "RenderInstance texture was null. You actually NEED to supply this.");
+			return;
+		}
 		
-		r.texture = t;
-		r.destination = destination.clone();
-		r.source = new Region(0, 0, t.getWidth(), t.getHeight());
-		r.color = color;
-		r.depth = depth;
+		if (i.destination == null)
+		{
+			Logger.log(this, LogSeverity.WARNING, "RenderInstance destination region was null. Will draw at origin point.");
+			i.destination = new Region(0, 0, i.texture.getWidth(), i.texture.getHeight());
+		}
 		
-		instances.add(r);
-	}
-	
-	public void draw(String textureName, Region destination, Region source, float depth)
-	{
-		draw(textureName, destination, source, Color.WHITE(), depth);
-	}
-	
-	public void draw(String textureName, Region destination, Region source, Color color, float depth)
-	{
-		RenderInstance r = new RenderInstance();
-		Texture t = ContentManager.getImageByName(textureName);
+		if (i.source == null)
+		{
+			Logger.log(this, LogSeverity.VERBOSE, "RenderInstance source region was null. Will draw the whole image.");
+			i.source = new Region(0, 0, i.texture.getWidth(), i.texture.getHeight());
+		}
 		
-		r.texture = t;
-		r.destination = destination.clone();
-		r.source = source.clone();
-		r.color = color;
-		r.depth = depth;
+		if (i.color == null)
+		{
+			Logger.log(this, LogSeverity.VERBOSE, "RenderInstance color was null. Will draw as white.");
+			i.color = Color.WHITE();
+		}
 		
-		instances.add(r);
+		if (i.depth == null)
+		{
+			Logger.log(this, LogSeverity.VERBOSE, "RenderInstance depth was null. Will draw at depth 0.");
+			i.depth = new Float(0f);
+		}
+		
+		if (i.rotation == null)
+		{
+			Logger.log(this, LogSeverity.VERBOSE, "RenderInstance rotation was null. Will draw unrotated.");
+			i.rotation = new Float(0f);
+		}
+
+		if (i.rotationOrigin == null)
+		{
+			Logger.log(this, LogSeverity.VERBOSE, "RenderInstance rotation origin was null. Will rotate around origin.");
+			i.rotationOrigin = new Vector2();
+		}
+		
+		instances.add(i);
 	}
 	
 	public ArrayList<RenderInstance> getInstances()

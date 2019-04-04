@@ -8,11 +8,11 @@ import Graphics.RenderInstance;
 import Utils.Region;
 import Utils.Vector2;
 
-public class TestObject extends GameObject implements IDrawable, IUpdatable
+public class TestObject2 extends GameObject implements IDrawable, IUpdatable
 {
 	private float rotation;
 	
-	public TestObject(Vector2 v)
+	public TestObject2(Vector2 v)
 	{
 		super(v.clone(), "testObject");
 		this.rotation = 0f;
@@ -27,7 +27,7 @@ public class TestObject extends GameObject implements IDrawable, IUpdatable
 	@Override
 	public void update(double time)
 	{
-		this.rotation += (float)time;
+		this.rotation -= (float)time;
 	}
 
 	@Override
@@ -38,7 +38,7 @@ public class TestObject extends GameObject implements IDrawable, IUpdatable
 			.withDestinationRegion(new Region(this.location, new Vector2(200), true))
 			.withRotation(this.rotation)
 			.withRotationOrigin(this.location)
-			.withDepth(1f)
+			.withDepth(2f)
 			);
 	}
 	

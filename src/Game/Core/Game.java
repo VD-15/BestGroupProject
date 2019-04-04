@@ -1,21 +1,14 @@
 package Game.Core;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.HashSet;
 
-import Game.GameManager;
-import Game.GearTile;
-import Game.Location;
-import Game.PitTile;
 import Game.TestObject;
+import Game.TestObject2;
 import Graphics.IDrawable;
 import Graphics.RenderBatch;
 import Utils.LogSeverity;
 import Utils.Logger;
-import Utils.Region;
 import Utils.Vector2;
 
 public class Game
@@ -44,20 +37,40 @@ public class Game
 	
 	public void init()
 	{
+		//Set the logger to only output messages ranked as informational and above.
+		//This is to avoid it spewing out a load of crap every frame
+		Logger.setLogSeverity(LogSeverity.INFO);
+		
+		/*
 		GameManager g = new GameManager();
-		try {
+		try
+		{
 			
-			g.generateBoard(new File("Resources/boards/testboard.brd"));
+			g.generateBoard(new File("Resources/boards/testboard.brd")); 
 			
 			for (Location[] a : g.getArray())
-				for (Location l : a) {
+			{
+				for (Location l : a)
+				{
 					this.objects.add(l);
 				}
-			
-		} catch (IOException e) {
+			}
+		} 
+		catch (IOException e) 
+		{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			Logger.log(this, LogSeverity.WARNING, "Read an invalid character whilst trying to generate board from file");
+		}
+		*/
+
+		for (int x = 0; x < 10; x++)
+		{
+			for (int y = 0; y < 10; y++)
+			{
+				this.objects.add(new TestObject(new Vector2(x * 200, y * 200)));
+				this.objects.add(new TestObject2(new Vector2((x * 200) + 100, (y * 200) + 100)));
+			}
 		}
 		
 		this.lastNano = System.nanoTime();

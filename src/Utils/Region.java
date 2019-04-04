@@ -63,6 +63,12 @@ public final class Region implements Cloneable
 		this.height = v.y;
 	}
 	
+	public Vector2 getCenter()
+	{
+		return new Vector2(this.x + (this.width / 2), (this.y + this.height / 2));
+		
+	}
+	
 	@Override
 	public boolean equals(Object o)
 	{

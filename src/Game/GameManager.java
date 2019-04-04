@@ -1,11 +1,10 @@
 package Game;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.IOException;
-import java.util.HashMap;
 
+import Utils.LogSeverity;
+import Utils.Logger;
 import Utils.Vector2;
 
 /**
@@ -40,9 +39,9 @@ public class GameManager {
 	
 	/**
 	 * generates boardArray
-	 * @throws IOException 
+	 * @throws Exception if the board contains invalid characters
 	 */
-	public void generateBoard(File file) throws IOException {
+	public void generateBoard(File file) throws Exception {
 		
 		//TODO read first line to get format
 		//TODO work out how errors are handled (exception?)
@@ -52,67 +51,72 @@ public class GameManager {
 		
 		Vector2 origin = new Vector2(TILE_SIZE / 1,TILE_SIZE / 1);
 		
-		while((i=reader.read()) != -1) {
+		while((i=reader.read()) != -1)
+		{
 			Location newTile = null;
-			
 			Vector2 pos = new Vector2(x * TILE_SIZE, y * TILE_SIZE).add(origin);
-			switch ((char)i) {
-			case '.': 
-				//Normal Tile
-				newTile = new NormalTile(pos);
-				break;
-			case '+':
-				//Clockwise gear
-				newTile = new GearTile(pos, true);
-				break;
-			case '-': 
-				//CClockwise gear
-				newTile = new GearTile(pos, false);
-				break;
-			case 'x':
-				//Pit
-				newTile = new PitTile(pos);
-				break;
-			case 'v': 
-				//South Belt
-				newTile = new BeltTile(pos, Direction.South);
-				break;
-			case '>': 
-				//East Belt
-				newTile = new BeltTile(pos, Direction.East);
-				break;
-			case '<': 
-				//West Belt
-				newTile = new BeltTile(pos, Direction.West);
-				break;
-			case '^': 
-				//North Belt
-				newTile = new BeltTile(pos, Direction.North);
-				break;
-			case '\n': 
-				//End of line
-				x = 0;
-				y++;
+			
+			switch ((char)i)
+			{
+				case '.': 
+					//Normal Tile
+					newTile = new NormalTile(pos);
+					break;
+				case '+':
+					//Clockwise gear
+					newTile = new GearTile(pos, true);
+					break;
+				case '-': 
+					//CClockwise gear
+					newTile = new GearTile(pos, false);
+					break;
+				case 'x':
+					//Pit
+					newTile = new PitTile(pos);
+					break;
+				case 'v': 
+					//South Belt
+					newTile = new BeltTile(pos, Direction.South);
+					break;
+				case '>': 
+					//East Belt
+					newTile = new BeltTile(pos, Direction.East);
+					break;
+				case '<': 
+					//West Belt
+					newTile = new BeltTile(pos, Direction.West);
+					break;
+				case '^': 
+					//North Belt
+					newTile = new BeltTile(pos, Direction.North);
+					break;
+				case '\n': 
+					//End of line
+					x = 0;
+					y++;
 				continue;
 			default: 
-				if (Character.isLetter((char)i)) {
+				if (Character.isLetter((char)i))
+				{
 					//Start tile
 					newTile = new NormalTile(pos);
 					
 					//FIXME Not the best implementation using NUMBER_OF_ROBOTS
-					if (((char)i - 'a') <= NUMBER_OF_ROBOTS) {
+					if (((char)i - 'a') <= NUMBER_OF_ROBOTS)
+					{
 						robots[(char)i - 'a'] = new Robot(newTile);
 					}
-					
-					
 				}
-				else if (Character.isDigit((char)i)) {
+				else if (Character.isDigit((char)i))
+				{
 					//Flag tile
 					newTile = new FlagTile(pos, (Character.getNumericValue((char)i)));
-				} else {
+				} 
+				else
+				{
 					//Error tile
-					//TODO decide on how to handle error tiles
-					System.out.println("Reeee");
+					Logger.log(this, LogSeverity.ERROR, "Encountered invalid character when parsing board file: " + (char)i);
+					throw new Exception("Encountered invalid character when parsing board file: " + (char)i);
 				}
 				
 			}

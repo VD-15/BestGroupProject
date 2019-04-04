@@ -1,9 +1,7 @@
 package Game;
 
 import Game.Core.GameObject;
-import Game.Core.IUpdatable;
 import Graphics.IDrawable;
-import Utils.Vector2;
 
 /**
  * Abstract Location
@@ -11,7 +9,8 @@ import Utils.Vector2;
  * @author Jedd Morgan
  * @version 25/03/2019
  */
-public abstract class Location extends GameObject implements IDrawable {
+public abstract class Location extends GameObject implements IDrawable 
+{
 	
 	protected Robot currentRobot;
 	
