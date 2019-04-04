@@ -104,16 +104,19 @@ public class GameWindow implements GLEventListener
 		//window.setUpdateFPSFrames(15, null);
 		
 		//Run the garbage collector every 5 seconds to avoid big boi memory leaks.
-		Timer t = new Timer();
-		t.schedule(new TimerTask()
 		{
-
-			@Override
-			public void run() 
+			Timer timer = new Timer();
+			TimerTask task = new TimerTask()
 			{
-				Runtime.getRuntime().gc();
-			}
-		}, 0, 5000);
+				@Override
+				public void run() 
+				{
+					Runtime.getRuntime().gc();
+				}
+			};
+			
+			timer.schedule(task, 0, 5000);
+		}
 	}
 	
 	public Vector2 getViewport()
@@ -136,19 +139,19 @@ public class GameWindow implements GLEventListener
 		gl.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
 		ContentManager.setRootDirectory("content/");
-		ContentManager.loadImage(gl, "testImage.png", "testImage", 1024, 1024);
-		ContentManager.loadImage(gl, "testImage2.png", "testImage2", 631, 270);
-		ContentManager.loadImage(gl, "TestTextures/TilePit.bmp", "tilePit", 64, 64);
-		ContentManager.loadImage(gl, "TestTextures/TileNormal.bmp", "tileNormal", 64, 64);
-		ContentManager.loadImage(gl, "TestTextures/TileBelt.bmp", "tileBelt", 64, 64);
-		ContentManager.loadImage(gl, "TestTextures/TileGearC.bmp", "tileGearC", 64, 64);
-		ContentManager.loadImage(gl, "TestTextures/TileGearCC.bmp", "tileGearCC", 64, 64);
-		ContentManager.loadImage(gl, "TestTextures/TileFlag1.bmp", "tileFlag1", 64, 64);
-		ContentManager.loadImage(gl, "TestTextures/TileFlag2.bmp", "tileFlag2", 64, 64);
-		ContentManager.loadImage(gl, "TestTextures/TileFlag3.bmp", "tileFlag3", 64, 64);
-		ContentManager.loadImage(gl, "TestTextures/TileFlag4.bmp", "tileFlag4", 64, 64);
-		ContentManager.loadImage(gl, "TestTextures/TileFlag5.bmp", "tileFlag5", 64, 64);
-		ContentManager.loadImage(gl, "TestTextures/TileFlag6.bmp", "tileFlag6", 64, 64);
+		ContentManager.loadImage(gl, "testImage.png", 				"testImage", 	1024, 	1024);
+		ContentManager.loadImage(gl, "testImage2.png", 				"testImage2", 	631, 	270);
+		ContentManager.loadImage(gl, "TestTextures/TilePit.bmp", 	"tilePit", 		64, 	64);
+		ContentManager.loadImage(gl, "TestTextures/TileNormal.bmp", "tileNormal", 	64, 	64);
+		ContentManager.loadImage(gl, "TestTextures/TileBelt.bmp", 	"tileBelt", 	64, 	64);
+		ContentManager.loadImage(gl, "TestTextures/TileGearC.bmp", 	"tileGearC", 	64, 	64);
+		ContentManager.loadImage(gl, "TestTextures/TileGearCC.bmp", "tileGearCC", 	64, 	64);
+		ContentManager.loadImage(gl, "TestTextures/TileFlag1.bmp", 	"tileFlag1", 	64, 	64);
+		ContentManager.loadImage(gl, "TestTextures/TileFlag2.bmp", 	"tileFlag2", 	64, 	64);
+		ContentManager.loadImage(gl, "TestTextures/TileFlag3.bmp", 	"tileFlag3", 	64, 	64);
+		ContentManager.loadImage(gl, "TestTextures/TileFlag4.bmp", 	"tileFlag4", 	64, 	64);
+		ContentManager.loadImage(gl, "TestTextures/TileFlag5.bmp", 	"tileFlag5", 	64, 	64);
+		ContentManager.loadImage(gl, "TestTextures/TileFlag6.bmp", 	"tileFlag6", 	64, 	64);
 		animator.start();
 		renderer.init(gl);
 		game.init();
