@@ -43,10 +43,15 @@ public class Game
 			
 			g.generateBoard(new File("Resources/boards/testboard.brd"));
 			
-			for (Location[] a : g.getArray())
-				for (Location l : a) {
-					this.objects.add(l);
+			for (GameObject[] a : g.getArray())
+				for (GameObject o : a) {
+					this.objects.add(o);
 				}
+			
+			for (GameObject o : g.getRobots()) {
+				this.objects.add(o);
+			}
+			
 			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

@@ -37,14 +37,13 @@ public class GameManager {
 		return boardArray[x][y];
 	}
 
-	public static int[][] getAbsoluteLocation(Location location) {
-		return null;
-	}
 
 	public Location[][] getArray() {
 		return boardArray;
 	}
-
+	public Robot[] getRobots() {
+		return robots;
+	}
 
 	/**
 	 * 
