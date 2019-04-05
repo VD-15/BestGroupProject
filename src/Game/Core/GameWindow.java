@@ -151,6 +151,10 @@ public class GameWindow implements GLEventListener
 		ContentManager.loadImage(gl, "TestTextures/TileFlag4.bmp", 	"tileFlag4", 	64, 	64);
 		ContentManager.loadImage(gl, "TestTextures/TileFlag5.bmp", 	"tileFlag5", 	64, 	64);
 		ContentManager.loadImage(gl, "TestTextures/TileFlag6.bmp", 	"tileFlag6", 	64, 	64);
+		ContentManager.loadImage(gl, "TestTextures/robotUp.png", 	"robotUp", 	60, 	60);
+		ContentManager.loadImage(gl, "TestTextures/robotDown.png", 	"robotDown", 	60, 	60);
+		ContentManager.loadImage(gl, "TestTextures/robotLeft.png", 	"robotLeft", 	60, 	60);
+		ContentManager.loadImage(gl, "TestTextures/robotRight.png", 	"robotRight", 	60, 	60);
 		animator.start();
 		renderer.init(gl);
 		game.init();

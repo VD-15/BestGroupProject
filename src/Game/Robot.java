@@ -6,10 +6,13 @@ import java.util.Queue;
 
 import Game.Core.GameObject;
 import Game.Core.IUpdatable;
+import Graphics.Color;
 import Graphics.IDrawable;
 import Graphics.RenderBatch;
 import Utils.LogSeverity;
 import Utils.Logger;
+import Utils.Region;
+import Utils.Vector2;
 
 /**
  * Robot
@@ -21,12 +24,13 @@ public class Robot extends GameObject implements IDrawable, IUpdatable
 {
 
 	/** x index in the {@link GameManager#boardArray} */
-	private int x = 0;
+	private int xIndex = 0;
 	/** y index in the {@link GameManager#boardArray} */
-	private int y = 0;
+	private int yIndex = 0;
 	
-	Location location;
-	Location startLocation;
+	private Location location;
+	private Location startLocation;
+	private Vector2 position;
 	
 	/** queue of actions to be committed*/
 	private Queue<Instruction> actions;
@@ -42,9 +46,12 @@ public class Robot extends GameObject implements IDrawable, IUpdatable
 	 * Robot Constructor
 	 * @param location starting location
 	 * */
-	public Robot(Location location) 
+	public Robot(Location location, Vector2 position, int xIndex, int yIndex) 
 	{
 		this.location = location;
+		this.position = position;
+		this.xIndex = xIndex;
+		this.yIndex = yIndex;
 		this.startLocation = location; 
 		facingDirection = Direction.SOUTH;
 	}
@@ -99,17 +106,17 @@ public class Robot extends GameObject implements IDrawable, IUpdatable
 			//x or y values representing the robots new position are changed depending on the action taken.
 			switch(i)
 			{
-			case FORWARD : this.y++; break;
-			case BACKWARD : this.y--; break;
-			case RIGHT : this.x++; break;
-			case LEFT : this.x--; break;
+			case FORWARD : this.yIndex++; break;
+			case BACKWARD : this.yIndex--; break;
+			case RIGHT : this.xIndex++; break;
+			case LEFT : this.xIndex--; break;
 			case WAIT :break;
 			//if the default case is reached an error is logged
 			default : Logger.log(this, LogSeverity.ERROR, "Invalid direction");
 			}
 			//the robots location is updated based on the location returned by the game manager.
 			//getLocation is given the updated x and y values to find teh new location.
-			location = GameManager.getLocation(x, y);
+			location = GameManager.getLocation(xIndex, yIndex);
 			
 		}
 	}
@@ -130,9 +137,10 @@ public class Robot extends GameObject implements IDrawable, IUpdatable
 	}
 
 	@Override
-	public void draw(RenderBatch b) {
+	public void draw(RenderBatch b) 
+	{
 		// TODO Auto-generated method stub
-		
+		b.draw("robot", new Region(this.position, new Vector2(64, 64), true), Color.WHITE(), 1f);
 	}
 
 	
