@@ -41,5 +41,4 @@ public class TestObject2 extends GameObject implements IDrawable, IUpdatable
 			.withDepth(2f)
 			);
 	}
-	
 }
