@@ -15,7 +15,7 @@ public class NormalTile extends Location {
 
 	public NormalTile(Vector2 placement) {
 		super();
-		this.location = placement;
+		this.position = placement;
 	}
 	
 	@Override
@@ -41,6 +41,6 @@ public class NormalTile extends Location {
 
 	@Override
 	public void draw(RenderBatch b) {
-		b.draw("tileNormal", new Region(this.location, new Vector2(64, 64), true), Color.WHITE(), 1f);
+		b.draw("tileNormal", new Region(this.position, new Vector2(64, 64), true), Color.WHITE(), 1f);
 	}
 }

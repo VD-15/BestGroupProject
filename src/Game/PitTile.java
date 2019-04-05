@@ -16,7 +16,7 @@ public class PitTile extends Location
 	public PitTile(Vector2 placement)
 	{
 		super();
-		this.location = placement;
+		this.position = placement;
 	}
 	
 	
@@ -38,6 +38,6 @@ public class PitTile extends Location
 
 	@Override
 	public void draw(RenderBatch b) {
-		b.draw("tilePit", new Region(this.location, new Vector2(64, 64), true), Color.WHITE(), 1f);
+		b.draw("tilePit", new Region(this.position, new Vector2(64, 64), true), Color.WHITE(), 1f);
 	}
 }

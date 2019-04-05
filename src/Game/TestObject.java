@@ -26,13 +26,13 @@ public class TestObject extends GameObject implements IDrawable, IUpdatable
 	@Override
 	public void update(double time)
 	{
-		this.location = this.location.rotateAround((float)time, new Vector2(500, 500));
+		this.position = this.position.rotateAround((float)time, new Vector2(500, 500));
 	}
 
 	@Override
 	public void draw(RenderBatch b)
 	{
-		b.draw("testImage2", new Region(this.location, new Vector2(631, 270), true), Color.WHITE(), 1f);
+		b.draw("testImage2", new Region(this.position, new Vector2(631, 270), true), Color.WHITE(), 1f);
 	}
 	
 }

@@ -19,7 +19,7 @@ public class FlagTile extends Location {
 
 	public FlagTile(Vector2 placement, int flagNumber) {
 		super();
-		this.location = placement; 
+		this.position = placement; 
 		this.flagNumber = flagNumber;
 	}
 	@Override
@@ -41,7 +41,7 @@ public class FlagTile extends Location {
 
 	@Override
 	public void draw(RenderBatch b) {
-		b.draw("tileFlag" + flagNumber, new Region(this.location, new Vector2(64, 64), true), Color.WHITE(), 1f);
+		b.draw("tileFlag" + flagNumber, new Region(this.position, new Vector2(64, 64), true), Color.WHITE(), 1f);
 	}
 
 }
