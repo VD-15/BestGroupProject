@@ -93,7 +93,7 @@ public class GameManager {
 	 * @return returns the length of the second line in the file
 	 * @throws IOException
 	 */
-	public int getLineLentgh(File file) throws IOException {
+	public int getLineLength(File file) throws IOException {
 		BufferedReader reader = new BufferedReader(new FileReader(file));
 		reader.readLine(); //Ignore the header line
 		String line = reader.readLine();
