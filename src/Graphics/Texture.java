@@ -5,12 +5,32 @@ import java.nio.IntBuffer;
 
 import com.jogamp.opengl.GL3;
 
+/**
+ * Stores a reference to a texture image on the GPU
+ * @author Vee
+ */
 public class Texture
 {
+	/**
+	 * CPU-side copy of image
+	 */
 	private BufferedImage image;
+	
+	/**
+	 * GL context to which the image belongs
+	 */
 	private GL3 gl;
+	
+	/**
+	 * Texture ID of the image 
+	 */
 	private int id;
 	
+	/**
+	 * Creates a Texture object for the given GL context
+	 * @param gl the context using the texture
+	 * @param image the image to make up the texture
+	 */
 	public Texture(GL3 gl, BufferedImage image)
 	{
 		this.image = image;
@@ -34,21 +54,36 @@ public class Texture
 		gl.glGenerateMipmap(GL3.GL_TEXTURE_2D);
 	}
 	
+	/**
+	 * Get the internal texture ID
+	 * @return the ID of the texture assigned by the GL
+	 */
 	public int getID()
 	{
 		return id;
 	}
 	
+	/**
+	 * Get the width of the texture
+	 * @return the width of the texture, in pixels
+	 */
 	public int getWidth()
 	{
 		return image.getWidth();
 	}
 	
+	/**
+	 * Get the height of the texture
+	 * @return the height of the texture, in pixels
+	 */
 	public int getHeight()
 	{
 		return image.getHeight();
 	}
 	
+	/**
+	 * Deletes the texture
+	 */
 	public void delete()
 	{
 		gl.glDeleteTextures(1, IntBuffer.wrap(new int[] {id}));

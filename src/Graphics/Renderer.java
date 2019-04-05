@@ -28,24 +28,64 @@ import Utils.Vector4;
  * submit this and get marked down because someone
  * has an obscure hardware configuration.
  * <p>
- * 
- * @author Group 26
- * @version 1.0
- * @since 28-02-2019
+ * To the unfortunate soul tasked with combing
+ * through all of this, I wish you luck.
+ * @author Vee
  */
 public class Renderer
 {	
 	/**
-	 * The OpenGL context the renderer will use for all its operations.
+	 * A matrix that will map screen-pixel coordinates to normalized device coordinates
 	 */
 	private Matrix4 viewportMatrix;
 	
+	/**
+	 * The vertex array object that specifies how OpenGL will read the vertex data from the buffer
+	 */
 	private int arrayObject;
+	
+	/**
+	 * The shader program to rasterize an image on screen
+	 */
 	private int shaderProgram;
 	
+	/**
+	 * A reference to a buffer on the GPU that will store all the vertex data used to render a frame.
+	 * Vertex data consists of three floats making up a position, four floats making up a color,
+	 * (translucent colors are not currently supported, so don't ask me why we have an alpha channel)
+	 * and two floats making up texture coordinates.
+	 */
 	private int vertexBuffer;
+	
+	/**
+	 * A reference to a buffer on the GPU that will store the what vertices to draw in what order.
+	 * Vertex element data is just a list of indices pointing to vertices in the vertex buffer so
+	 * we can save memory when using a vertex multiple times, which we do when drawing squares out
+	 * of two adjacent triangles. One might think to use GL_QUADS for this but GL_QUADS is abysmal
+	 * in just about every sense so we won't be using it.
+	 */
 	private int elementBuffer;
+	
+	/**
+	 * The size, in bytes, of the vertex buffer in GPU memory. Since the vertex buffer must be
+	 * able to store the vertex data we will be passing to it, and it cannot resize dynamically
+	 * like an ArrayList, we must keep track of it ourselves. Since re-allocating the memory a
+	 * buffer occupies takes A LOT of work, we only want to do it when we absolutely have to.
+	 * Because of this, my vertex buffer will only grow in size and never shrink. This isn't too
+	 * much of a concern as more often than not, textures will take up the overwhelming majority
+	 * of memory. So as long as we're not drawing anything too crazy, it'll be fine.
+	 */
 	private int vertexBufferAllocation;
+	
+	/**
+	 * The size, in bytes, of the element buffer in GPU memory. Since the element buffer must be
+	 * able to store the element data we will be passing to it, and it cannot resize dynamically
+	 * like an ArrayList, we must keep track of it ourselves. Since re-allocating the memory a
+	 * buffer occupies takes A LOT of work, we only want to do it when we absolutely have to.
+	 * Because of this, my element buffer will only grow in size and never shrink. This isn't too
+	 * much of a concern as element buffers don't take up too much space by themselves so the
+	 * vertex buffer will almost always be what breaks the memory limit.
+	 */
 	private int elementBufferAllocation;
 	
 	//Position:	vec3	3 * 4
@@ -58,7 +98,6 @@ public class Renderer
 	 * Creates a renderer with the given GL context.
 	 * @param gl
 	 */
-	//TODO: move this to an init() method
 	public Renderer()
 	{
 		this.viewportMatrix = new Matrix4();
@@ -74,7 +113,6 @@ public class Renderer
 	{
 		viewportMatrix = new Matrix4();
 		
-		//TODO: move these to their own functions
 		{
 			IntBuffer vao = IntBuffer.allocate(1);
 			IntBuffer vbo = IntBuffer.allocate(2);
@@ -198,7 +236,6 @@ public class Renderer
 	
 	public void setViewport(Rectangle v)
 	{
-		//viewportMatrix = new Matrix4();
 		viewportMatrix.loadIdentity();
 		viewportMatrix.makeOrtho(0, v.getWidth(), v.getHeight(), 0, -100f, 100f);
 	}
