@@ -2,6 +2,10 @@ package Graphics;
 
 import Utils.Region;
 
+/**
+ * Stores a single instance of a rendered sprite
+ * @author Vee
+ */
 public class RenderInstance
 {
 	public Texture texture;

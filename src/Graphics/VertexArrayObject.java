@@ -26,6 +26,10 @@ import com.jogamp.opengl.GL4;
  * before doing anything else. Failure to do so can actually
  * crash the Java VM and no amount of catch statements can
  * salvage that shit.
+ * <p>
+ * Yeah, I just realised that this whole class is redundant,
+ * so I'm going to remove it in a future build.
+ * @author Vee
  */
 public class VertexArrayObject
 {
@@ -284,8 +288,8 @@ public class VertexArrayObject
 	private static int[] loadImage(String path, int width, int height)
 	{
 		/**
-		 * The loaded image will have 4 channels per pixel, each get
-		 * their own 32-bit int for some reason.
+		 * The loaded image will have 4 channels per pixel, each channel gets
+		 * it's own 32-bit int for some reason.
 		 */
 		int[] data = new int[width * height * 4];
 		

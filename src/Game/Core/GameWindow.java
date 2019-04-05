@@ -26,8 +26,6 @@ import Utils.Vector2;
  * Provides a window frame and an OpenGL context to draw to.
  * 
  * @author Group 26
- * @version 1.0
- * @since 28-02-2019
  */
 public class GameWindow implements GLEventListener
 {	
@@ -73,7 +71,7 @@ public class GameWindow implements GLEventListener
 		}
 		
 		//Create an OpenGL context and create the window
-		GLProfile profile = GLProfile.get(GLProfile.GL4);
+		GLProfile profile = GLProfile.get(GLProfile.GL3);
 		GLCapabilities capabilities = new GLCapabilities(profile);
 		this.window = GLWindow.create(capabilities);
 		

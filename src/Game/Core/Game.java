@@ -2,21 +2,15 @@ package Game.Core;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.HashSet;
 
 import Game.GameManager;
-import Game.GearTile;
 import Game.Location;
-import Game.PitTile;
-import Game.TestObject;
 import Graphics.IDrawable;
 import Graphics.RenderBatch;
 import Utils.LogSeverity;
 import Utils.Logger;
-import Utils.Region;
-import Utils.Vector2;
 
 public class Game
 {
