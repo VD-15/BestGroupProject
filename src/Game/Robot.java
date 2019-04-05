@@ -140,7 +140,7 @@ public class Robot extends GameObject implements IDrawable, IUpdatable
 	public void draw(RenderBatch b) 
 	{
 		// TODO Auto-generated method stub
-		b.draw("robot", new Region(this.position, new Vector2(64, 64), true), Color.WHITE(), 1f);
+		b.draw("robot" + facingDirection, new Region(this.position, new Vector2(64, 64), true), Color.WHITE(), 2f);
 	}
 
 	
