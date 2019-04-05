@@ -30,7 +30,6 @@ public class Robot extends GameObject implements IDrawable, IUpdatable
 	
 	private Location location;
 	private Location startLocation;
-	private Vector2 position;
 	
 	/** queue of actions to be committed*/
 	private Queue<Instruction> actions;
@@ -48,6 +47,7 @@ public class Robot extends GameObject implements IDrawable, IUpdatable
 	 * */
 	public Robot(Location location, Vector2 position, int xIndex, int yIndex) 
 	{
+		super();
 		this.location = location;
 		this.position = position;
 		this.xIndex = xIndex;
