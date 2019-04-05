@@ -28,7 +28,8 @@ public class GameManager {
 		boardArray = new Location[9][5];
 	}
 
-	public static Location getLocation(int x, int y) {
+	public static Location getLocation(int x, int y) 
+	{
 		//TODO check that x and y are with in bounds of array
 		return boardArray[x][y];
 	}
@@ -75,19 +76,19 @@ public class GameManager {
 				break;
 			case 'v': 
 				//South Belt
-				newTile = new BeltTile(pos, Direction.South);
+				newTile = new BeltTile(pos, Direction.SOUTH);
 				break;
 			case '>': 
 				//East Belt
-				newTile = new BeltTile(pos, Direction.East);
+				newTile = new BeltTile(pos, Direction.EAST);
 				break;
 			case '<': 
 				//West Belt
-				newTile = new BeltTile(pos, Direction.West);
+				newTile = new BeltTile(pos, Direction.WEST);
 				break;
 			case '^': 
 				//North Belt
-				newTile = new BeltTile(pos, Direction.North);
+				newTile = new BeltTile(pos, Direction.NORTH);
 				break;
 			case '\n': 
 				//End of line
