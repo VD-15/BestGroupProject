@@ -6,7 +6,8 @@ package Game;
  * @author Jedd Morgan
  * @version 25/03/2019
  */
-public enum Instruction {
+public enum Instruction 
+{
 	FORWARD, //Forward 1 Tile
 	BACKWARD, //Backwards 1 Tile
 	RIGHT, //Turn 90° right
@@ -19,4 +20,5 @@ public enum Instruction {
 	//That way the function of the instruction would be specific to the Instruction class
 	//rather than the robot class and would allow for more expandability later on
 	
+	//// ##### You know you can just make a function for that, right? #####
 }

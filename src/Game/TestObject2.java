@@ -35,9 +35,9 @@ public class TestObject2 extends GameObject implements IDrawable, IUpdatable
 	{
 		b.draw(new RenderInstance()
 			.withTexture("testImage")
-			.withDestinationRegion(new Region(this.location, new Vector2(200), true))
+			.withDestinationRegion(new Region(this.position, new Vector2(200), true))
 			.withRotation(this.rotation)
-			.withRotationOrigin(this.location)
+			.withRotationOrigin(this.position)
 			.withDepth(2f)
 			);
 	}

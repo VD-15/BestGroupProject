@@ -48,7 +48,7 @@ public class FlagTile extends Location
 	{
 		b.draw(new RenderInstance()
 			.withTexture("tileFlag" + this.flagNumber)
-			.withDestinationRegion(new Region(this.location, new Vector2(64), true))
+			.withDestinationRegion(new Region(this.position, new Vector2(64), true))
 			.withDepth(1f)
 			);
 	}

@@ -12,36 +12,42 @@ import Game.Core.GameObject;
 import Utils.LogSeverity;
 import Utils.Logger;
 
-class GameManagerTest {
+class GameManagerTest 
+{
 	
 	GameManager g;
 
 	@BeforeEach
-	void setUp() throws Exception {
-		
+	void setUp() throws Exception 
+	{
 		g = new GameManager();
-		
 	}
 
 	@Test
-	void formatTest() {
-		try {
+	void formatTest() 
+	{
+		try
+		{
 			assertEquals(g.getFormat(new File("Resources/boards/testboard.brd")), 1);
-		} catch (IOException e) {
+		} 
+		catch (IOException e) 
+		{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-			
 	}
 	
 	@Test
-	void LineLengthTest() {
-		try {
+	void LineLengthTest() 
+	{
+		try 
+		{
 			assertEquals(g.getLineLength(new File("Resources/boards/testboard.brd")), 9);
-		} catch (IOException e) {
+		} 
+		catch (IOException e) 
+		{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
-
 }
