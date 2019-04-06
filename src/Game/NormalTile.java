@@ -17,7 +17,7 @@ public class NormalTile extends Location
 	public NormalTile(Vector2 placement)
 	{
 		super();
-		this.location = placement;
+		this.position = placement;
 	}
 	
 	@Override
@@ -46,7 +46,7 @@ public class NormalTile extends Location
 	{
 		b.draw(new RenderInstance()
 			.withTexture("tileNormal")
-			.withDestinationRegion(new Region(this.location, new Vector2(64), true))
+			.withDestinationRegion(new Region(this.position, new Vector2(64), true))
 			.withDepth(1f)
 			);
 	}

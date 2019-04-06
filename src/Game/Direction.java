@@ -10,8 +10,8 @@ package Game;
 //TODO: Rename these to UP, DOWN, LEFT and RIGHT
 public enum Direction
 {
-	North,
-	East,
-	South,
-	West;
+	NORTH,
+	EAST,
+	SOUTH,
+	WEST;
 }

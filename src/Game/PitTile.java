@@ -17,7 +17,7 @@ public class PitTile extends Location
 	public PitTile(Vector2 placement)
 	{
 		super();
-		this.location = placement;
+		this.position = placement;
 	}
 	
 	
@@ -45,7 +45,7 @@ public class PitTile extends Location
 	{
 		b.draw(new RenderInstance()
 				.withTexture("tilePit")
-				.withDestinationRegion(new Region(this.location, new Vector2(64), true))
+				.withDestinationRegion(new Region(this.position, new Vector2(64), true))
 				.withDepth(1f)
 				);
 	}

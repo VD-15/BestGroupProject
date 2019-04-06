@@ -24,7 +24,7 @@ public class GearTile extends Location {
 	public GearTile(Vector2 placement, boolean clockwise) 
 	{
 		super();
-		this.location = placement;
+		this.position = placement;
 		this.clockwise = clockwise;
 	}
 	
@@ -57,7 +57,7 @@ public class GearTile extends Location {
 		
 		b.draw(new RenderInstance()
 			.withTexture(gearType)
-			.withDestinationRegion(new Region(this.location, new Vector2(64), true))
+			.withDestinationRegion(new Region(this.position, new Vector2(64), true))
 			.withDepth(1f)
 			);
 	}

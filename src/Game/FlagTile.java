@@ -19,7 +19,7 @@ public class FlagTile extends Location
 	public FlagTile(Vector2 placement, int flagNumber) 
 	{
 		super();
-		this.location = placement; 
+		this.position = placement; 
 		this.flagNumber = flagNumber;
 	}
 	
