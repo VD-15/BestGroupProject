@@ -22,7 +22,7 @@ import utils.Vector2;
 /**
  * <h1>GameWindow</h1>
  * Provides a window frame and an OpenGL context to draw to.
- * 
+ *
  * @author Group 26
  */
 public class GameWindow implements GLEventListener
@@ -31,13 +31,13 @@ public class GameWindow implements GLEventListener
 	 * OpenGL rendering target and actual application window
 	 */
 	private GLWindow window;
-	
+
 	/**
 	 * Facilitates drawing every frame
 	 */
 	private Animator animator;
 	private Renderer renderer;
-	
+
 	private Vector2 viewport;
 
 	/**
@@ -47,7 +47,7 @@ public class GameWindow implements GLEventListener
 	{
 		this(640, 480, "Game Window");
 	}
-	
+
 	/**
 	 * Creates a GameWindow object with the given dimensions and title
 	 * @param _width The width of the window in pixels.
@@ -60,7 +60,7 @@ public class GameWindow implements GLEventListener
 		GLProfile profile = GLProfile.get(GLProfile.GL3);
 		GLCapabilities capabilities = new GLCapabilities(profile);
 		this.window = GLWindow.create(capabilities);
-		
+
 		//Setup the window
 		this.window.setTitle(_title);
 		this.window.setSize(_width, _height);
@@ -68,13 +68,13 @@ public class GameWindow implements GLEventListener
 		this.window.setResizable(true);
 		this.window.addGLEventListener(this);
 		this.window.setDefaultCloseOperation(WindowClosingProtocol.WindowClosingMode.DISPOSE_ON_CLOSE);
-		
+
 		//Create the animator
 		this.animator = new Animator(this.window);
 		this.viewport = new Vector2(640, 480);
 		this.renderer = new Renderer();
 	}
-	
+
 	/**
 	 * Called once before window is displayed.
 	 */
@@ -83,34 +83,34 @@ public class GameWindow implements GLEventListener
 		Logger.log(this, LogSeverity.INFO, "Running.");
 		window.setVisible(true);
 		//window.setUpdateFPSFrames(15, null);
-		
+
 		//Run the garbage collector every 5 seconds to avoid big boi memory leaks.
 		{
 			Timer timer = new Timer();
 			TimerTask task = new TimerTask()
 			{
 				@Override
-				public void run() 
+				public void run()
 				{
 					Runtime.getRuntime().gc();
 				}
 			};
-			
+
 			timer.schedule(task, 0, 5000);
 		}
 	}
-	
+
 	public Vector2 getViewport()
 	{
 		return this.viewport;
 	}
-	
+
 	/**
 	 * Called once when the window is first displayed
-	 * 
+	 *
 	 * ### HOPE NOBODY'S PARKED HERE BECAUSE THIS###
 	 * ###     IS A DESIGNATED LOADING ZONE!     ###
-	 */	
+	 */
 	@Override
 	public void init(GLAutoDrawable drawable)
 	{
@@ -137,14 +137,14 @@ public class GameWindow implements GLEventListener
 		ContentManager.loadImage(gl, "textures/robotDown.png", 		"robotSOUTH", 		60, 	60);
 		ContentManager.loadImage(gl, "textures/robotLeft.png", 		"robotWEST", 		60, 	60);
 		ContentManager.loadImage(gl, "textures/robotRight.png", 	"robotEAST", 		60, 	60);
-		
+
 		ContentManager.loadText("boards/testboard.brd", "testBoard");
-		
+
 		animator.start();
 		renderer.init(gl);
 		Game.init(this);
 	}
-	
+
 	/**
 	 * Called once every frame
 	 */
@@ -153,7 +153,7 @@ public class GameWindow implements GLEventListener
 	{
 		GL3 gl = drawable.getGL().getGL3();
 		Game.update();
-		
+
 		RenderBatch renderBatch = new RenderBatch();
 		Game.draw(renderBatch);
 		renderer.draw(gl, renderBatch);
@@ -165,7 +165,7 @@ public class GameWindow implements GLEventListener
 	@Override
 	public void dispose(GLAutoDrawable drawable)
 	{
-		animator.stop();		
+		animator.stop();
 		Logger.log(this, LogSeverity.INFO, "Disposed.");
 		System.exit(0);
 	}
@@ -178,9 +178,9 @@ public class GameWindow implements GLEventListener
 	{
 		GL3 gl = drawable.getGL().getGL3();
 		gl.glViewport(x, y, width, height);
-		
+
 		Rectangle r = new Rectangle(x, y, width, height);
 		viewport.set(width, height);
 	}
-	
+
 }
