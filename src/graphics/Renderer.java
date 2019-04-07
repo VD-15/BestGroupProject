@@ -35,12 +35,7 @@ import utils.Vector4;
  * @author Vee
  */
 public class Renderer
-{	
-	/**
-	 * A matrix that will map screen-pixel coordinates to normalized device coordinates
-	 */
-	private Matrix4 viewportMatrix;
-		
+{		
 	/**
 	 * The vertex array object that specifies how OpenGL will read the vertex data from the buffer
 	 */
@@ -102,7 +97,6 @@ public class Renderer
 	 */
 	public Renderer()
 	{
-		this.viewportMatrix = new Matrix4();
 		this.arrayObject = 0;
 		this.vertexBuffer = 0;
 		this.elementBuffer = 0;
@@ -113,8 +107,6 @@ public class Renderer
 	
 	public void init(GL3 gl)
 	{
-		viewportMatrix = new Matrix4();
-		
 		{
 			IntBuffer vao = IntBuffer.allocate(1);
 			IntBuffer vbo = IntBuffer.allocate(2);
@@ -237,12 +229,6 @@ public class Renderer
 		gl.glBindVertexArray(0);
 	}
 	
-	public void setViewport(Rectangle v)
-	{
-		viewportMatrix.loadIdentity();
-		viewportMatrix.makeOrtho(0, v.getWidth(), v.getHeight(), 0, -100f, 100f);
-	}
-	
 	public void draw(GL3 gl, RenderBatch batch)
 	{
 		ArrayList<RenderInstance> instances = batch.getInstances();
@@ -251,7 +237,6 @@ public class Renderer
 		HashMap<Integer, HashMap<Texture, ArrayList<RenderInstance>>> renderPasses = new HashMap<Integer, HashMap<Texture, ArrayList<RenderInstance>>>();
 
 		gl.glBindVertexArray(arrayObject);
-		gl.glUniformMatrix4fv(1, 1, false, viewportMatrix.getMatrix(), 0);
 		gl.glClear(GL3.GL_COLOR_BUFFER_BIT | GL3.GL_DEPTH_BUFFER_BIT);
 		
 		for (RenderInstance r : instances)
@@ -285,6 +270,14 @@ public class Renderer
 		{
 			if (layer.equals(-1)) continue;
 			
+			Region view = cameras.get(layer).getViewport();
+			
+			Matrix4 viewport = new Matrix4();
+			viewport.loadIdentity();
+			viewport.makeOrtho(view.x, view.x + view.width, view.y + view.height, view.y, -100, 100);
+			
+			gl.glUniformMatrix4fv(1, 1, false, viewport.getMatrix(), 0);
+			
 			for (Texture t : renderPasses.get(layer).keySet())
 			{
 				ArrayList<RenderInstance> renderPass = renderPasses.get(layer).get(t);
@@ -292,6 +285,11 @@ public class Renderer
 				renderData.order(ByteOrder.nativeOrder());
 				ByteBuffer renderElements = ByteBuffer.allocateDirect(renderPass.size() * 2 * 6);
 				renderElements.order(ByteOrder.nativeOrder());
+				
+				Matrix4 texMatrix = new Matrix4();
+				texMatrix.loadIdentity();
+				texMatrix.makeOrtho(-t.getWidth(), t.getWidth(), -t.getHeight(), t.getHeight(), -1f, 1f);
+				gl.glUniformMatrix4fv(2, 1, false, texMatrix.getMatrix(), 0);
 
 				for (short j = 0; j < renderPass.size(); j++)
 				{
@@ -312,12 +310,6 @@ public class Renderer
 						rotator.translate(r.rotationOrigin.x, r.rotationOrigin.y, 0);
 						rotator.rotate(r.rotation, 0, 0, 1);
 						rotator.translate(-r.rotationOrigin.x, -r.rotationOrigin.y, 0);
-						
-						Region view = cameras.get(layer).getViewport();
-						
-						Matrix4 viewport = new Matrix4();
-						viewport.loadIdentity();
-						viewport.makeOrtho(view.x, view.x + view.width, view.y + view.height, view.y, -100, 100);
 						
 						//rotator.multMatrix(viewport);
 						
@@ -407,11 +399,6 @@ public class Renderer
 					gl.glBufferSubData(GL3.GL_ELEMENT_ARRAY_BUFFER, 0, renderElements.capacity(), renderElements);
 				}
 				
-				Matrix4 texMatrix = new Matrix4();
-				texMatrix.loadIdentity();
-				texMatrix.makeOrtho(-t.getWidth(), t.getWidth(), -t.getHeight(), t.getHeight(), -1f, 1f);
-				gl.glUniformMatrix4fv(2, 1, false, texMatrix.getMatrix(), 0);
-				//gl.glClear(GL3.GL_DEPTH_BUFFER_BIT);
 				gl.glBindTexture(GL3.GL_TEXTURE_2D, t.getID());
 				gl.glDrawElements(GL3.GL_TRIANGLES, renderPass.size() * 6, GL3.GL_UNSIGNED_SHORT, 0);
 			}

@@ -245,6 +245,7 @@ public class Robot extends GameObject implements IDrawable, IUpdatable
 			.withTexture("robot" + facingDirection)
 			.withDestinationRegion(new Region(this.position, new Vector2(64), true))
 			.withDepth(2f)
+			.withLayer(1)
 		);
 	}
 	

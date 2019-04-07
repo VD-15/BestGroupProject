@@ -15,6 +15,7 @@ public class Camera extends GameObject implements IDrawable
 		super();
 		this.tag = "camera";
 		this.layer = -1;
+		this.viewportSize = new Vector2();
 	}
 	
 	public Camera(int layer)
@@ -22,6 +23,7 @@ public class Camera extends GameObject implements IDrawable
 		super();
 		this.tag = "camera";
 		this.layer = layer;
+		this.viewportSize = new Vector2();
 	}
 	
 	public Region getViewport()

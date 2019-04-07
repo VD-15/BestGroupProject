@@ -181,7 +181,6 @@ public class GameWindow implements GLEventListener
 		
 		Rectangle r = new Rectangle(x, y, width, height);
 		viewport.set(width, height);
-		renderer.setViewport(r);
 	}
 	
 }
