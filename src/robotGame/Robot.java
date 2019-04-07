@@ -2,13 +2,15 @@ package robotGame;
 
 import java.util.Queue;
 
+import core.Game;
+import core.GameObject;
+import core.IUpdatable;
 import graphics.IDrawable;
 import graphics.RenderBatch;
 import graphics.RenderInstance;
-import robotGame.Core.GameObject;
-import robotGame.Core.IUpdatable;
 import utils.LogSeverity;
 import utils.Logger;
+import utils.Point;
 import utils.Region;
 import utils.Vector2;
 
@@ -20,38 +22,34 @@ import utils.Vector2;
  */
 public class Robot extends GameObject implements IDrawable, IUpdatable
 {
+	/** Maximum number of actions allowed in the queue */
+	private static final int MAX_ACTIONS = 5;
 	
-	/** x index in the {@link GameManager#boardArray} */
-	private int xIndex = 0;
-	/** y index in the {@link GameManager#boardArray} */
-	private int yIndex = 0;
-	
-	private Location location;
-	private Location startLocation;
+	private Point index;
+	private int number;
+
+	private final Point startIndex;
 	
 	/** queue of actions to be committed */
 	private Queue<Instruction> actions;
-	
-	/** Maximum number of actions allowed in the queue */
-	private static final int MAX_ACTIONS = 5;
 	
 	/** Absolute direction the game object is facing */
 	private Direction facingDirection;
 	
 	/**
 	 * Robot Constructor
-	 * 
-	 * @param location starting location
+	 * @param position
+	 * @param index starting location
 	 */
-	public Robot(Location location, Vector2 position, int xIndex, int yIndex)
+	public Robot(Point index, int number)
 	{
 		super();
-		this.location = location;
-		this.position = position;
-		this.xIndex = xIndex;
-		this.yIndex = yIndex;
-		this.startLocation = location;
-		this.facingDirection = Direction.SOUTH;
+		this.position = new Vector2(index.x * 64, index.y * 64);
+		this.index = index;
+		this.startIndex = index;
+		this.facingDirection = Direction.NORTH;
+		this.number = number;
+		this.tag = "robot";
 	}
 	
 	/**
@@ -79,74 +77,159 @@ public class Robot extends GameObject implements IDrawable, IUpdatable
 	}
 	
 	/**
-	 * Robot will commit an action from actions queue
+	 * Commit an action from the action queue
 	 */
-	public void commitAction()
+	public void act()
 	{
 		// pop the action from the queue.
 		Instruction i = actions.poll();
 		
-		// if the action is Uturn
-		if (i == Instruction.UTURN)
+		switch (i)
 		{
-			// the current facing direction is found and changed to its inverse.
-			switch (facingDirection)
-			{
-				case NORTH:
-					facingDirection = Direction.SOUTH;
-					break;
-				case SOUTH:
-					facingDirection = Direction.NORTH;
-					break;
-				case EAST:
-					facingDirection = Direction.WEST;
-					break;
-				case WEST:
-					facingDirection = Direction.EAST;
-					break;
-				// if the default case is reached an error is logged.
-				default:
-					Logger.log(this, LogSeverity.ERROR, "Invalid direction");
-					break;
-			}
-		} 
-		else
-		{
-			// x or y values representing the robots new position are changed depending on
-			// the action taken.
-			switch (i)
-			{
-				case FORWARD:
-					this.yIndex++;
-					break;
-				case BACKWARD:
-					this.yIndex--;
-					break;
-				case RIGHT:
-					this.xIndex++;
-					break;
-				case LEFT:
-					this.xIndex--;
-					break;
-				case WAIT:
-					break;
-				default:
-					Logger.log(this, LogSeverity.ERROR, "Invalid direction");
-			}
-			
-			// The robot's location is updated based on the location returned by the game manager.
-			// getLocation is given the updated x and y values to find teh new location.
-			location = GameManager.getLocation(xIndex, yIndex);
+			case FORWARD:
+				moveForward();
+				break;
+			case BACKWARD:
+				moveBackward();
+				break;
+			case LEFT:
+				turnLeft();
+				break;
+			case RIGHT:
+				turnRight();
+				break;
+			case UTURN:
+				uTurn();
+				break;
+			case WAIT:
+			default:
+				break;
 		}
 	}
 	
+	private void uTurn()
+	{
+		switch (facingDirection)
+		{
+			case NORTH:
+				facingDirection = Direction.SOUTH;
+				break;
+			case SOUTH:
+				facingDirection = Direction.NORTH;
+				break;
+			case EAST:
+				facingDirection = Direction.WEST;
+				break;
+			case WEST:
+				facingDirection = Direction.EAST;
+				break;
+			default:
+				Logger.log(this, LogSeverity.ERROR, "Robot had invalid direction. Resetting to north.");
+				facingDirection = Direction.NORTH;
+				break;
+		}
+	}
+
+	private void turnRight()
+	{
+		switch (facingDirection)
+		{
+			case NORTH:
+				facingDirection = Direction.EAST;
+				break;
+			case SOUTH:
+				facingDirection = Direction.WEST;
+				break;
+			case EAST:
+				facingDirection = Direction.SOUTH;
+				break;
+			case WEST:
+				facingDirection = Direction.NORTH;
+				break;
+			default:
+				Logger.log(this, LogSeverity.ERROR, "Robot had invalid direction. Resetting to north.");
+				facingDirection = Direction.NORTH;
+				break;
+		}
+	}
+
+	private void turnLeft()
+	{
+		switch (facingDirection)
+		{
+			case NORTH:
+				facingDirection = Direction.WEST;
+				break;
+			case SOUTH:
+				facingDirection = Direction.EAST;
+				break;
+			case EAST:
+				facingDirection = Direction.NORTH;
+				break;
+			case WEST:
+				facingDirection = Direction.SOUTH;
+				break;
+			default:
+				Logger.log(this, LogSeverity.ERROR, "Robot had invalid direction. Resetting to north.");
+				facingDirection = Direction.NORTH;
+				break;
+		}
+	}
+
+	private void moveBackward()
+	{
+		switch (facingDirection)
+		{
+			case NORTH:
+				this.index.y--;
+				break;
+			case SOUTH:
+				this.index.y++;
+				break;
+			case EAST:
+				this.index.x--;
+				break;
+			case WEST:
+				this.index.x++;
+				break;
+			default:
+				Logger.log(this, LogSeverity.ERROR, "Robot had invalid direction. Resetting to north.");
+				facingDirection = Direction.NORTH;
+				this.index.y--;
+				break;
+		}
+	}
+
+	private void moveForward()
+	{
+		switch (facingDirection)
+		{
+			case NORTH:
+				this.index.y++;
+				break;
+			case SOUTH:
+				this.index.y--;
+				break;
+			case EAST:
+				this.index.x++;
+				break;
+			case WEST:
+				this.index.x--;
+				break;
+			default:
+				Logger.log(this, LogSeverity.ERROR, "Robot had invalid direction. Resetting to north.");
+				facingDirection = Direction.NORTH;
+				this.index.y++;
+				break;
+		}
+	}
+
 	/**
 	 * Reset the Location of Robot back to its starting position
 	 */
 	public void resetLocation()
 	{
-		// Robot is destroyed (eg. from a PitTile) and its Location should be reset to it's starting Location
-		location = startLocation;
+		index = startIndex;
 	}
 	
 	@Override
@@ -159,10 +242,10 @@ public class Robot extends GameObject implements IDrawable, IUpdatable
 	public void draw(RenderBatch b)
 	{
 		b.draw(new RenderInstance()
-				.withTexture("robot" + facingDirection)
-				.withDestinationRegion(new Region(this.position, new Vector2(64), true))
-				.withDepth(2f)
-				);
+			.withTexture("robot" + facingDirection)
+			.withDestinationRegion(new Region(this.position, new Vector2(64), true))
+			.withDepth(2f)
+		);
 	}
 	
 }

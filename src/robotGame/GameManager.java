@@ -1,20 +1,25 @@
 package robotGame;
 
-import robotGame.Core.Game;
-import robotGame.Core.GameObject;
+import core.Game;
+import core.GameObject;
+import robotGame.tiles.BeltTile;
+import robotGame.tiles.FlagTile;
+import robotGame.tiles.GearTile;
+import robotGame.tiles.PitTile;
 import utils.LogSeverity;
 import utils.Logger;
 import utils.Vector2;
 
 /**
- * Game
+ * Yo, don't fucking use this.
  * 
  * @author Jedd Morgan
  * @version 3/04/2019
  */
+
+/*
 public class GameManager
 {
-	
 	private static Location[][] boardArray;
 	private static Robot[] robots;
 	
@@ -58,7 +63,7 @@ public class GameManager
 	 * Initializes the board from the given board data file
 	 * 
 	 * @param board an array of strings read from a .brd file
-	 */
+	 
 	public void loadBoardFromPlainText(String[] board)
 	{
 		if (!board[0].startsWith("format "))
@@ -183,3 +188,4 @@ public class GameManager
 		}
 	}
 }
+*/

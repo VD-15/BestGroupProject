@@ -14,8 +14,10 @@ import com.jogamp.nativewindow.util.Rectangle;
 import com.jogamp.opengl.GL3;
 import com.jogamp.opengl.math.Matrix4;
 
+import core.Camera;
 import utils.LogSeverity;
 import utils.Logger;
+import utils.Region;
 import utils.Vector4;
 
 /**
@@ -38,7 +40,7 @@ public class Renderer
 	 * A matrix that will map screen-pixel coordinates to normalized device coordinates
 	 */
 	private Matrix4 viewportMatrix;
-	
+		
 	/**
 	 * The vertex array object that specifies how OpenGL will read the vertex data from the buffer
 	 */
@@ -128,8 +130,9 @@ public class Renderer
 			gl.glGetIntegerv(GL3.GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS, units);
 			Logger.log(this, LogSeverity.VERBOSE, "Found {" + units.get(0) + "} available texture units.");
 		}
-		
-		gl.glClearColor(0f, 0f, 0f, 0f);
+
+		//Set the clear color to black
+		gl.glClearColor(0f, 0f, 0f, 1f);
 		gl.glClearDepthf(1000);
 		
 		gl.glEnable(GL3.GL_BLEND);
@@ -243,8 +246,9 @@ public class Renderer
 	public void draw(GL3 gl, RenderBatch batch)
 	{
 		ArrayList<RenderInstance> instances = batch.getInstances();
+		HashMap<Integer, Camera> cameras = batch.getCameras();
 
-		HashMap<Texture, ArrayList<RenderInstance>> renderPasses = new HashMap<Texture, ArrayList<RenderInstance>>();
+		HashMap<Integer, HashMap<Texture, ArrayList<RenderInstance>>> renderPasses = new HashMap<Integer, HashMap<Texture, ArrayList<RenderInstance>>>();
 
 		gl.glBindVertexArray(arrayObject);
 		gl.glUniformMatrix4fv(1, 1, false, viewportMatrix.getMatrix(), 0);
@@ -252,139 +256,165 @@ public class Renderer
 		
 		for (RenderInstance r : instances)
 		{
-			if (renderPasses.containsKey(r.texture))
+			if (renderPasses.containsKey(r.layer))
 			{
-				renderPasses.get(r.texture).add(r);
+				if (renderPasses.get(r.layer).containsKey(r.texture))
+				{
+					renderPasses.get(r.layer).get(r.texture).add(r);
+				}
+				else
+				{
+					ArrayList<RenderInstance> l = new ArrayList<RenderInstance>();
+					l.add(r);
+					
+					renderPasses.get(r.layer).put(r.texture, l);
+				}
 			}
 			else
 			{
+				HashMap<Texture, ArrayList<RenderInstance>> h = new HashMap<Texture, ArrayList<RenderInstance>>();
 				ArrayList<RenderInstance> l = new ArrayList<RenderInstance>();
 				l.add(r);
-				renderPasses.put(r.texture, l);
+				h.put(r.texture, l);
+				
+				renderPasses.put(r.layer, h);
 			}
 		}
 		
-		for (Texture t : renderPasses.keySet())
+		for (Integer layer : renderPasses.keySet())
 		{
-			ArrayList<RenderInstance> renderPass = renderPasses.get(t);
-			ByteBuffer renderData = ByteBuffer.allocateDirect(renderPass.size() * VERTEX_SIZE * 4);
-			renderData.order(ByteOrder.nativeOrder());
-			ByteBuffer renderElements = ByteBuffer.allocateDirect(renderPass.size() * 2 * 6);
-			renderElements.order(ByteOrder.nativeOrder());
-
-			for (short j = 0; j < renderPass.size(); j++)
+			if (layer.equals(-1)) continue;
+			
+			for (Texture t : renderPasses.get(layer).keySet())
 			{
-				RenderInstance r = renderPass.get(j);
-				
-				Vector4[] points = new Vector4[]
+				ArrayList<RenderInstance> renderPass = renderPasses.get(layer).get(t);
+				ByteBuffer renderData = ByteBuffer.allocateDirect(renderPass.size() * VERTEX_SIZE * 4);
+				renderData.order(ByteOrder.nativeOrder());
+				ByteBuffer renderElements = ByteBuffer.allocateDirect(renderPass.size() * 2 * 6);
+				renderElements.order(ByteOrder.nativeOrder());
+
+				for (short j = 0; j < renderPass.size(); j++)
 				{
-					new Vector4(r.destination.x, r.destination.y, 0f, 1f),
-					new Vector4(r.destination.x + r.destination.width, r.destination.y, 0f, 1f),
-					new Vector4(r.destination.x + r.destination.width, r.destination.y + r.destination.height, 0f, 1f),
-					new Vector4(r.destination.x, r.destination.y + r.destination.height, 0f, 1f)
-				};
-				
-				if (r.rotation != 0f)
-				{
-					Matrix4 rotator = new Matrix4();
-					rotator.loadIdentity();
-					rotator.translate(r.rotationOrigin.x, r.rotationOrigin.y, 0);
-					rotator.rotate(r.rotation, 0, 0, 1);
-					rotator.translate(-r.rotationOrigin.x, -r.rotationOrigin.y, 0);
+					RenderInstance r = renderPass.get(j);
 					
-					for (int i = 0; i < 4; i++)
+					Vector4[] points = new Vector4[]
 					{
-						float[] arr_out = new float[4];
-						rotator.multVec(points[i].getArray(), arr_out);
-						points[i] = new Vector4(arr_out);
+						new Vector4(r.destination.x, r.destination.y, 0f, 1f),
+						new Vector4(r.destination.x + r.destination.width, r.destination.y, 0f, 1f),
+						new Vector4(r.destination.x + r.destination.width, r.destination.y + r.destination.height, 0f, 1f),
+						new Vector4(r.destination.x, r.destination.y + r.destination.height, 0f, 1f)
+					};
+					
+					if (r.rotation != 0f)
+					{
+						Matrix4 rotator = new Matrix4();
+						rotator.loadIdentity();
+						rotator.translate(r.rotationOrigin.x, r.rotationOrigin.y, 0);
+						rotator.rotate(r.rotation, 0, 0, 1);
+						rotator.translate(-r.rotationOrigin.x, -r.rotationOrigin.y, 0);
+						
+						Region view = cameras.get(layer).getViewport();
+						
+						Matrix4 viewport = new Matrix4();
+						viewport.loadIdentity();
+						viewport.makeOrtho(view.x, view.x + view.width, view.y + view.height, view.y, -100, 100);
+						
+						//rotator.multMatrix(viewport);
+						
+						for (int i = 0; i < 4; i++)
+						{
+							float[] arr_out = new float[4];
+							rotator.multVec(points[i].getArray(), arr_out);
+							points[i] = new Vector4(arr_out);
+						}
 					}
+					
+					//Put top-left vertex
+					renderData.putFloat(points[0].x);
+					renderData.putFloat(points[0].y);
+					renderData.putFloat(r.depth);
+					renderData.putFloat(r.color.r);
+					renderData.putFloat(r.color.g);
+					renderData.putFloat(r.color.b);
+					renderData.putFloat(r.color.a);
+					renderData.putFloat(r.source.x);
+					renderData.putFloat(r.source.y);
+					
+					//Put top-right vertex
+					renderData.putFloat(points[1].x);
+					renderData.putFloat(points[1].y);
+					renderData.putFloat(r.depth);
+					renderData.putFloat(r.color.r);
+					renderData.putFloat(r.color.g);
+					renderData.putFloat(r.color.b);
+					renderData.putFloat(r.color.a);
+					renderData.putFloat(r.source.x + r.source.width);
+					renderData.putFloat(r.source.y);
+					
+					//Put bottom-right vertex
+					renderData.putFloat(points[2].x);
+					renderData.putFloat(points[2].y);
+					renderData.putFloat(r.depth);
+					renderData.putFloat(r.color.r);
+					renderData.putFloat(r.color.g);
+					renderData.putFloat(r.color.b);
+					renderData.putFloat(r.color.a);
+					renderData.putFloat(r.source.x + r.source.width);
+					renderData.putFloat(r.source.y + r.source.height);
+					
+					//Put bottom-left vertex
+					renderData.putFloat(points[3].x);
+					renderData.putFloat(points[3].y);
+					renderData.putFloat(r.depth);
+					renderData.putFloat(r.color.r);
+					renderData.putFloat(r.color.g);
+					renderData.putFloat(r.color.b);
+					renderData.putFloat(r.color.a);
+					renderData.putFloat(r.source.x);
+					renderData.putFloat(r.source.y + r.source.height);
+					
+					//Put element data
+					renderElements.putShort((short) ((j * 4) + 0));
+					renderElements.putShort((short) ((j * 4) + 1));
+					renderElements.putShort((short) ((j * 4) + 2));
+					renderElements.putShort((short) ((j * 4) + 0));
+					renderElements.putShort((short) ((j * 4) + 2));
+					renderElements.putShort((short) ((j * 4) + 3));
 				}
 				
-				//Put top-left vertex
-				renderData.putFloat(points[0].x);
-				renderData.putFloat(points[0].y);
-				renderData.putFloat(r.depth);
-				renderData.putFloat(r.color.r);
-				renderData.putFloat(r.color.g);
-				renderData.putFloat(r.color.b);
-				renderData.putFloat(r.color.a);
-				renderData.putFloat(r.source.x);
-				renderData.putFloat(r.source.y);
+				renderData.position(0);
+				renderElements.position(0);
 				
-				//Put top-right vertex
-				renderData.putFloat(points[1].x);
-				renderData.putFloat(points[1].y);
-				renderData.putFloat(r.depth);
-				renderData.putFloat(r.color.r);
-				renderData.putFloat(r.color.g);
-				renderData.putFloat(r.color.b);
-				renderData.putFloat(r.color.a);
-				renderData.putFloat(r.source.x + r.source.width);
-				renderData.putFloat(r.source.y);
+				gl.glBindBuffer(GL3.GL_ARRAY_BUFFER, vertexBuffer);
+				if (renderData.capacity() > vertexBufferAllocation)
+				{
+					gl.glBufferData(GL3.GL_ARRAY_BUFFER, renderData.capacity(), renderData, GL3.GL_DYNAMIC_DRAW);
+					vertexBufferAllocation = renderData.capacity();
+				}
+				else
+				{
+					gl.glBufferSubData(GL3.GL_ARRAY_BUFFER, 0, renderData.capacity(), renderData);
+				}
 				
-				//Put bottom-right vertex
-				renderData.putFloat(points[2].x);
-				renderData.putFloat(points[2].y);
-				renderData.putFloat(r.depth);
-				renderData.putFloat(r.color.r);
-				renderData.putFloat(r.color.g);
-				renderData.putFloat(r.color.b);
-				renderData.putFloat(r.color.a);
-				renderData.putFloat(r.source.x + r.source.width);
-				renderData.putFloat(r.source.y + r.source.height);
+				gl.glBindBuffer(GL3.GL_ELEMENT_ARRAY_BUFFER, elementBuffer);
+				if (renderElements.capacity() > elementBufferAllocation)
+				{
+					gl.glBufferData(GL3.GL_ELEMENT_ARRAY_BUFFER, renderElements.capacity(), renderElements, GL3.GL_DYNAMIC_DRAW);
+					elementBufferAllocation = renderElements.capacity();
+				}
+				else
+				{
+					gl.glBufferSubData(GL3.GL_ELEMENT_ARRAY_BUFFER, 0, renderElements.capacity(), renderElements);
+				}
 				
-				//Put bottom-left vertex
-				renderData.putFloat(points[3].x);
-				renderData.putFloat(points[3].y);
-				renderData.putFloat(r.depth);
-				renderData.putFloat(r.color.r);
-				renderData.putFloat(r.color.g);
-				renderData.putFloat(r.color.b);
-				renderData.putFloat(r.color.a);
-				renderData.putFloat(r.source.x);
-				renderData.putFloat(r.source.y + r.source.height);
-				
-				//Put element data
-				renderElements.putShort((short) ((j * 4) + 0));
-				renderElements.putShort((short) ((j * 4) + 1));
-				renderElements.putShort((short) ((j * 4) + 2));
-				renderElements.putShort((short) ((j * 4) + 0));
-				renderElements.putShort((short) ((j * 4) + 2));
-				renderElements.putShort((short) ((j * 4) + 3));
+				Matrix4 texMatrix = new Matrix4();
+				texMatrix.loadIdentity();
+				texMatrix.makeOrtho(-t.getWidth(), t.getWidth(), -t.getHeight(), t.getHeight(), -1f, 1f);
+				gl.glUniformMatrix4fv(2, 1, false, texMatrix.getMatrix(), 0);
+				//gl.glClear(GL3.GL_DEPTH_BUFFER_BIT);
+				gl.glBindTexture(GL3.GL_TEXTURE_2D, t.getID());
+				gl.glDrawElements(GL3.GL_TRIANGLES, renderPass.size() * 6, GL3.GL_UNSIGNED_SHORT, 0);
 			}
-			
-			renderData.position(0);
-			renderElements.position(0);
-			
-			gl.glBindBuffer(GL3.GL_ARRAY_BUFFER, vertexBuffer);
-			if (renderData.capacity() > vertexBufferAllocation)
-			{
-				gl.glBufferData(GL3.GL_ARRAY_BUFFER, renderData.capacity(), renderData, GL3.GL_DYNAMIC_DRAW);
-				vertexBufferAllocation = renderData.capacity();
-			}
-			else
-			{
-				gl.glBufferSubData(GL3.GL_ARRAY_BUFFER, 0, renderData.capacity(), renderData);
-			}
-			
-			gl.glBindBuffer(GL3.GL_ELEMENT_ARRAY_BUFFER, elementBuffer);
-			if (renderElements.capacity() > elementBufferAllocation)
-			{
-				gl.glBufferData(GL3.GL_ELEMENT_ARRAY_BUFFER, renderElements.capacity(), renderElements, GL3.GL_DYNAMIC_DRAW);
-				elementBufferAllocation = renderElements.capacity();
-			}
-			else
-			{
-				gl.glBufferSubData(GL3.GL_ELEMENT_ARRAY_BUFFER, 0, renderElements.capacity(), renderElements);
-			}
-			
-			Matrix4 texMatrix = new Matrix4();
-			texMatrix.loadIdentity();
-			texMatrix.makeOrtho(-t.getWidth(), t.getWidth(), -t.getHeight(), t.getHeight(), -1f, 1f);
-			gl.glUniformMatrix4fv(2, 1, false, texMatrix.getMatrix(), 0);
-			//gl.glClear(GL3.GL_DEPTH_BUFFER_BIT);
-			gl.glBindTexture(GL3.GL_TEXTURE_2D, t.getID());
-			gl.glDrawElements(GL3.GL_TRIANGLES, renderPass.size() * 6, GL3.GL_UNSIGNED_SHORT, 0);
 		}
 	}
 	

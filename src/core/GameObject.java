@@ -1,4 +1,4 @@
-package robotGame.Core;
+package core;
 
 import java.util.ArrayList;
 

@@ -1,7 +1,11 @@
-package robotGame;
+package robotGame.tiles;
 
+import core.Game;
 import graphics.RenderBatch;
 import graphics.RenderInstance;
+import robotGame.Direction;
+import robotGame.Robot;
+import utils.Point;
 import utils.Region;
 import utils.Vector2;
 
@@ -11,7 +15,7 @@ import utils.Vector2;
  * @author Jedd Morgan, Vanessa Kostadinova
  * @version 01/04/2019
  */
-public class BeltTile extends Location 
+public class BeltTile extends BoardTile 
 {
 	private Direction direction;
 	
@@ -20,11 +24,11 @@ public class BeltTile extends Location
 	 * @param placement The location where the tile is drawn.
 	 * @param direction The direction the tile acts in.
 	 */
-	public BeltTile(Vector2 placement, Direction direction) 
+	public BeltTile(Point index, Direction direction) 
 	{
-		super();
-		this.position = placement;
+		super(index);
 		this.direction = direction;
+		this.tag = "tileBelt";
 	}
 	
 	@Override
@@ -40,9 +44,14 @@ public class BeltTile extends Location
 	}
 
 	@Override
-	public void onLanded(Robot robot) 
+	public void onRobotEnter(Robot robot) 
 	{
-		// TODO Auto-generated method stub
+		
+	}
+	
+	@Override
+	public void onRobotLeave(Robot robot)
+	{
 		
 	}
 
@@ -53,6 +62,7 @@ public class BeltTile extends Location
 			.withTexture("tileBelt" + direction)
 			.withDestinationRegion(new Region(this.position, new Vector2(64), true))
 			.withDepth(1f)
+			.withLayer(1)
 			);		
 	}
 

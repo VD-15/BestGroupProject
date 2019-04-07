@@ -1,7 +1,10 @@
-package robotGame;
+package robotGame.tiles;
 
+import core.Game;
 import graphics.RenderBatch;
 import graphics.RenderInstance;
+import robotGame.Robot;
+import utils.Point;
 import utils.Region;
 import utils.Vector2;
 
@@ -11,7 +14,7 @@ import utils.Vector2;
  * @author Jedd Morgan, Vanessa Kostadinova
  * @version 01/04/2019
  */
-public class GearTile extends Location 
+public class GearTile extends BoardTile 
 {
 	private boolean isClockwise;
 
@@ -20,11 +23,11 @@ public class GearTile extends Location
 	 * @param placement The place where the tile is drawn.
 	 * @param clockwise True = clockwise. False = counterclockwise.
 	 */
-	public GearTile(Vector2 position, boolean clockwise) 
+	public GearTile(Point index, boolean clockwise) 
 	{
-		super();
-		this.position = position;
+		super(index);
 		this.isClockwise = clockwise;
+		this.tag = "tileGear";
 	}
 	
 	@Override
@@ -40,13 +43,19 @@ public class GearTile extends Location
 	@Override
 	public void act()
 	{
-		// currentRobot.rotate();
+		
 	}
 	
 	@Override
-	public void onLanded(Robot robot)
+	public void onRobotEnter(Robot robot)
 	{
-		currentRobot = robot;
+		//currentRobot = robot;
+	}
+	
+	@Override 
+	public void onRobotLeave(Robot robot)
+	{
+		
 	}
 
 	@Override
@@ -58,6 +67,7 @@ public class GearTile extends Location
 			.withTexture(gearType)
 			.withDestinationRegion(new Region(this.position, new Vector2(64), true))
 			.withDepth(1f)
+			.withLayer(1)
 			);
 	}
 

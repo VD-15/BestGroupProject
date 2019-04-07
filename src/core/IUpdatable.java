@@ -1,4 +1,4 @@
-package robotGame.Core;
+package core;
 
 public interface IUpdatable
 {

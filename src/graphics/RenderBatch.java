@@ -1,7 +1,9 @@
 package graphics;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
+import core.Camera;
 import utils.LogSeverity;
 import utils.Logger;
 import utils.Region;
@@ -10,10 +12,12 @@ import utils.Vector2;
 public class RenderBatch
 {
 	private ArrayList<RenderInstance> instances;
+	private HashMap<Integer, Camera> cameras;
 	
 	public RenderBatch()
 	{
 		instances = new ArrayList<RenderInstance>();
+		cameras = new HashMap<Integer, Camera>();
 	}
 	
 	public void draw(RenderInstance i)
@@ -60,11 +64,27 @@ public class RenderBatch
 			i.rotationOrigin = new Vector2();
 		}
 		
+		if (i.layer == null)
+		{
+			Logger.log(this, LogSeverity.VERBOSE, "RenderInstance layer was null. Will use layer -1.");
+			i.layer = new Integer(-1);
+		}
+		
 		instances.add(i);
+	}
+	
+	public void registerCamera(int layer, Camera c)
+	{
+		cameras.put(new Integer(layer), c);
 	}
 	
 	public ArrayList<RenderInstance> getInstances()
 	{
 		return instances;
+	}
+	
+	public HashMap<Integer, Camera> getCameras()
+	{
+		return cameras;
 	}
 }

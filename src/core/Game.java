@@ -1,29 +1,34 @@
-package robotGame.Core;
+package core;
 
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.LinkedList;
 
 import graphics.IDrawable;
 import graphics.RenderBatch;
-import robotGame.GameManager;
+import robotGame.Board;
+import robotGame.MainCamera;
 import utils.LogSeverity;
 import utils.Logger;
 
 public class Game
 {
-	private static ArrayList<GameObject> objects = new ArrayList<GameObject>();;
-	private static HashSet<GameObject> toAdd = new HashSet<GameObject>();
-	private static HashSet<GameObject> toRemove = new HashSet<GameObject>();
+	private static LinkedList<GameObject> objects = new LinkedList<GameObject>();;
+	private static LinkedList<GameObject> toAdd = new LinkedList<GameObject>();
+	private static LinkedList<GameObject> toRemove = new LinkedList<GameObject>();
+	
+	private static GameWindow window;
+	
 	private static double lastNano = 0d;
-		
-	public static void init()
+	
+	public static void init(GameWindow g)
 	{		
+		window = g;
+		
 		//Don't touch this unless you hate yourself
 		Logger.setLogSeverity(LogSeverity.INFO);
 		
-		GameManager manager = new GameManager();
-		manager.loadBoardFromPlainText(ContentManager.getTextByName("testBoard"));
-		manager.init();
+		Game.instantiate(new Board());
+		Game.instantiate(new MainCamera());
 		
 		lastNano = System.nanoTime();
 	}
@@ -42,20 +47,17 @@ public class Game
 			}
 		}
 		
-		for (GameObject g : toRemove)
+		while (!toRemove.isEmpty())
 		{
-			objects.remove(g);
-		}
+			objects.remove(toRemove.poll());
+		}		
 		
-		
-		for (GameObject g : toAdd)
+		while (!toAdd.isEmpty())
 		{
-			objects.add(g);
+			GameObject g = toAdd.poll();
+			objects.offer(g);
 			g.init();
 		}
-		
-		toRemove = new HashSet<GameObject>();
-		toAdd = new HashSet<GameObject>();
 		
 		lastNano = newNano;
 	}
@@ -74,12 +76,17 @@ public class Game
 	
 	public static void instantiate(GameObject g)
 	{
-		toAdd.add(g);
+		toAdd.offer(g);
 	}
 	
 	public static void destroy(GameObject g)
 	{
-		toRemove.add(g);
+		toRemove.offer(g);
+	}
+	
+	public static GameWindow getWindow()
+	{
+		return window;
 	}
 	
 	public static ArrayList<GameObject> getGameObjectsByTag(String tag)

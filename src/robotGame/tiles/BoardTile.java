@@ -1,7 +1,12 @@
-package robotGame;
+package robotGame.tiles;
 
+import core.Game;
+import core.GameObject;
+import graphics.IDrawable;
 import graphics.RenderBatch;
 import graphics.RenderInstance;
+import robotGame.Robot;
+import utils.Point;
 import utils.Region;
 import utils.Vector2;
 
@@ -11,35 +16,36 @@ import utils.Vector2;
  * @author Jedd Morgan, Vanessa Kostadinova
  * @version 01/04/2019
  */
-public class NormalTile extends Location
+public class BoardTile extends GameObject implements IDrawable
 {
 
-	public NormalTile(Vector2 placement)
+	public BoardTile(Point index)
 	{
 		super();
-		this.position = placement;
+		this.position = new Vector2(index.x * 64, index.y * 64);
+		this.tag = "tile";
 	}
 	
 	@Override
 	public void init()
 	{
-		// TODO Auto-generated method stub
 		
 	}
 	
-	/**
-	 * {@inheritDoc}
-	 * No implementation required
-	*/
-	@Override
-	public void act() { }
+	public void act()
+	{
+		
+	}
 
-	/**
-	 * {@inheritDoc}
-	 * No implementation required
-	*/	
-	@Override
-	public void onLanded(Robot robot) { }
+	public void onRobotEnter(Robot robot)
+	{
+		
+	}
+	
+	public void onRobotLeave(Robot robot)
+	{
+		
+	}
 
 	@Override
 	public void draw(RenderBatch b)
@@ -48,6 +54,7 @@ public class NormalTile extends Location
 			.withTexture("tileNormal")
 			.withDestinationRegion(new Region(this.position, new Vector2(64), true))
 			.withDepth(1f)
+			.withLayer(1)
 			);
 	}
 }

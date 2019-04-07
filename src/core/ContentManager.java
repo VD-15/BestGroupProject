@@ -1,12 +1,10 @@
-package robotGame.Core;
+package core;
 
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -86,6 +84,30 @@ public class ContentManager
 		}
 		
 		return false;
+	}
+	
+	public static void destroyImage(String name)
+	{
+		if (ContentManager.TEXTURES.containsKey(name))
+		{
+			ContentManager.TEXTURES.remove(name).delete();
+		}
+		else
+		{
+			Logger.log(ContentManager.class, LogSeverity.ERROR, "Failed to find texture with name: {" + name + "}");
+		}
+	}
+	
+	public static void destroyText(String name)
+	{
+		if (ContentManager.PLAINTEXT.containsKey(name))
+		{
+			ContentManager.PLAINTEXT.remove(name);
+		}
+		else
+		{
+			Logger.log(ContentManager.class, LogSeverity.ERROR, "Failed to find plain text with name: {" + name + "}");
+		}
 	}
 	
 	public static String[] getTextByName(String name)

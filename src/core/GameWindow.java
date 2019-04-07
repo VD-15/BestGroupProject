@@ -1,4 +1,4 @@
-package robotGame.Core;
+package core;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -26,9 +26,7 @@ import utils.Vector2;
  * @author Group 26
  */
 public class GameWindow implements GLEventListener
-{	
-	public static GameWindow INSTANCE = null;
-	
+{
 	/**
 	 * OpenGL rendering target and actual application window
 	 */
@@ -58,15 +56,6 @@ public class GameWindow implements GLEventListener
 	 */
 	public GameWindow(int _width, int _height, String _title)
 	{
-		if (GameWindow.INSTANCE != null)
-		{
-			System.out.println("[Game Window]: (ERROR) Multiple windows running, application may not function correctly.");
-		}
-		else
-		{
-			GameWindow.INSTANCE = this;
-		}
-		
 		//Create an OpenGL context and create the window
 		GLProfile profile = GLProfile.get(GLProfile.GL3);
 		GLCapabilities capabilities = new GLCapabilities(profile);
@@ -127,36 +116,33 @@ public class GameWindow implements GLEventListener
 	{
 		GL3 gl = drawable.getGL().getGL3();
 
-		//Set the clear color to black
-		gl.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-
 		ContentManager.setRootDirectory("content/");
-		ContentManager.loadImage(gl, "testImage.png", 					"testImage", 		1024, 	1024);
-		ContentManager.loadImage(gl, "testImage2.png", 					"testImage2", 		631, 	270);
-		ContentManager.loadImage(gl, "TestTextures/TilePit.bmp", 		"tilePit", 			64, 	64);
-		ContentManager.loadImage(gl, "TestTextures/TileNormal.bmp", 	"tileNormal", 		64, 	64);
-		ContentManager.loadImage(gl, "TestTextures/TileBeltNorth.bmp", 	"tileBeltNORTH", 	64, 	64);
-		ContentManager.loadImage(gl, "TestTextures/TileBeltEast.bmp", 	"tileBeltEAST", 	64, 	64);
-		ContentManager.loadImage(gl, "TestTextures/TileBeltSouth.bmp", 	"tileBeltSOUTH", 	64, 	64);
-		ContentManager.loadImage(gl, "TestTextures/TileBeltWest.bmp", 	"tileBeltWEST", 	64, 	64);
-		ContentManager.loadImage(gl, "TestTextures/TileGearC.bmp", 		"tileGearC", 		64, 	64);
-		ContentManager.loadImage(gl, "TestTextures/TileGearCC.bmp", 	"tileGearCC", 		64, 	64);
-		ContentManager.loadImage(gl, "TestTextures/TileFlag1.bmp", 		"tileFlag1", 		64, 	64);
-		ContentManager.loadImage(gl, "TestTextures/TileFlag2.bmp", 		"tileFlag2", 		64, 	64);
-		ContentManager.loadImage(gl, "TestTextures/TileFlag3.bmp", 		"tileFlag3", 		64, 	64);
-		ContentManager.loadImage(gl, "TestTextures/TileFlag4.bmp", 		"tileFlag4", 		64, 	64);
-		ContentManager.loadImage(gl, "TestTextures/TileFlag5.bmp", 		"tileFlag5", 		64, 	64);
-		ContentManager.loadImage(gl, "TestTextures/TileFlag6.bmp", 		"tileFlag6", 		64, 	64);
-		ContentManager.loadImage(gl, "TestTextures/robotUp.png", 		"robotNORTH", 		60, 	60);
-		ContentManager.loadImage(gl, "TestTextures/robotDown.png", 		"robotSOUTH", 		60, 	60);
-		ContentManager.loadImage(gl, "TestTextures/robotLeft.png", 		"robotWEST", 		60, 	60);
-		ContentManager.loadImage(gl, "TestTextures/robotRight.png", 	"robotEAST", 		60, 	60);
+		ContentManager.loadImage(gl, "testImage.png", 				"testImage", 		1024, 	1024);
+		ContentManager.loadImage(gl, "testImage2.png", 				"testImage2", 		631, 	270);
+		ContentManager.loadImage(gl, "textures/TilePit.bmp", 		"tilePit", 			64, 	64);
+		ContentManager.loadImage(gl, "textures/TileNormal.bmp", 	"tileNormal", 		64, 	64);
+		ContentManager.loadImage(gl, "textures/TileBeltNorth.bmp", 	"tileBeltNORTH", 	64, 	64);
+		ContentManager.loadImage(gl, "textures/TileBeltEast.bmp", 	"tileBeltEAST", 	64, 	64);
+		ContentManager.loadImage(gl, "textures/TileBeltSouth.bmp", 	"tileBeltSOUTH", 	64, 	64);
+		ContentManager.loadImage(gl, "textures/TileBeltWest.bmp", 	"tileBeltWEST", 	64, 	64);
+		ContentManager.loadImage(gl, "textures/TileGearC.bmp", 		"tileGearC", 		64, 	64);
+		ContentManager.loadImage(gl, "textures/TileGearCC.bmp", 	"tileGearCC", 		64, 	64);
+		ContentManager.loadImage(gl, "textures/TileFlag1.bmp", 		"tileFlag1", 		64, 	64);
+		ContentManager.loadImage(gl, "textures/TileFlag2.bmp", 		"tileFlag2", 		64, 	64);
+		ContentManager.loadImage(gl, "textures/TileFlag3.bmp", 		"tileFlag3", 		64, 	64);
+		ContentManager.loadImage(gl, "textures/TileFlag4.bmp", 		"tileFlag4", 		64, 	64);
+		ContentManager.loadImage(gl, "textures/TileFlag5.bmp", 		"tileFlag5", 		64, 	64);
+		ContentManager.loadImage(gl, "textures/TileFlag6.bmp", 		"tileFlag6", 		64, 	64);
+		ContentManager.loadImage(gl, "textures/robotUp.png", 		"robotNORTH", 		60, 	60);
+		ContentManager.loadImage(gl, "textures/robotDown.png", 		"robotSOUTH", 		60, 	60);
+		ContentManager.loadImage(gl, "textures/robotLeft.png", 		"robotWEST", 		60, 	60);
+		ContentManager.loadImage(gl, "textures/robotRight.png", 	"robotEAST", 		60, 	60);
 		
 		ContentManager.loadText("boards/testboard.brd", "testBoard");
 		
 		animator.start();
 		renderer.init(gl);
-		Game.init();
+		Game.init(this);
 	}
 	
 	/**
@@ -179,9 +165,9 @@ public class GameWindow implements GLEventListener
 	@Override
 	public void dispose(GLAutoDrawable drawable)
 	{
+		animator.stop();		
 		Logger.log(this, LogSeverity.INFO, "Disposed.");
-		animator.stop();
-		System.exit(1);
+		System.exit(0);
 	}
 
 	/**
@@ -196,7 +182,6 @@ public class GameWindow implements GLEventListener
 		Rectangle r = new Rectangle(x, y, width, height);
 		viewport.set(width, height);
 		renderer.setViewport(r);
-		//System.out.println(r.toString());
 	}
 	
 }

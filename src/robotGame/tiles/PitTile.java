@@ -1,7 +1,10 @@
-package robotGame;
+package robotGame.tiles;
 
+import core.Game;
 import graphics.RenderBatch;
 import graphics.RenderInstance;
+import robotGame.Robot;
+import utils.Point;
 import utils.Region;
 import utils.Vector2;
 
@@ -11,12 +14,12 @@ import utils.Vector2;
  * @author Jedd Morgan, Vanessa Kostadinova
  * @version 01/04/2019
  */
-public class PitTile extends Location
+public class PitTile extends BoardTile
 {
-	public PitTile(Vector2 placement)
+	public PitTile(Point index)
 	{
-		super();
-		this.position = placement;
+		super(index);
+		this.tag = "tilePit";
 	}
 	
 	
@@ -33,9 +36,14 @@ public class PitTile extends Location
 	}
 
 	@Override
-	public void onLanded(Robot robot)
+	public void onRobotEnter(Robot robot)
 	{
 		robot.resetLocation();
+	}
+	
+	@Override
+	public void onRobotLeave(Robot robot)
+	{
 		
 	}
 
@@ -46,6 +54,7 @@ public class PitTile extends Location
 				.withTexture("tilePit")
 				.withDestinationRegion(new Region(this.position, new Vector2(64), true))
 				.withDepth(1f)
+				.withLayer(1)
 				);
 	}
 }

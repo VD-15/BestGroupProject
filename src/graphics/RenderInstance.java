@@ -1,6 +1,6 @@
 package graphics;
 
-import robotGame.Core.ContentManager;
+import core.ContentManager;
 import utils.Region;
 import utils.Vector2;
 
@@ -17,6 +17,7 @@ public class RenderInstance
 	public Float depth;
 	public Float rotation;
 	public Vector2 rotationOrigin;
+	public Integer layer;
 	
 	public RenderInstance()
 	{
@@ -66,7 +67,13 @@ public class RenderInstance
 	
 	public RenderInstance withRotationOrigin(Vector2 origin)
 	{
-		this.rotationOrigin = origin;
+		this.rotationOrigin = origin.clone();
+		return this;
+	}
+	
+	public RenderInstance withLayer(Integer layer)
+	{
+		this.layer = new Integer(layer);
 		return this;
 	}
 }

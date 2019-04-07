@@ -1,10 +1,10 @@
 package robotGame;
 
+import core.GameObject;
+import core.IUpdatable;
 import graphics.IDrawable;
 import graphics.RenderBatch;
 import graphics.RenderInstance;
-import robotGame.Core.GameObject;
-import robotGame.Core.IUpdatable;
 import utils.Region;
 import utils.Vector2;
 
