@@ -11,7 +11,7 @@ import utils.Logger;
 import utils.Vector2;
 
 /**
- * Yo, don't fucking use this.
+ * This class has now been replaced by the Board Class
  * 
  * @author Jedd Morgan
  * @version 3/04/2019

@@ -84,6 +84,7 @@ public class Board extends GameObject implements IUpdatable
 				switch (c)
 				{
 					case '.':
+						//Normal Tile
 						Game.instantiate(new BoardTile(new Point(x, y)));
 						break;
 					case '0':

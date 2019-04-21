@@ -21,7 +21,6 @@ public class BeltTile extends BoardTile
 	
 	/**
 	 * 
-	 * @param placement The location where the tile is drawn.
 	 * @param direction The direction the tile acts in.
 	 */
 	public BeltTile(Point index, Direction direction) 
@@ -60,7 +59,7 @@ public class BeltTile extends BoardTile
 	{
 		b.draw(new RenderInstance()
 			.withTexture("tileBelt" + direction)
-			.withDestinationRegion(new Region(this.position, new Vector2(64), true))
+			.withDestinationRegion(new Region(this.position, new Vector2(TILE_SIZE), true))
 			.withDepth(1f)
 			.withLayer(1)
 			);		

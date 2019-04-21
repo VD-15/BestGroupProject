@@ -55,7 +55,7 @@ public class FlagTile extends BoardTile
 	{
 		b.draw(new RenderInstance()
 			.withTexture("tileFlag" + this.flagNumber)
-			.withDestinationRegion(new Region(this.position, new Vector2(64), true))
+			.withDestinationRegion(new Region(this.position, new Vector2(TILE_SIZE), true))
 			.withDepth(1f)
 			.withLayer(1)
 			);

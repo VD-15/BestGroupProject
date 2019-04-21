@@ -18,11 +18,6 @@ public class GearTile extends BoardTile
 {
 	private boolean isClockwise;
 
-	/**
-	 * 
-	 * @param placement The place where the tile is drawn.
-	 * @param clockwise True = clockwise. False = counterclockwise.
-	 */
 	public GearTile(Point index, boolean clockwise) 
 	{
 		super(index);
@@ -65,7 +60,7 @@ public class GearTile extends BoardTile
 		
 		b.draw(new RenderInstance()
 			.withTexture(gearType)
-			.withDestinationRegion(new Region(this.position, new Vector2(64), true))
+			.withDestinationRegion(new Region(this.position, new Vector2(TILE_SIZE), true))
 			.withDepth(1f)
 			.withLayer(1)
 			);
