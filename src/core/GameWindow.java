@@ -41,11 +41,11 @@ public class GameWindow implements GLEventListener
 	private Vector2 viewport;
 
 	/**
-	 * Creates a GameWindow object of size 640x480 pixels with the title of "Game Window"
+	 * Creates a GameWindow object of size 1100x700 pixels with the title of "Game Window"
 	 */
 	public GameWindow()
 	{
-		this(640, 480, "Game Window");
+		this(1100, 700, "Game Window");
 	}
 
 	/**
@@ -71,7 +71,7 @@ public class GameWindow implements GLEventListener
 
 		//Create the animator
 		this.animator = new Animator(this.window);
-		this.viewport = new Vector2(640, 480);
+		this.viewport = new Vector2(640, 480);  //FIXME is this meant to have fixed values?
 		this.renderer = new Renderer();
 	}
 
@@ -133,10 +133,10 @@ public class GameWindow implements GLEventListener
 		ContentManager.loadImage(gl, "textures/TileFlag4.bmp", 		"tileFlag4", 		64, 	64);
 		ContentManager.loadImage(gl, "textures/TileFlag5.bmp", 		"tileFlag5", 		64, 	64);
 		ContentManager.loadImage(gl, "textures/TileFlag6.bmp", 		"tileFlag6", 		64, 	64);
-		ContentManager.loadImage(gl, "textures/robotUp.png", 		"robotNORTH", 		60, 	60);
-		ContentManager.loadImage(gl, "textures/robotDown.png", 		"robotSOUTH", 		60, 	60);
-		ContentManager.loadImage(gl, "textures/robotLeft.png", 		"robotWEST", 		60, 	60);
-		ContentManager.loadImage(gl, "textures/robotRight.png", 	"robotEAST", 		60, 	60);
+		ContentManager.loadImage(gl, "textures/RobotNorth.png", 		"robotNORTH", 		64, 	64);
+		ContentManager.loadImage(gl, "textures/RobotSouth.png", 		"robotSOUTH", 		64, 	64);
+		ContentManager.loadImage(gl, "textures/RobotWest.png", 		"robotWEST", 		64, 	64);
+		ContentManager.loadImage(gl, "textures/RobotEast.png", 	"robotEAST", 		64, 	64);
 
 		ContentManager.loadText("boards/testboard.brd", "testBoard");
 

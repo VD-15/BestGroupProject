@@ -47,7 +47,7 @@ public class Robot extends GameObject implements IDrawable, IUpdatable
 		this.position = new Vector2(index.x * 64, index.y * 64);
 		this.index = index;
 		this.startIndex = index;
-		this.facingDirection = Direction.NORTH;
+		this.facingDirection = Direction.SOUTH;
 		this.number = number;
 		this.tag = "robot";
 	}
@@ -62,10 +62,7 @@ public class Robot extends GameObject implements IDrawable, IUpdatable
 	}
 	
 	/**
-	 * Read Instructions from file
 	 * 
-	 * @param File to text file containing instructions
-	 * @return boolean for whether the file parsed successfully
 	 */
 	public void getInstructions(Instruction[] instructions)
 	{
