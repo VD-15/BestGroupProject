@@ -1,7 +1,7 @@
 package robotGame;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.Queue;
 
 import core.ContentManager;
 import core.Game;
@@ -18,10 +18,14 @@ public class Board extends GameObject implements IUpdatable
 {
 	
 	private static BoardTile[][] boardArray;
-	private static Robot[] robots;
 	
 	private int width;
 	private int height;
+	
+	private static final double TURN_TIME = 1;
+	
+	private Queue<Robot> robots;
+	
 	
 	public Board()
 	{
@@ -35,6 +39,7 @@ public class Board extends GameObject implements IUpdatable
 	public void init()
 	{
 		loadBoardFromText(ContentManager.getTextByName("testBoard"));
+
 	}
 	
 	public int getWidth()
@@ -84,7 +89,10 @@ public class Board extends GameObject implements IUpdatable
 		int width = text[1].length();
 		
 		boardArray = new BoardTile[width][height];
-		ArrayList<Robot> robotList = new ArrayList<Robot>();
+		
+		
+		Robot[] RobotArr = new Robot[4];
+		robots = new LinkedList<Robot>();
 		
 		for (int y = 0; y < height; y++)
 		{
@@ -118,7 +126,7 @@ public class Board extends GameObject implements IUpdatable
 					case 'c':
 					case 'd':
 						// Robot
-						robotList.add(new Robot(p, Integer.valueOf(c - 'a')));
+						RobotArr[Integer.valueOf(c - 'a')] = new Robot(p, Integer.valueOf(c - 'a'));
 						boardArray[p.x][p.y] = new BoardTile(p);
 						break;
 					case '-':
@@ -190,27 +198,43 @@ public class Board extends GameObject implements IUpdatable
 		}
 		
 		
-		robots = new Robot[robotList.size()];
-		int i = 0;
-		for(Robot r : robotList) {
-			robots[i] = r;
-			i++;
-		}
-		
 		
 		for (GameObject[] a : boardArray)
 			for (GameObject o : a) {
 				Game.instantiate(o);
 			}
 		
-		for (GameObject o : robots) {
-			Game.instantiate(o);
-		}
+		for (int i = 0; i < RobotArr.length; i++)
+			if (RobotArr[i] != null) {
+				Game.instantiate(RobotArr[i]);
+				robots.add(RobotArr[i]);
+			}
 	}
+	
+	private void turn() {
+		for(int i = 0; i < robots.size(); i++) {
+			Robot r = robots.poll();
+			r.act();
+			
+			
+			robots.add(r);
+		}
+		robots.add(robots.poll());
+		
+		for(BoardTile[] arr : boardArray) {
+			for(BoardTile tile : arr) {
+				tile.act();
+			}
+		}
+		
+	}
+	
 	
 	@Override
 	public void update(double time)
 	{
-		
+		if (time > TURN_TIME) {
+			turn();
+		}
 	}
 }

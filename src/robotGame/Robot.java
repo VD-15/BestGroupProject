@@ -1,5 +1,7 @@
 package robotGame;
 
+import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.Queue;
 
 import core.GameObject;
@@ -46,12 +48,14 @@ public class Robot extends GameObject implements IDrawable, IUpdatable
 	public Robot(Point index, int number)
 	{
 		super();
-		this.position = new Vector2(index.x * 64, index.y * 64); //TODO 64 should not be hard coded
+		this.position = new Vector2(index.x * 64, index.y * 64);
 		this.index = index;
 		this.startIndex = index;
 		this.facingDirection = DEFAULT_DIRECTION;
 		this.number = number;
 		this.tag = "robot";
+		
+		
 	}
 	
 	/**
@@ -61,12 +65,15 @@ public class Robot extends GameObject implements IDrawable, IUpdatable
 	public void init()
 	{
 		Board.getTile(index).onRobotEnter(this);
+		actions = new LinkedList<Instruction>();
+		
+		actions.add(Instruction.FORWARD);
 	}
 	
 	/**
 	 * 
 	 */
-	public void getInstructions(Instruction[] instructions) //FIXME should be named setInstructions?
+	public void setInstructions(Instruction[] instructions)
 	{
 		// Pushes instructions form an array into the actions queue
 		for (Instruction i : instructions)
