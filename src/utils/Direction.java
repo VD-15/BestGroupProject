@@ -6,10 +6,10 @@ package utils;
  * @version 24/04/2019
  */
 public enum Direction {
-	EAST("East", 'N'),
+	EAST("East", 'E'),
 	NORTH("North", 'N'),
-	WEST("West", 'N'),
-	SOUTH("South", 'N');
+	WEST("West", 'W'),
+	SOUTH("South", 'S');
 	
 	
 	private final String name;
