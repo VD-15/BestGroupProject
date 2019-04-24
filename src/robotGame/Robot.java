@@ -118,31 +118,6 @@ public class Robot extends GameObject implements IDrawable, IUpdatable
 		Logger.log(this, LogSeverity.INFO, "Robot" + number + " direction was " + oldD + " is now " + facingDirection + " after adding angle of " + angle);
 	}
 	
-	
-
-	private void moveBackward()
-	{
-		switch (facingDirection)
-		{
-			case NORTH:
-				this.index.y--;
-				break;
-			case SOUTH:
-				this.index.y++;
-				break;
-			case EAST:
-				this.index.x--;
-				break;
-			case WEST:
-				this.index.x++;
-				break;
-			default:
-				Logger.log(this, LogSeverity.ERROR, "Robot had invalid direction. Resetting to north.");
-				facingDirection = Direction.NORTH;
-				this.index.y--;
-				break;
-		}
-	}
 
 	
 	private void move(Direction direction) {
