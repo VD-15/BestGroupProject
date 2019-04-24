@@ -2,12 +2,12 @@ package robotGame;
 
 import java.util.Queue;
 
-import core.Game;
 import core.GameObject;
 import core.IUpdatable;
 import graphics.IDrawable;
 import graphics.RenderBatch;
 import graphics.RenderInstance;
+import utils.Direction;
 import utils.LogSeverity;
 import utils.Logger;
 import utils.Point;
@@ -22,32 +22,34 @@ import utils.Vector2;
  */
 public class Robot extends GameObject implements IDrawable, IUpdatable
 {
-	/** Maximum number of actions allowed in the queue */
-	private static final int MAX_ACTIONS = 5;
-	
+	/** Indices for coordinates on board*/
 	private Point index;
-	private int number;
-
+	/** Index that the robot starts on*/
 	private final Point startIndex;
+	/** Current direction the robot is facing */
+	private Direction facingDirection;
+	/** Player number */
+	private int number;
 	
 	/** queue of actions to be committed */
 	private Queue<Instruction> actions;
+
 	
-	/** Absolute direction the game object is facing */
-	private Direction facingDirection;
+	/** The default Directions for all robots*/
+	private static final Direction DEFAULT_DIRECTION = Direction.SOUTH;
+	
 	
 	/**
 	 * Robot Constructor
-	 * @param position
 	 * @param index starting location
 	 */
 	public Robot(Point index, int number)
 	{
 		super();
-		this.position = new Vector2(index.x * 64, index.y * 64);
+		this.position = new Vector2(index.x * 64, index.y * 64); //TODO 64 should not be hard coded
 		this.index = index;
 		this.startIndex = index;
-		this.facingDirection = Direction.SOUTH;
+		this.facingDirection = DEFAULT_DIRECTION;
 		this.number = number;
 		this.tag = "robot";
 	}
@@ -64,9 +66,9 @@ public class Robot extends GameObject implements IDrawable, IUpdatable
 	/**
 	 * 
 	 */
-	public void getInstructions(Instruction[] instructions)
+	public void getInstructions(Instruction[] instructions) //FIXME should be named setInstructions?
 	{
-		// pushes instructions form an array into the actions queue
+		// Pushes instructions form an array into the actions queue
 		for (Instruction i : instructions)
 		{
 			actions.offer(i);
@@ -78,7 +80,7 @@ public class Robot extends GameObject implements IDrawable, IUpdatable
 	 */
 	public void act()
 	{
-		// pop the action from the queue.
+		// Pop the action from the queue.
 		Instruction i = actions.poll();
 		
 		switch (i)
@@ -104,73 +106,36 @@ public class Robot extends GameObject implements IDrawable, IUpdatable
 		}
 	}
 	
+	/**
+	 * Sets facingDirection +2 (+180°) relative to its facingDirection
+	 */
 	private void uTurn()
 	{
-		switch (facingDirection)
-		{
-			case NORTH:
-				facingDirection = Direction.SOUTH;
-				break;
-			case SOUTH:
-				facingDirection = Direction.NORTH;
-				break;
-			case EAST:
-				facingDirection = Direction.WEST;
-				break;
-			case WEST:
-				facingDirection = Direction.EAST;
-				break;
-			default:
-				Logger.log(this, LogSeverity.ERROR, "Robot had invalid direction. Resetting to north.");
-				facingDirection = Direction.NORTH;
-				break;
-		}
+		Direction oldD =  facingDirection;
+		facingDirection = facingDirection.add(2);
+		Logger.log(this, LogSeverity.INFO, "Robot" + number + " direction was " + oldD + " is now " + facingDirection + " after u turn");
 	}
+	
 
+	
+	/**
+	 * Sets facingDirection -1 (-90°) relative to its facingDirection
+	 */
 	private void turnRight()
 	{
-		switch (facingDirection)
-		{
-			case NORTH:
-				facingDirection = Direction.EAST;
-				break;
-			case SOUTH:
-				facingDirection = Direction.WEST;
-				break;
-			case EAST:
-				facingDirection = Direction.SOUTH;
-				break;
-			case WEST:
-				facingDirection = Direction.NORTH;
-				break;
-			default:
-				Logger.log(this, LogSeverity.ERROR, "Robot had invalid direction. Resetting to north.");
-				facingDirection = Direction.NORTH;
-				break;
-		}
+		Direction oldD =  facingDirection;
+		facingDirection = facingDirection.add(-1);
+		Logger.log(this, LogSeverity.INFO, "Robot" + number + " direction was " + oldD + " is now " + facingDirection + " after right");
 	}
 
+	/**
+	 * Sets facingDirection +1 (+90°) relative to its facingDirection
+	 */
 	private void turnLeft()
 	{
-		switch (facingDirection)
-		{
-			case NORTH:
-				facingDirection = Direction.WEST;
-				break;
-			case SOUTH:
-				facingDirection = Direction.EAST;
-				break;
-			case EAST:
-				facingDirection = Direction.NORTH;
-				break;
-			case WEST:
-				facingDirection = Direction.SOUTH;
-				break;
-			default:
-				Logger.log(this, LogSeverity.ERROR, "Robot had invalid direction. Resetting to north.");
-				facingDirection = Direction.NORTH;
-				break;
-		}
+		Direction oldD =  facingDirection;
+		facingDirection = facingDirection.add(1);
+		Logger.log(this, LogSeverity.INFO, "Robot" + number + " direction was " + oldD + " is now " + facingDirection + " after left");
 	}
 
 	private void moveBackward()
@@ -199,6 +164,7 @@ public class Robot extends GameObject implements IDrawable, IUpdatable
 
 	private void moveForward()
 	{
+		//TODO make this better
 		switch (facingDirection)
 		{
 			case NORTH:
@@ -227,6 +193,7 @@ public class Robot extends GameObject implements IDrawable, IUpdatable
 	public void resetLocation()
 	{
 		index = startIndex;
+		facingDirection = DEFAULT_DIRECTION;
 	}
 	
 	@Override
