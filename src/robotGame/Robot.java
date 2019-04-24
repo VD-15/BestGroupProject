@@ -112,7 +112,7 @@ public class Robot extends GameObject implements IDrawable, IUpdatable
 	 * @param angle in half pi radians (90° left = +1) accepts any integer value
 	 * @return new direction after angle transform
 	 */
-	private void changeDirection(int angle) {
+	public void changeDirection(int angle) {
 		Direction oldD =  facingDirection;
 		facingDirection = facingDirection.add(angle);
 		Logger.log(this, LogSeverity.INFO, "Robot" + number + " direction was " + oldD + " is now " + facingDirection + " after adding angle of " + angle);
@@ -122,7 +122,7 @@ public class Robot extends GameObject implements IDrawable, IUpdatable
 	/**
 	 * @param Direction to move robot in
 	 */
-	private void move(Direction direction) {
+	public void move(Direction direction) {
 		//FIXME not the best implementation robot shouldn't decide what the Direction's transform is
 		switch (direction)
 		{
