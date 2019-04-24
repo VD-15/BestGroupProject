@@ -92,13 +92,13 @@ public class Robot extends GameObject implements IDrawable, IUpdatable
 				moveBackward();
 				break;
 			case LEFT:
-				turnLeft();
+				changeDirection(1);
 				break;
 			case RIGHT:
-				turnRight();
+				changeDirection(-1);
 				break;
 			case UTURN:
-				uTurn();
+				changeDirection(2);
 				break;
 			case WAIT:
 			default:
@@ -106,37 +106,19 @@ public class Robot extends GameObject implements IDrawable, IUpdatable
 		}
 	}
 	
-	/**
-	 * Sets facingDirection +2 (+180°) relative to its facingDirection
-	 */
-	private void uTurn()
-	{
-		Direction oldD =  facingDirection;
-		facingDirection = facingDirection.add(2);
-		Logger.log(this, LogSeverity.INFO, "Robot" + number + " direction was " + oldD + " is now " + facingDirection + " after u turn");
-	}
-	
-
 	
 	/**
-	 * Sets facingDirection -1 (-90°) relative to its facingDirection
+	 * Adds a angle to the direction
+	 * @param angle in half pi radians (90° left = +1) accepts any integer value
+	 * @return new direction after angle transform
 	 */
-	private void turnRight()
-	{
+	private void changeDirection(int angle) {
 		Direction oldD =  facingDirection;
-		facingDirection = facingDirection.add(-1);
-		Logger.log(this, LogSeverity.INFO, "Robot" + number + " direction was " + oldD + " is now " + facingDirection + " after right");
+		facingDirection = facingDirection.add(angle);
+		Logger.log(this, LogSeverity.INFO, "Robot" + number + " direction was " + oldD + " is now " + facingDirection + " after adding angle of " + angle);
 	}
-
-	/**
-	 * Sets facingDirection +1 (+90°) relative to its facingDirection
-	 */
-	private void turnLeft()
-	{
-		Direction oldD =  facingDirection;
-		facingDirection = facingDirection.add(1);
-		Logger.log(this, LogSeverity.INFO, "Robot" + number + " direction was " + oldD + " is now " + facingDirection + " after left");
-	}
+	
+	
 
 	private void moveBackward()
 	{
