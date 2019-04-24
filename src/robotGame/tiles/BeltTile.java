@@ -39,26 +39,27 @@ public class BeltTile extends BoardTile
 	@Override
 	public void act() 
 	{
-		//currentRobot.move();
+		//TODO
+		//currentRobot.move(direction);
 	}
 
 	@Override
 	public void onRobotEnter(Robot robot) 
 	{
-		
+		//TODO
 	}
 	
 	@Override
 	public void onRobotLeave(Robot robot)
 	{
-		
+		//TODO
 	}
 
 	@Override
 	public void draw(RenderBatch b) 
 	{
 		b.draw(new RenderInstance()
-			.withTexture("tileBelt" + direction)
+			.withTexture("tileBelt" + direction.getName())
 			.withDestinationRegion(new Region(this.position, new Vector2(TILE_SIZE), true))
 			.withDepth(1f)
 			.withLayer(1)

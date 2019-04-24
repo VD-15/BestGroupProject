@@ -130,19 +130,19 @@ public class GameWindow implements GLEventListener
 		ContentManager.loadImage(gl, "textures/TileBeltSouth.bmp", 	"tileBeltSOUTH", 	64, 	64);
 		ContentManager.loadImage(gl, "textures/TileBeltWest.bmp", 	"tileBeltWEST", 	64, 	64);
 		
-		ContentManager.loadImage(gl, "textures/NewBelts/North.gif", 	"tileBeltNorth", 	64, 	64);
-		ContentManager.loadImage(gl, "textures/NewBelts/East.gif", 	"tileBeltEast", 	64, 	64);
-		ContentManager.loadImage(gl, "textures/NewBelts/South.gif", 	"tileBeltSouth", 	64, 	64);
-		ContentManager.loadImage(gl, "textures/NewBelts/West.gif", 	"tileBeltWest", 	64, 	64);
+		ContentManager.loadImage(gl, "textures/NewBelts/BeltNorth.gif", 	"tileBeltNorth", 	64, 	64);
+		ContentManager.loadImage(gl, "textures/NewBelts/BeltEast.gif", 	"tileBeltEast", 	64, 	64);
+		ContentManager.loadImage(gl, "textures/NewBelts/BeltSouth.gif", 	"tileBeltSouth", 	64, 	64);
+		ContentManager.loadImage(gl, "textures/NewBelts/BeltWest.gif", 	"tileBeltWest", 	64, 	64);
 		
-		ContentManager.loadImage(gl, "textures/NewBelts/TurnDownLeft.gif", 	"tileBeltSouthLeft", 	64, 	64);
-		ContentManager.loadImage(gl, "textures/NewBelts/TurnDownRight.gif", 	"tileSouthRight", 	64, 	64);
-		ContentManager.loadImage(gl, "textures/NewBelts/TurnRightLeft.gif", 	"tileEastLeft", 	64, 	64);
-		ContentManager.loadImage(gl, "textures/NewBelts/TurnRightRight.gif", 	"tileEastRight", 	64, 	64);
-		ContentManager.loadImage(gl, "textures/NewBelts/TurnUpLeft.gif", 	"tileBeltNorthLeft", 	64, 	64);
-		ContentManager.loadImage(gl, "textures/NewBelts/TurnUpRight.gif", 	"tileNorthRight", 	64, 	64);
-		ContentManager.loadImage(gl, "textures/NewBelts/TurnLeftLeft.gif", 	"tileBeltWestLeft", 	64, 	64);
-		ContentManager.loadImage(gl, "textures/NewBelts/TurnLeftRight.gif", 	"tileWestRight", 	64, 	64);
+		ContentManager.loadImage(gl, "textures/NewBelts/BeltNorthC.gif", 	"tileBeltNorthC", 	64, 	64);
+		ContentManager.loadImage(gl, "textures/NewBelts/BeltNorthCC.gif", 	"tileBeltNorthCC", 	64, 	64);
+		ContentManager.loadImage(gl, "textures/NewBelts/BeltEastC.gif", 	"tileBeltEastC", 	64, 	64);
+		ContentManager.loadImage(gl, "textures/NewBelts/BeltEastCC.gif", 	"tileBeltEastCC", 	64, 	64);
+		ContentManager.loadImage(gl, "textures/NewBelts/BeltSouthC.gif", 	"tileBeltSouthC", 	64, 	64);
+		ContentManager.loadImage(gl, "textures/NewBelts/BeltSouthCC.gif", 	"tileBeltSouthCC", 	64, 	64);
+		ContentManager.loadImage(gl, "textures/NewBelts/BeltWestC.gif", 	"tileBeltWestC", 	64, 	64);
+		ContentManager.loadImage(gl, "textures/NewBelts/BeltWestCC.gif", 	"tileBeltWestCC", 	64, 	64);
 		
 		
 		ContentManager.loadImage(gl, "textures/TileGearC.bmp", 		"tileGearC", 		64, 	64);
