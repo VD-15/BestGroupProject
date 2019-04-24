@@ -83,27 +83,8 @@ public class Robot extends GameObject implements IDrawable, IUpdatable
 		// Pop the action from the queue.
 		Instruction i = actions.poll();
 		
-		switch (i)
-		{
-			case FORWARD:
-				move(facingDirection);
-				break;
-			case BACKWARD:
-				move(facingDirection.add(2));
-				break;
-			case LEFT:
-				changeDirection(1);
-				break;
-			case RIGHT:
-				changeDirection(-1);
-				break;
-			case UTURN:
-				changeDirection(2);
-				break;
-			case WAIT:
-			default:
-				break;
-		}
+		changeDirection(i.getRotation());
+		move(facingDirection, i.getTranslation());
 	}
 	
 	
@@ -112,36 +93,44 @@ public class Robot extends GameObject implements IDrawable, IUpdatable
 	 * @param angle in half pi radians (90° left = +1) accepts any integer value
 	 * @return new direction after angle transform
 	 */
-	public void changeDirection(int angle) {
+	public void changeDirection(int rotation) {
 		Direction oldD =  facingDirection;
-		facingDirection = facingDirection.add(angle);
-		Logger.log(this, LogSeverity.INFO, "Robot" + number + " direction was " + oldD + " is now " + facingDirection + " after adding angle of " + angle);
+		facingDirection = facingDirection.add(rotation);
+		Logger.log(this, LogSeverity.INFO, "Robot" + number + " direction was " + oldD + " is now " + facingDirection + " after adding rotation of " + rotation);
 	}
 	
 
 	/**
-	 * @param Direction to move robot in
+	 * 
+	 * @param direction to move robot in
 	 */
 	public void move(Direction direction) {
+		move(direction, 1);
+	}
+	
+	/**
+	 * @param direction to move robot in
+	 */
+	public void move(Direction direction, int ammount) {
 		//FIXME not the best implementation robot shouldn't decide what the Direction's transform is
 		switch (direction)
 		{
 			case NORTH:
-				this.index.y++;
+				this.index.y += ammount;
 				break;
 			case SOUTH:
-				this.index.y--;
+				this.index.y -= ammount;
 				break;
 			case EAST:
-				this.index.x++;
+				this.index.x += ammount;
 				break;
 			case WEST:
-				this.index.x--;
+				this.index.x -= ammount;
 				break;
 			default:
 				Logger.log(this, LogSeverity.ERROR, "Robot had invalid direction. Resetting to north.");
 				facingDirection = Direction.NORTH;
-				this.index.y++;
+				this.index.y += ammount;
 				break;
 		}
 	}

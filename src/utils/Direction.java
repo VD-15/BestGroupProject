@@ -15,7 +15,6 @@ public enum Direction {
 	private final String name;
     private final char character;
 	
-    
 	/**
 	 * 
 	 * @param name name of direction
