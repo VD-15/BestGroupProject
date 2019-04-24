@@ -1,5 +1,7 @@
 package robotGame;
 
+import java.util.LinkedList;
+
 import core.ContentManager;
 import core.Game;
 import core.GameObject;
@@ -9,6 +11,7 @@ import utils.Direction;
 import utils.LogSeverity;
 import utils.Logger;
 import utils.Point;
+
 
 public class Board extends GameObject implements IUpdatable
 {
@@ -116,21 +119,53 @@ public class Board extends GameObject implements IUpdatable
 						// Pit Tile
 						Game.instantiate(new PitTile(p));
 						break;
+					case '^':
+						// West Belt
+						Game.instantiate(new BeltTile(p, Direction.NORTH, 0));
+						break;
 					case 'v':
 						// South Belt
-						Game.instantiate(new BeltTile(p, Direction.SOUTH));
+						Game.instantiate(new BeltTile(p, Direction.SOUTH, 0));
 						break;
 					case '>':
 						// East Belt
-						Game.instantiate(new BeltTile(p, Direction.EAST));
+						Game.instantiate(new BeltTile(p, Direction.EAST, 0));
 						break;
 					case '<':
 						// West Belt
-						Game.instantiate(new BeltTile(p, Direction.WEST));
+						Game.instantiate(new BeltTile(p, Direction.WEST, 0));
 						break;
-					case '^':
-						// North Belt
-						Game.instantiate(new BeltTile(p, Direction.NORTH));
+					case 'N':
+						// NorthC Belt
+						Game.instantiate(new BeltTile(p, Direction.NORTH, -1));
+						break;
+					case 'E':
+						// EastC Belt
+						Game.instantiate(new BeltTile(p, Direction.EAST, -1));
+						break;
+					case 'S':
+						// SouthC Belt
+						Game.instantiate(new BeltTile(p, Direction.SOUTH, -1));
+						break;
+					case 'W':
+						// WestC Belt
+						Game.instantiate(new BeltTile(p, Direction.WEST, -1));
+						break;
+					case 'n':
+						// NorthCC Belt
+						Game.instantiate(new BeltTile(p, Direction.NORTH, 1));
+						break;
+					case 'e':
+						// EastCC Belt
+						Game.instantiate(new BeltTile(p, Direction.EAST, 1));
+						break;
+					case 's':
+						// SouthCC Belt
+						Game.instantiate(new BeltTile(p, Direction.SOUTH, 1));
+						break;
+					case 'w':
+						// WestCC Belt
+						Game.instantiate(new BeltTile(p, Direction.WEST, 1));
 						break;
 					default:
 						// Unknown tile
