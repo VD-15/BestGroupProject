@@ -26,7 +26,7 @@ public class Board extends GameObject implements IUpdatable
 	@Override
 	public void init()
 	{
-		loadBoardFromText(ContentManager.getTextByName("testBoard"));
+		loadBoardFromText(ContentManager.getTextByName("testBoard2"));
 	}
 	
 	public int getWidth()

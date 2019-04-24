@@ -161,6 +161,7 @@ public class GameWindow implements GLEventListener
 		ContentManager.loadImage(gl, "textures/RobotEast.png", 	"robotEAST", 		64, 	64);
 
 		ContentManager.loadText("boards/testboard.brd", "testBoard");
+		ContentManager.loadText("boards/conveyor-loops.brd", "testBoard2");
 
 		animator.start();
 		renderer.init(gl);

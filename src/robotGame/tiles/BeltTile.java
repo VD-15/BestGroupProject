@@ -5,6 +5,8 @@ import graphics.RenderBatch;
 import graphics.RenderInstance;
 import robotGame.Robot;
 import utils.Direction;
+import utils.LogSeverity;
+import utils.Logger;
 import utils.Point;
 import utils.Region;
 import utils.Vector2;
@@ -18,16 +20,29 @@ import utils.Vector2;
 public class BeltTile extends BoardTile 
 {
 	private Direction direction;
+	private int rotation;
 	
 	/**
-	 * 
+	 * Creates a new straight belt
 	 * @param direction The direction the tile acts in.
 	 */
 	public BeltTile(Point index, Direction direction) 
 	{
+		this(index, direction, 0);
+	}
+	
+	/**
+	 * Creates a new belt
+	 * @param index
+	 * @param direction The direction the tile acts in.
+	 * @param rotation for corner belts
+	 */
+	public BeltTile(Point index, Direction direction, int rotation) 
+	{
 		super(index);
 		this.direction = direction;
 		this.tag = "tileBelt";
+		this.rotation = rotation;
 	}
 	
 	@Override
@@ -58,8 +73,25 @@ public class BeltTile extends BoardTile
 	@Override
 	public void draw(RenderBatch b) 
 	{
+		String name = "tileBelt" + direction.getName();
+		
+		switch (rotation % Direction.values().length) {
+		case 1:
+			name += "CC";
+			break;
+		case -1:
+			name += "C";
+			break;
+		case 0: break;
+		default:
+			name = "tileError";
+			Logger.log(this, LogSeverity.WARNING, "No sprite for belt with rotation" + rotation);
+			break;
+		}
+		
+		
 		b.draw(new RenderInstance()
-			.withTexture("tileBelt" + direction.getName())
+			.withTexture(name)
 			.withDestinationRegion(new Region(this.position, new Vector2(TILE_SIZE), true))
 			.withDepth(1f)
 			.withLayer(1)
