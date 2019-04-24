@@ -86,10 +86,10 @@ public class Robot extends GameObject implements IDrawable, IUpdatable
 		switch (i)
 		{
 			case FORWARD:
-				moveForward();
+				move(facingDirection);
 				break;
 			case BACKWARD:
-				moveBackward();
+				move(facingDirection.add(2));
 				break;
 			case LEFT:
 				changeDirection(1);
@@ -144,10 +144,10 @@ public class Robot extends GameObject implements IDrawable, IUpdatable
 		}
 	}
 
-	private void moveForward()
-	{
-		//TODO make this better
-		switch (facingDirection)
+	
+	private void move(Direction direction) {
+		//FIXME not the best implementation robot shouldn't decide what the Direction's transform is
+		switch (direction)
 		{
 			case NORTH:
 				this.index.y++;
@@ -168,7 +168,7 @@ public class Robot extends GameObject implements IDrawable, IUpdatable
 				break;
 		}
 	}
-
+	
 	/**
 	 * Reset the Location of Robot back to its starting position
 	 */
