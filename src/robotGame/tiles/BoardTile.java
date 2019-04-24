@@ -6,6 +6,7 @@ import graphics.IDrawable;
 import graphics.RenderBatch;
 import graphics.RenderInstance;
 import robotGame.Robot;
+import utils.Direction;
 import utils.Point;
 import utils.Region;
 import utils.Vector2;

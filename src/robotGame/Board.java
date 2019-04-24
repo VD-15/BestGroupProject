@@ -1,5 +1,6 @@
 package robotGame;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 import core.ContentManager;
@@ -15,6 +16,10 @@ import utils.Point;
 
 public class Board extends GameObject implements IUpdatable
 {
+	
+	private static BoardTile[][] boardArray;
+	private static Robot[] robots;
+	
 	private int width;
 	private int height;
 	
@@ -29,7 +34,7 @@ public class Board extends GameObject implements IUpdatable
 	@Override
 	public void init()
 	{
-		loadBoardFromText(ContentManager.getTextByName("testBoard2"));
+		loadBoardFromText(ContentManager.getTextByName("testBoard"));
 	}
 	
 	public int getWidth()
@@ -40,6 +45,11 @@ public class Board extends GameObject implements IUpdatable
 	public int getHeight()
 	{
 		return height;
+	}
+	
+	public static BoardTile getTile(Point p) {
+		//FIXME bounds
+		return boardArray[p.x][p.y];
 	}
 	
 	private void loadBoardFromText(String[] text)
@@ -73,6 +83,9 @@ public class Board extends GameObject implements IUpdatable
 		int height = text.length - 1;
 		int width = text[1].length();
 		
+		boardArray = new BoardTile[width][height];
+		ArrayList<Robot> robotList = new ArrayList<Robot>();
+		
 		for (int y = 0; y < height; y++)
 		{
 			if (text[y + 1].length() != width)
@@ -85,11 +98,12 @@ public class Board extends GameObject implements IUpdatable
 				char c = text[y + 1].charAt(x);
 				Point p = new Point(x, y);
 				
+				
 				switch (c)
 				{
 					case '.':
 						//Normal Tile
-						Game.instantiate(new BoardTile(new Point(x, y)));
+						boardArray[p.x][p.y] = new BoardTile(p);
 						break;
 					case '0':
 					case '1':
@@ -97,75 +111,75 @@ public class Board extends GameObject implements IUpdatable
 					case '3':
 					case '4':
 						// Flag
-						Game.instantiate(new FlagTile(p, Integer.valueOf(c - '0')));
+						boardArray[p.x][p.y] = new FlagTile(p, Integer.valueOf(c - '0'));
 						break;
 					case 'a':
 					case 'b':
 					case 'c':
 					case 'd':
 						// Robot
-						Game.instantiate(new Robot(p, Integer.valueOf(c - 'a')));
-						Game.instantiate(new BoardTile(new Point(x, y)));
+						robotList.add(new Robot(p, Integer.valueOf(c - 'a')));
+						boardArray[p.x][p.y] = new BoardTile(p);
 						break;
 					case '-':
 						// Counter-Clockwise Gear Tile
-						Game.instantiate(new GearTile(p, false));
+						boardArray[p.x][p.y] = new GearTile(p, false);
 						break;
 					case '+':
 						// Clockwise Gear Tile
-						Game.instantiate(new GearTile(p, true));
+						boardArray[p.x][p.y] = new GearTile(p, true);
 						break;
 					case 'x':
 						// Pit Tile
-						Game.instantiate(new PitTile(p));
+						boardArray[p.x][p.y] = new PitTile(p);
 						break;
 					case '^':
 						// West Belt
-						Game.instantiate(new BeltTile(p, Direction.NORTH, 0));
+						boardArray[p.x][p.y] = new BeltTile(p, Direction.NORTH, 0);
 						break;
 					case 'v':
 						// South Belt
-						Game.instantiate(new BeltTile(p, Direction.SOUTH, 0));
+						boardArray[p.x][p.y] = new BeltTile(p, Direction.SOUTH, 0);
 						break;
 					case '>':
 						// East Belt
-						Game.instantiate(new BeltTile(p, Direction.EAST, 0));
+						boardArray[p.x][p.y] = new BeltTile(p, Direction.EAST, 0);
 						break;
 					case '<':
 						// West Belt
-						Game.instantiate(new BeltTile(p, Direction.WEST, 0));
+						boardArray[p.x][p.y] = new BeltTile(p, Direction.WEST, 0);
 						break;
 					case 'N':
 						// NorthC Belt
-						Game.instantiate(new BeltTile(p, Direction.NORTH, -1));
+						boardArray[p.x][p.y] = new BeltTile(p, Direction.NORTH, -1);
 						break;
 					case 'E':
 						// EastC Belt
-						Game.instantiate(new BeltTile(p, Direction.EAST, -1));
+						boardArray[p.x][p.y] = new BeltTile(p, Direction.EAST, -1);
 						break;
 					case 'S':
 						// SouthC Belt
-						Game.instantiate(new BeltTile(p, Direction.SOUTH, -1));
+						boardArray[p.x][p.y] = new BeltTile(p, Direction.SOUTH, -1);
 						break;
 					case 'W':
 						// WestC Belt
-						Game.instantiate(new BeltTile(p, Direction.WEST, -1));
+						boardArray[p.x][p.y] = new BeltTile(p, Direction.WEST, -1);
 						break;
 					case 'n':
 						// NorthCC Belt
-						Game.instantiate(new BeltTile(p, Direction.NORTH, 1));
+						boardArray[p.x][p.y] = new BeltTile(p, Direction.NORTH, 1);
 						break;
 					case 'e':
 						// EastCC Belt
-						Game.instantiate(new BeltTile(p, Direction.EAST, 1));
+						boardArray[p.x][p.y] = new BeltTile(p, Direction.EAST, 1);
 						break;
 					case 's':
 						// SouthCC Belt
-						Game.instantiate(new BeltTile(p, Direction.SOUTH, 1));
+						boardArray[p.x][p.y] = new BeltTile(p, Direction.SOUTH, 1);
 						break;
 					case 'w':
 						// WestCC Belt
-						Game.instantiate(new BeltTile(p, Direction.WEST, 1));
+						boardArray[p.x][p.y] = new BeltTile(p, Direction.WEST, 1);
 						break;
 					default:
 						// Unknown tile
@@ -173,6 +187,24 @@ public class Board extends GameObject implements IUpdatable
 						break;
 				}
 			}
+		}
+		
+		
+		robots = new Robot[robotList.size()];
+		int i = 0;
+		for(Robot r : robotList) {
+			robots[i] = r;
+			i++;
+		}
+		
+		
+		for (GameObject[] a : boardArray)
+			for (GameObject o : a) {
+				Game.instantiate(o);
+			}
+		
+		for (GameObject o : robots) {
+			Game.instantiate(o);
 		}
 	}
 	

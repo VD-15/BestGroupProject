@@ -60,7 +60,7 @@ public class Robot extends GameObject implements IDrawable, IUpdatable
 	@Override
 	public void init()
 	{
-		
+		Board.getTile(index).onRobotEnter(this);
 	}
 	
 	/**
@@ -113,6 +113,9 @@ public class Robot extends GameObject implements IDrawable, IUpdatable
 	 */
 	public void move(Direction direction, int ammount) {
 		//FIXME not the best implementation robot shouldn't decide what the Direction's transform is
+		
+		Board.getTile(index).onRobotLeave(this);
+		
 		switch (direction)
 		{
 			case NORTH:
@@ -133,6 +136,8 @@ public class Robot extends GameObject implements IDrawable, IUpdatable
 				this.index.y += ammount;
 				break;
 		}
+		
+		Board.getTile(index).onRobotEnter(this);
 	}
 	
 	/**
