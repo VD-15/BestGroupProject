@@ -119,7 +119,9 @@ public class Robot extends GameObject implements IDrawable, IUpdatable
 	}
 	
 
-	
+	/**
+	 * @param Direction to move robot in
+	 */
 	private void move(Direction direction) {
 		//FIXME not the best implementation robot shouldn't decide what the Direction's transform is
 		switch (direction)

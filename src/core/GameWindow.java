@@ -119,20 +119,42 @@ public class GameWindow implements GLEventListener
 		ContentManager.setRootDirectory("content/");
 		ContentManager.loadImage(gl, "testImage.png", 				"testImage", 		1024, 	1024);
 		ContentManager.loadImage(gl, "testImage2.png", 				"testImage2", 		631, 	270);
+		
 		ContentManager.loadImage(gl, "textures/TilePit.bmp", 		"tilePit", 			64, 	64);
 		ContentManager.loadImage(gl, "textures/TileNormal.bmp", 	"tileNormal", 		64, 	64);
+		
+		
+		/*Legacy Textures */
 		ContentManager.loadImage(gl, "textures/TileBeltNorth.bmp", 	"tileBeltNORTH", 	64, 	64);
 		ContentManager.loadImage(gl, "textures/TileBeltEast.bmp", 	"tileBeltEAST", 	64, 	64);
 		ContentManager.loadImage(gl, "textures/TileBeltSouth.bmp", 	"tileBeltSOUTH", 	64, 	64);
 		ContentManager.loadImage(gl, "textures/TileBeltWest.bmp", 	"tileBeltWEST", 	64, 	64);
+		
+		ContentManager.loadImage(gl, "textures/NewBelts/North.gif", 	"tileBeltNorth", 	64, 	64);
+		ContentManager.loadImage(gl, "textures/NewBelts/East.gif", 	"tileBeltEast", 	64, 	64);
+		ContentManager.loadImage(gl, "textures/NewBelts/South.gif", 	"tileBeltSouth", 	64, 	64);
+		ContentManager.loadImage(gl, "textures/NewBelts/West.gif", 	"tileBeltWest", 	64, 	64);
+		
+		ContentManager.loadImage(gl, "textures/NewBelts/TurnDownLeft.gif", 	"tileBeltSouthLeft", 	64, 	64);
+		ContentManager.loadImage(gl, "textures/NewBelts/TurnDownRight.gif", 	"tileSouthRight", 	64, 	64);
+		ContentManager.loadImage(gl, "textures/NewBelts/TurnRightLeft.gif", 	"tileEastLeft", 	64, 	64);
+		ContentManager.loadImage(gl, "textures/NewBelts/TurnRightRight.gif", 	"tileEastRight", 	64, 	64);
+		ContentManager.loadImage(gl, "textures/NewBelts/TurnUpLeft.gif", 	"tileBeltNorthLeft", 	64, 	64);
+		ContentManager.loadImage(gl, "textures/NewBelts/TurnUpRight.gif", 	"tileNorthRight", 	64, 	64);
+		ContentManager.loadImage(gl, "textures/NewBelts/TurnLeftLeft.gif", 	"tileBeltWestLeft", 	64, 	64);
+		ContentManager.loadImage(gl, "textures/NewBelts/TurnLeftRight.gif", 	"tileWestRight", 	64, 	64);
+		
+		
 		ContentManager.loadImage(gl, "textures/TileGearC.bmp", 		"tileGearC", 		64, 	64);
 		ContentManager.loadImage(gl, "textures/TileGearCC.bmp", 	"tileGearCC", 		64, 	64);
+		
 		ContentManager.loadImage(gl, "textures/TileFlag1.bmp", 		"tileFlag1", 		64, 	64);
 		ContentManager.loadImage(gl, "textures/TileFlag2.bmp", 		"tileFlag2", 		64, 	64);
 		ContentManager.loadImage(gl, "textures/TileFlag3.bmp", 		"tileFlag3", 		64, 	64);
 		ContentManager.loadImage(gl, "textures/TileFlag4.bmp", 		"tileFlag4", 		64, 	64);
 		ContentManager.loadImage(gl, "textures/TileFlag5.bmp", 		"tileFlag5", 		64, 	64);
 		ContentManager.loadImage(gl, "textures/TileFlag6.bmp", 		"tileFlag6", 		64, 	64);
+		
 		ContentManager.loadImage(gl, "textures/RobotNorth.png", 		"robotNORTH", 		64, 	64);
 		ContentManager.loadImage(gl, "textures/RobotSouth.png", 		"robotSOUTH", 		64, 	64);
 		ContentManager.loadImage(gl, "textures/RobotWest.png", 		"robotWEST", 		64, 	64);
