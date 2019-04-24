@@ -45,7 +45,7 @@ public class GameWindow implements GLEventListener
 	 */
 	public GameWindow()
 	{
-		this(1100, 700, "Game Window");
+		this(1100, 700, "Robo Game");
 	}
 
 	/**

@@ -55,7 +55,6 @@ public class Robot extends GameObject implements IDrawable, IUpdatable
 		this.number = number;
 		this.tag = "robot";
 		
-		
 	}
 	
 	/**
@@ -121,6 +120,7 @@ public class Robot extends GameObject implements IDrawable, IUpdatable
 	public void move(Direction direction, int ammount) {
 		//FIXME not the best implementation robot shouldn't decide what the Direction's transform is
 		
+		Point pIndex = index;
 		Board.getTile(index).onRobotLeave(this);
 		
 		switch (direction)
@@ -145,6 +145,10 @@ public class Robot extends GameObject implements IDrawable, IUpdatable
 		}
 		
 		Board.getTile(index).onRobotEnter(this);
+		
+		
+		position = new Vector2(index.x * 64, index.y * 64);
+		Logger.log(this, LogSeverity.INFO, "Moving Robot " + number + " from (" + pIndex.x + "," + pIndex.y + ") to (" + index.x + "," + index.y + ")" );
 	}
 	
 	/**

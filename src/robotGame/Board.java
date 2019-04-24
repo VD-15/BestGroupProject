@@ -230,11 +230,19 @@ public class Board extends GameObject implements IUpdatable
 	}
 	
 	
+	double deltaT = 0;
+	
 	@Override
 	public void update(double time)
 	{
-		if (time > TURN_TIME) {
+		deltaT += time;
+		
+		if (deltaT > TURN_TIME) {
+			deltaT = 0;
+			Logger.log(this, LogSeverity.INFO, "Done a turn");
 			turn();
+			
+			
 		}
 	}
 }
