@@ -73,16 +73,17 @@ public class BeltTile extends BoardTile
 	@Override
 	public void draw(RenderBatch b) 
 	{
+		//TODO
 		String name = "tileBelt" + direction.getName();
 		
 		switch (rotation % Direction.values().length) {
-		case 1:
+		case 1: //CC belt
 			name += "CC";
 			break;
-		case -1:
+		case -1: //C Belt
 			name += "C";
 			break;
-		case 0: break;
+		case 0: break; //Belt
 		default:
 			name = "tileError";
 			Logger.log(this, LogSeverity.WARNING, "No sprite for belt with rotation" + rotation);
