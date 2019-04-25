@@ -38,7 +38,7 @@ public class Board extends GameObject implements IUpdatable
 	@Override
 	public void init()
 	{
-		loadBoardFromText(ContentManager.getTextByName("testBoard2"));
+		loadBoardFromText(ContentManager.getTextByName("testBoard3"));
 
 	}
 	
@@ -121,12 +121,12 @@ public class Board extends GameObject implements IUpdatable
 						// Flag
 						boardArray[p.x][p.y] = new FlagTile(p, Integer.valueOf(c - '0'));
 						break;
-					case 'a':
-					case 'b':
-					case 'c':
-					case 'd':
+					case 'A':
+					case 'B':
+					case 'C':
+					case 'D':
 						// Robot
-						RobotArr[Integer.valueOf(c - 'a')] = new Robot(p, Integer.valueOf(c - 'a'));
+						RobotArr[Integer.valueOf(c - 'A')] = new Robot(p, Integer.valueOf(c - 'A'));
 						boardArray[p.x][p.y] = new BoardTile(p);
 						break;
 					case '-':
@@ -191,6 +191,7 @@ public class Board extends GameObject implements IUpdatable
 						break;
 					default:
 						// Unknown tile
+						boardArray[p.x][p.y] = new BoardTile(p);
 						Logger.log(this, LogSeverity.ERROR, "Encountered an invalid character while reading board file: {" + c + "}");
 						break;
 				}
