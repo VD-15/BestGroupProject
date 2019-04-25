@@ -226,6 +226,7 @@ public class Board extends GameObject implements IUpdatable
 				tile.act();
 			}
 		}
+		Logger.log(this, LogSeverity.INFO, "Done a turn");
 		
 	}
 	
@@ -239,8 +240,8 @@ public class Board extends GameObject implements IUpdatable
 		
 		if (deltaT > TURN_TIME) {
 			deltaT = 0;
-			Logger.log(this, LogSeverity.INFO, "Done a turn");
-			turn();
+			
+			//turn();
 			
 			
 		}
