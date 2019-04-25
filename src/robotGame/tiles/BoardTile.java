@@ -6,7 +6,6 @@ import graphics.IDrawable;
 import graphics.RenderBatch;
 import graphics.RenderInstance;
 import robotGame.Robot;
-import utils.Direction;
 import utils.Point;
 import utils.Region;
 import utils.Vector2;
@@ -15,10 +14,11 @@ import utils.Vector2;
  * Normal Tile. Tile that does nothing
  * 
  * @author Jedd Morgan, Vanessa Kostadinova
- * @version 01/04/2019
+ * @version 24/05/2019
  */
 public class BoardTile extends GameObject implements IDrawable
 {
+	protected Robot currentRobot;
 	
 	protected static final int TILE_SIZE = 64;
 
@@ -29,25 +29,30 @@ public class BoardTile extends GameObject implements IDrawable
 		this.tag = "tile";
 	}
 	
-	@Override
+	/**
+	 * {@inheritDoc}
+	 */
 	public void init()
 	{
-		
+		// No implementation needed.
 	}
 	
+	/**
+	 * Acts on the robot at the start of a turn.
+	 */
 	public void act()
 	{
-		
+		// No implementation needed.
 	}
 
 	public void onRobotEnter(Robot robot)
 	{
-		
+		currentRobot = robot;
 	}
 	
 	public void onRobotLeave(Robot robot)
 	{
-		
+		currentRobot = null;
 	}
 
 	@Override
