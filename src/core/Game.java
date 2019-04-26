@@ -5,7 +5,7 @@ import java.util.LinkedList;
 
 import graphics.IDrawable;
 import graphics.RenderBatch;
-import robotGame.Board;
+import robotGame.GameManager;
 import robotGame.MainCamera;
 import utils.LogSeverity;
 import utils.Logger;
@@ -27,7 +27,7 @@ public class Game
 		//Don't touch this unless you hate yourself
 		Logger.setLogSeverity(LogSeverity.INFO);
 		
-		Game.instantiate(new Board());
+		Game.instantiate(new GameManager());
 		Game.instantiate(new MainCamera());
 		
 		lastNano = System.nanoTime();

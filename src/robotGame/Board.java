@@ -1,5 +1,6 @@
 package robotGame;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -14,42 +15,37 @@ import utils.Logger;
 import utils.Point;
 
 
-public class Board extends GameObject implements IUpdatable
+public class Board extends GameObject
 {
+	/** Name of boardFile to be loaded*/
+	private final String boardFile;
 	
 	private static BoardTile[][] boardArray;
 	
-	private int width;
-	private int height;
+	/** Array of starting points for robots*/
+	private ArrayList<Point> startingLocations;
 	
-	private static final double TURN_TIME = 1;
-	
-	private Queue<Robot> robots;
-	
+	public Board(String boardFile) {
+		super();
+		this.tag = "board";
+		this.boardFile = boardFile;
+		
+		startingLocations = new ArrayList<Point>();
+	}
 	
 	public Board()
 	{
-		super();
-		this.tag = "board";
-		this.width = 0;
-		this.height = 0;
+		this("testBoard3");
 	}
 	
 	@Override
 	public void init()
 	{
-		loadBoardFromText(ContentManager.getTextByName("testBoard3"));
-
-	}
-	
-	public int getWidth()
-	{
-		return width;
-	}
-	
-	public int getHeight()
-	{
-		return height;
+		loadBoardFromText(ContentManager.getTextByName(boardFile));
+		
+		for(GameObject o : getBoardTiles()) {
+			Game.instantiate(o);
+		}
 	}
 	
 	public static BoardTile getTile(Point p) {
@@ -57,6 +53,10 @@ public class Board extends GameObject implements IUpdatable
 		return boardArray[p.x][p.y];
 	}
 	
+	/**
+	 * Determines the format of a board file and generates boardArray
+	 * @param text contents of a board text file
+	 */
 	private void loadBoardFromText(String[] text)
 	{
 		if (!text[0].startsWith("format "))
@@ -77,8 +77,12 @@ public class Board extends GameObject implements IUpdatable
 		}
 	}
 	
-	private void loadBoardFormat1(String[] text)
-	{
+	/**
+	 * Generates boardArray and startingLocations from loaded board file using format1
+	 * @param text contents of a format1 text file
+	 */
+	private void loadBoardFormat1(String[] text) {
+		
 		if (text.length < 2)
 		{
 			Logger.log(this, LogSeverity.ERROR, "Board data has no rows!");
@@ -89,23 +93,19 @@ public class Board extends GameObject implements IUpdatable
 		int width = text[1].length();
 		
 		boardArray = new BoardTile[width][height];
+		Point[] startingLocations = new Point[4];
 		
-		
-		Robot[] RobotArr = new Robot[4];
-		robots = new LinkedList<Robot>();
-		
-		for (int y = 0; y < height; y++)
-		{
-			if (text[y + 1].length() != width)
-			{
+		for (int y = 0; y < height; y++) {
+			if (text[y + 1].length() != width) {
 				Logger.log(this, LogSeverity.WARNING, "Board data has inconsistent row lengths. Reading further may fail.");
 			}
 			
 			for (int x = 0; x < width; x++)
 			{
+				//For each char in text
+				
 				char c = text[y + 1].charAt(x);
 				Point p = new Point(x, y);
-				
 				
 				switch (c)
 				{
@@ -126,7 +126,7 @@ public class Board extends GameObject implements IUpdatable
 					case 'C':
 					case 'D':
 						// Robot
-						RobotArr[Integer.valueOf(c - 'A')] = new Robot(p, Integer.valueOf(c - 'A'));
+						startingLocations[c - 'A'] = p;
 						boardArray[p.x][p.y] = new BoardTile(p);
 						break;
 					case '-':
@@ -197,54 +197,26 @@ public class Board extends GameObject implements IUpdatable
 				}
 			}
 		}
-		
-		
-		
-		for (GameObject[] a : boardArray)
-			for (GameObject o : a) {
-				Game.instantiate(o);
-			}
-		
-		for (int i = 0; i < RobotArr.length; i++)
-			if (RobotArr[i] != null) {
-				Game.instantiate(RobotArr[i]);
-				robots.add(RobotArr[i]);
-			}
-	}
-	
-	private void turn() {
-		for(int i = 0; i < robots.size(); i++) {
-			Robot r = robots.poll();
-			r.act();
-			
-			
-			robots.add(r);
-		}
-		robots.add(robots.poll());
-		
-		for(BoardTile[] arr : boardArray) {
-			for(BoardTile tile : arr) {
-				tile.act();
+		for(Point p : startingLocations) {
+			if(p != null) {
+				this.startingLocations.add(p);
 			}
 		}
-		Logger.log(this, LogSeverity.INFO, "Done a turn");
-		
 	}
 	
 	
-	double deltaT = 0;
-	
-	@Override
-	public void update(double time)
-	{
-		deltaT += time;
+	/**
+	 * 
+	 * @return returns a ArrayList of all BoardTile GameObjects in boardArray
+	 */
+	public ArrayList<BoardTile> getBoardTiles() {
 		
-		if (deltaT > TURN_TIME) {
-			deltaT = 0;
-			
-			//turn();
-			
-			
+		ArrayList<BoardTile> tiles = new ArrayList<BoardTile>();
+		for (BoardTile[] a : boardArray) {
+			for (BoardTile t : a) {
+				tiles.add(t);
+			}
 		}
+		return tiles;
 	}
 }
