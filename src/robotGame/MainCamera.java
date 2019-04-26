@@ -3,6 +3,7 @@ package robotGame;
 import core.Camera;
 import core.Game;
 import core.IUpdatable;
+import utils.Vector2;
 
 public class MainCamera extends Camera implements IUpdatable
 {
@@ -15,6 +16,7 @@ public class MainCamera extends Camera implements IUpdatable
 	public void init()
 	{
 		this.viewportSize = Game.getWindow().getViewport();
+		this.position = new Vector2(300,200);
 	}
 	
 	@Override
