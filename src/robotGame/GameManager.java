@@ -1,5 +1,7 @@
 package robotGame;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Queue;
 
 import core.Game;
@@ -26,6 +28,61 @@ public class GameManager extends GameObject implements IUpdatable {
 		
 	}
 
+	
+	public void formatInstructions(String[] text )
+	{	
+		HashMap<Integer, ArrayList<Instruction[]>> players = new HashMap<Integer, ArrayList<Instruction[]>>();
+		for (int i = 1; i < text.length; i++)
+		{
+			String[] line = text[i].split(" ");
+			if (i == 1)
+			{
+				int playernumber = line.length;
+			}
+			else 
+			{
+				for (i = 0; i < line.length; i++)
+				{
+					Instruction[] instructions = new Instruction[line[i].length()];
+					for (int j = 0; j < line[i].length();j++)
+					{
+						char c = line[i].charAt(j);
+						switch (c)
+						{
+						case 'F':
+							instructions[i] = Instruction.FORWARD;
+							break;
+						case 'B':
+							instructions[i] = Instruction.BACKWARD;
+							break;
+						case 'R':
+							instructions[i] = Instruction.RIGHT;
+							break;
+						case 'L':
+							instructions[i] = Instruction.LEFT;
+							break;
+						case 'U':
+							instructions[i] = Instruction.UTURN;
+							break;
+						case 'W':
+							instructions[i] = Instruction.WAIT;
+							break;
+						default:
+							Logger.log(this, LogSeverity.ERROR, "Encountered an invalid character while reading board file: {" + c + "}");
+							break;
+						}
+					}
+					ArrayList<Instruction[]> temp = players.get(i);
+					temp.add(instructions);
+					players.put(i, temp);
+
+				}
+			}
+		}
+	}
+	
+	
+	
 	
 	/**
 	 * Executes a round, round is made up of turns one for each player and one for the board

@@ -38,7 +38,7 @@ public class Robot extends GameObject implements IDrawable, IUpdatable
 
 	
 	/** The default Directions for all robots*/
-	private static final Direction DEFAULT_DIRECTION = Direction.SOUTH;
+	private static final Direction DEFAULT_DIRECTION = Direction.NORTH;
 	
 	
 	/**
@@ -88,7 +88,6 @@ public class Robot extends GameObject implements IDrawable, IUpdatable
 	{
 		// Pop the action from the queue.
 		Instruction i = actions.poll();
-		
 		changeDirection(i.getRotation());
 		move(facingDirection, i.getTranslation());
 	}
