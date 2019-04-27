@@ -14,8 +14,9 @@ import utils.Vector2;
 /**
  * Belt Tile
  * 
- * @author Jedd Morgan, Vanessa Kostadinova
- * @version 01/04/2019
+ * @author Jedd Morgan
+ * @author Vanessa Kostadinova
+ * @version 25/04/2019
  */
 public class BeltTile extends BoardTile 
 {

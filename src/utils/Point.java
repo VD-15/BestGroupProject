@@ -1,22 +1,41 @@
 package utils;
 
+/**
+ * Stores two integer values ( x , y )
+ * Used for the tile coordinates
+ * @author Vee
+ *
+ */
 public class Point implements Cloneable
 {
 	public int x;
 	public int y;
 	
+	/**
+	 * Creates a new Point with zero values
+	 */
 	public Point()
 	{
 		this.x = 0;
 		this.y = 0;
 	}
 	
+	/**
+	 * Creates a new Point with equal x and y value
+	 * use Point(int x, int y) for specifying separate values
+	 * @param xy - The value of x and y
+	 */
 	public Point(int xy)
 	{
 		this.x = xy;
 		this.y = xy;
 	}
 	
+	/**
+	 * Creates a new Point with specified x, y values
+	 * @param x
+	 * @param y
+	 */
 	public Point(int x, int y)
 	{
 		this.x = x;

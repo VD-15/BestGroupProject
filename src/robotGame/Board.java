@@ -15,6 +15,12 @@ import utils.Logger;
 import utils.Point;
 
 
+/**
+ * Board
+ * Generates Board Tiles
+ * @author Jedd Morgan
+ * @author Owen Craig
+ */
 public class Board extends GameObject
 {
 	/** Name of boardFile to be loaded*/
@@ -25,6 +31,11 @@ public class Board extends GameObject
 	/** Array of starting points for robots*/
 	private ArrayList<Point> startingLocations;
 	
+	/**
+	 * Creates a new board
+	 * @param boardFile the name of the board file that is to be loaded
+	 * 
+	 */
 	public Board(String boardFile) {
 		super();
 		this.tag = "board";
@@ -33,6 +44,7 @@ public class Board extends GameObject
 		startingLocations = new ArrayList<Point>();
 	}
 	
+	/** Creates a default testBoard*/
 	public Board()
 	{
 		this("testBoard3");
@@ -54,7 +66,7 @@ public class Board extends GameObject
 	}
 	
 	/**
-	 * Determines the format of a board file and generates boardArray
+	 * Attempts to load board from text. Checks header to determine format
 	 * @param text contents of a board text file
 	 */
 	private void loadBoardFromText(String[] text)
@@ -83,6 +95,7 @@ public class Board extends GameObject
 	 */
 	private void loadBoardFormat1(String[] text) {
 		
+		//Validates the number of rows
 		if (text.length < 2)
 		{
 			Logger.log(this, LogSeverity.ERROR, "Board data has no rows!");
@@ -95,11 +108,14 @@ public class Board extends GameObject
 		boardArray = new BoardTile[width][height];
 		Point[] startingLocations = new Point[4];
 		
+		//Loops through each row
 		for (int y = 0; y < height; y++) {
+			//Checks for valid length
 			if (text[y + 1].length() != width) {
 				Logger.log(this, LogSeverity.WARNING, "Board data has inconsistent row lengths. Reading further may fail.");
 			}
 			
+			//Loops through each char
 			for (int x = 0; x < width; x++)
 			{
 				//For each char in text
@@ -197,6 +213,7 @@ public class Board extends GameObject
 				}
 			}
 		}
+		
 		for(Point p : startingLocations) {
 			if(p != null) {
 				this.startingLocations.add(p);
@@ -207,7 +224,7 @@ public class Board extends GameObject
 	
 	/**
 	 * 
-	 * @return returns a ArrayList of all BoardTile GameObjects in boardArray
+	 * @return returns a ArrayList of all BoardTiles in boardArray
 	 */
 	public ArrayList<BoardTile> getBoardTiles() {
 		

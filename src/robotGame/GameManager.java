@@ -11,13 +11,26 @@ import robotGame.tiles.BoardTile;
 import utils.LogSeverity;
 import utils.Logger;
 
+/**
+ * GameManager
+ * Instantiates board, and controls rounds
+ * 
+ * @author Jedd Morgan
+ * @author Owen Craig
+ * @version 27/04/2019
+ */
 public class GameManager extends GameObject implements IUpdatable {
 
-	
 	private Board board;
 	
-	private static final double TURN_TIME = 1;
+	/** Time elapsed between Round*/
+	double rDeltaT = 0;
+	/** Time in seconds between each Turn*/
+	private static final double TURN_TIME = 1; 
+	/** Time in seconds between each Round*/
+	private static final double ROUND_TIME = 5;
 	
+	/** Order */
 	private Queue<Robot> robots;
 
 	@Override
@@ -106,14 +119,13 @@ public class GameManager extends GameObject implements IUpdatable {
 		
 	}
 	
-	double deltaT = 0;
 	
 	@Override
 	public void update(double time) {
-		deltaT += time;
+		rDeltaT += time;
 		
-		if (deltaT > TURN_TIME) {
-			deltaT = 0;
+		if (rDeltaT > TURN_TIME) {
+			rDeltaT = 0;
 			
 			//turn();
 			

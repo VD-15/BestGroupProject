@@ -17,8 +17,8 @@ public enum Direction {
 	
 	/**
 	 * 
-	 * @param name name of direction
-	 * @param character Character representation of the direction
+	 * @param name - the String representation
+	 * @param character -  The character representation
 	 */
     Direction(String name, char character) {
 		this.name = name;
@@ -27,8 +27,8 @@ public enum Direction {
 	
     
     /**
-	 * 
-	 * @return String representation of Direction
+	 * Returns the string representation of the Direction.
+	 * @return name
 	 */
 	public String getName() {
 		return name;
@@ -36,17 +36,20 @@ public enum Direction {
 	
 	
 	/**
-	 * 
-	 * @return character representation of Direction
+	 * Returns the character representation of Direction.
+	 * @return character
 	 */
 	public char getCharacter() {
 		return character;
 	}
 	
 	/**
-	 * Adds a angle to the direction
-	 * @param angle in half pi radians (90° left = +1) accepts any integer value
-	 * @return new direction after angle transform
+	 * Adds a rotation to the Direction<br>
+	 * angle is how many turns to the left from the Direction
+	 * Accepts any integer value
+	 * 
+	 * @param angle in half pi radians (90° left = +1)  
+	 * @return new Direction after angle transform
 	 */
 	public Direction add(int angle) {
 		return Direction.values()[(ordinal() + angle) % Direction.values().length];
