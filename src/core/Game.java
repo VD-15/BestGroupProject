@@ -19,6 +19,7 @@ public class Game
 	private static GameWindow window;
 	
 	private static double lastNano = 0d;
+	private static boolean isRunning = false;
 	
 	public static void init(GameWindow g)
 	{		
@@ -31,10 +32,17 @@ public class Game
 		Game.instantiate(new MainCamera());
 		
 		lastNano = System.nanoTime();
+		isRunning = true;
 	}
 	
 	public static void update()
 	{
+		if (window.getKeyboard().isKeyDown("gameQuit"))
+		{
+			isRunning = false;
+			return;
+		}
+		
 		double newNano = System.nanoTime();
 		double delta = (newNano - lastNano) / 1000000000f;
 		
@@ -102,5 +110,10 @@ public class Game
 		}
 		
 		return matches;
+	}
+	
+	public static boolean isRunning()
+	{
+		return isRunning;
 	}
 }

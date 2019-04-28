@@ -6,6 +6,7 @@ import java.util.Queue;
 
 import core.GameObject;
 import core.IUpdatable;
+import graphics.Color;
 import graphics.IDrawable;
 import graphics.RenderBatch;
 import graphics.RenderInstance;

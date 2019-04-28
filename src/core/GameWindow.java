@@ -5,6 +5,7 @@ import java.util.TimerTask;
 
 import com.jogamp.nativewindow.WindowClosingProtocol;
 import com.jogamp.nativewindow.util.Rectangle;
+import com.jogamp.newt.event.KeyEvent;
 import com.jogamp.newt.opengl.GLWindow;
 import com.jogamp.opengl.GL3;
 import com.jogamp.opengl.GLAutoDrawable;
@@ -15,6 +16,8 @@ import com.jogamp.opengl.util.Animator;
 
 import graphics.RenderBatch;
 import graphics.Renderer;
+import input.KeyBinding;
+import input.Keyboard;
 import utils.LogSeverity;
 import utils.Logger;
 import utils.Vector2;
@@ -37,6 +40,8 @@ public class GameWindow implements GLEventListener
 	 */
 	private Animator animator;
 	private Renderer renderer;
+	
+	private Keyboard keyboard;
 
 	private Vector2 viewport;
 
@@ -61,12 +66,17 @@ public class GameWindow implements GLEventListener
 		GLCapabilities capabilities = new GLCapabilities(profile);
 		this.window = GLWindow.create(capabilities);
 
+		this.keyboard = new Keyboard();
+		
 		//Setup the window
 		this.window.setTitle(_title);
 		this.window.setSize(_width, _height);
 		this.window.setVisible(false);
 		this.window.setResizable(true);
 		this.window.addGLEventListener(this);
+		this.window.addKeyListener(this.keyboard);
+		//this.window.setFullscreen(true);
+		
 		this.window.setDefaultCloseOperation(WindowClosingProtocol.WindowClosingMode.DISPOSE_ON_CLOSE);
 
 		//Create the animator
@@ -83,7 +93,8 @@ public class GameWindow implements GLEventListener
 		Logger.log(this, LogSeverity.INFO, "Running.");
 		window.setVisible(true);
 		//window.setUpdateFPSFrames(15, null);
-
+		
+		/*
 		//Run the garbage collector every 5 seconds to avoid big boi memory leaks.
 		{
 			Timer timer = new Timer();
@@ -98,11 +109,25 @@ public class GameWindow implements GLEventListener
 
 			timer.schedule(task, 0, 5000);
 		}
+		*/
+	}
+	 /**
+	  * Used to close the window at runtime
+	  */
+	public void close()
+	{
+		this.animator.stop();
+		this.window.destroy();
 	}
 
 	public Vector2 getViewport()
 	{
 		return this.viewport;
+	}
+	
+	public Keyboard getKeyboard()
+	{
+		return this.keyboard;
 	}
 
 	/**
@@ -116,24 +141,14 @@ public class GameWindow implements GLEventListener
 	{
 		GL3 gl = drawable.getGL().getGL3();
 
-		ContentManager.setRootDirectory("content/");
-		ContentManager.loadImage(gl, "testImage.png", 				"testImage", 		1024, 	1024);
-		ContentManager.loadImage(gl, "testImage2.png", 				"testImage2", 		631, 	270);
-		
-		ContentManager.loadImage(gl, "textures/TilePit.bmp", 		"tilePit", 			64, 	64);
-		ContentManager.loadImage(gl, "textures/TileNormal.bmp", 	"tileNormal", 		64, 	64);
-		
-		
-		/*Legacy Textures */
-		ContentManager.loadImage(gl, "textures/TileBeltNorth.bmp", 	"tileBeltNORTH", 	64, 	64);
-		ContentManager.loadImage(gl, "textures/TileBeltEast.bmp", 	"tileBeltEAST", 	64, 	64);
-		ContentManager.loadImage(gl, "textures/TileBeltSouth.bmp", 	"tileBeltSOUTH", 	64, 	64);
-		ContentManager.loadImage(gl, "textures/TileBeltWest.bmp", 	"tileBeltWEST", 	64, 	64);
+		ContentManager.setRootDirectory("content/");		
+		ContentManager.loadImage(gl, "textures/TilePit.bmp", 				"tilePit", 			64, 	64);
+		ContentManager.loadImage(gl, "textures/TileNormal.bmp", 			"tileNormal", 		64, 	64);
 		
 		ContentManager.loadImage(gl, "textures/NewBelts/BeltNorth.gif", 	"tileBeltNorth", 	64, 	64);
-		ContentManager.loadImage(gl, "textures/NewBelts/BeltEast.gif", 	"tileBeltEast", 	64, 	64);
+		ContentManager.loadImage(gl, "textures/NewBelts/BeltEast.gif", 		"tileBeltEast", 	64, 	64);
 		ContentManager.loadImage(gl, "textures/NewBelts/BeltSouth.gif", 	"tileBeltSouth", 	64, 	64);
-		ContentManager.loadImage(gl, "textures/NewBelts/BeltWest.gif", 	"tileBeltWest", 	64, 	64);
+		ContentManager.loadImage(gl, "textures/NewBelts/BeltWest.gif", 		"tileBeltWest", 	64, 	64);
 		
 		ContentManager.loadImage(gl, "textures/NewBelts/BeltNorthC.gif", 	"tileBeltNorthC", 	64, 	64);
 		ContentManager.loadImage(gl, "textures/NewBelts/BeltNorthCC.gif", 	"tileBeltNorthCC", 	64, 	64);
@@ -144,26 +159,20 @@ public class GameWindow implements GLEventListener
 		ContentManager.loadImage(gl, "textures/NewBelts/BeltWestC.gif", 	"tileBeltWestC", 	64, 	64);
 		ContentManager.loadImage(gl, "textures/NewBelts/BeltWestCC.gif", 	"tileBeltWestCC", 	64, 	64);
 		
+		ContentManager.loadImage(gl, "textures/TileGearC.bmp", 				"tileGearC", 		64, 	64);
+		ContentManager.loadImage(gl, "textures/TileGearCC.bmp", 			"tileGearCC", 		64, 	64);
 		
-		ContentManager.loadImage(gl, "textures/TileGearC.bmp", 		"tileGearC", 		64, 	64);
-		ContentManager.loadImage(gl, "textures/TileGearCC.bmp", 	"tileGearCC", 		64, 	64);
-		
-		ContentManager.loadImage(gl, "textures/TileFlag1.bmp", 		"tileFlag1", 		64, 	64);
-		ContentManager.loadImage(gl, "textures/TileFlag2.bmp", 		"tileFlag2", 		64, 	64);
-		ContentManager.loadImage(gl, "textures/TileFlag3.bmp", 		"tileFlag3", 		64, 	64);
-		ContentManager.loadImage(gl, "textures/TileFlag4.bmp", 		"tileFlag4", 		64, 	64);
-		ContentManager.loadImage(gl, "textures/TileFlag5.bmp", 		"tileFlag5", 		64, 	64);
-		ContentManager.loadImage(gl, "textures/TileFlag6.bmp", 		"tileFlag6", 		64, 	64);
-		
-		ContentManager.loadImage(gl, "textures/RobotNorth.png", 		"robotNORTH", 		64, 	64);
-		ContentManager.loadImage(gl, "textures/RobotSouth.png", 		"robotSOUTH", 		64, 	64);
-		ContentManager.loadImage(gl, "textures/RobotWest.png", 		"robotWEST", 		64, 	64);
-		ContentManager.loadImage(gl, "textures/RobotEast.png", 	"robotEAST", 		64, 	64);
+		ContentManager.loadImage(gl, "textures/TileFlag1.bmp", 				"tileFlag1", 		64, 	64);
+		ContentManager.loadImage(gl, "textures/TileFlag2.bmp", 				"tileFlag2", 		64, 	64);
+		ContentManager.loadImage(gl, "textures/TileFlag3.bmp", 				"tileFlag3", 		64, 	64);
+		ContentManager.loadImage(gl, "textures/TileFlag4.bmp", 				"tileFlag4", 		64, 	64);
+		ContentManager.loadImage(gl, "textures/TileFlag5.bmp", 				"tileFlag5", 		64, 	64);
+		ContentManager.loadImage(gl, "textures/TileFlag6.bmp", 				"tileFlag6", 		64, 	64);
 
-		ContentManager.loadImage(gl, "textures/Robot1.gif", 		"robot1", 		64, 	64);
-		ContentManager.loadImage(gl, "textures/Robot2.gif", 		"robot2", 		64, 	64);
-		ContentManager.loadImage(gl, "textures/Robot3.gif", 		"robot3", 		64, 	64);
-		ContentManager.loadImage(gl, "textures/Robot4.gif", 	"robot4", 		64, 	64);
+		ContentManager.loadImage(gl, "textures/Robot1.gif", 				"robot1", 			64, 	64);
+		ContentManager.loadImage(gl, "textures/Robot2.gif", 				"robot2", 			64, 	64);
+		ContentManager.loadImage(gl, "textures/Robot3.gif", 				"robot3", 			64, 	64);
+		ContentManager.loadImage(gl, "textures/Robot4.gif", 				"robot4", 			64, 	64);
 		
 		ContentManager.loadText("boards/testboard.brd", "testBoard");
 		ContentManager.loadText("boards/conveyor-loops.brd", "testBoard2");
@@ -171,6 +180,13 @@ public class GameWindow implements GLEventListener
 
 		
 		ContentManager.loadText("programs/4players.prg", "4players");
+		
+		this.keyboard.addBinding("cameraDown", 	new KeyBinding(KeyEvent.VK_W, KeyEvent.VK_UP));
+		this.keyboard.addBinding("cameraLeft", 	new KeyBinding(KeyEvent.VK_A, KeyEvent.VK_LEFT));
+		this.keyboard.addBinding("cameraRight", new KeyBinding(KeyEvent.VK_D, KeyEvent.VK_RIGHT));
+		this.keyboard.addBinding("cameraUp", 	new KeyBinding(KeyEvent.VK_S, KeyEvent.VK_DOWN));
+		
+		this.keyboard.addBinding("gameQuit", 	new KeyBinding(KeyEvent.VK_ESCAPE));
 		
 		animator.start();
 		renderer.init(gl);
@@ -185,10 +201,12 @@ public class GameWindow implements GLEventListener
 	{
 		GL3 gl = drawable.getGL().getGL3();
 		Game.update();
-
+		
 		RenderBatch renderBatch = new RenderBatch();
 		Game.draw(renderBatch);
 		renderer.draw(gl, renderBatch);
+
+		if (!Game.isRunning()) this.animator.stop();
 	}
 
 	/**
@@ -211,7 +229,7 @@ public class GameWindow implements GLEventListener
 		GL3 gl = drawable.getGL().getGL3();
 		gl.glViewport(x, y, width, height);
 
-		Rectangle r = new Rectangle(x, y, width, height);
+		//Rectangle r = new Rectangle(x, y, width, height);
 		viewport.set(width, height);
 	}
 

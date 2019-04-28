@@ -1,42 +1,40 @@
 package robotGame;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.Queue;
 
 import core.ContentManager;
 import core.Game;
 import core.GameObject;
-import core.IUpdatable;
 import robotGame.tiles.*;
 import utils.Direction;
 import utils.LogSeverity;
 import utils.Logger;
 import utils.Point;
 
-
 /**
- * Board
- * Generates Board Tiles
+ * Board Generates Board Tiles
+ * 
  * @author Jedd Morgan
  * @author Owen Craig
  */
 public class Board extends GameObject
 {
-	/** Name of boardFile to be loaded*/
+	/** Name of boardFile to be loaded */
 	private final String boardFile;
 	
 	private static BoardTile[][] boardArray;
 	
-	/** Array of starting points for robots*/
+	/** Array of starting points for robots */
 	private ArrayList<Point> startingLocations;
 	
 	/**
 	 * Creates a new board
+	 * 
 	 * @param boardFile the name of the board file that is to be loaded
 	 * 
 	 */
-	public Board(String boardFile) {
+	public Board(String boardFile)
+	{
 		super();
 		this.tag = "board";
 		this.boardFile = boardFile;
@@ -45,7 +43,7 @@ public class Board extends GameObject
 		loadBoardFromText(ContentManager.getTextByName(boardFile));
 	}
 	
-	/** Creates a default testBoard*/
+	/** Creates a default testBoard */
 	public Board()
 	{
 		this("testBoard3");
@@ -55,18 +53,21 @@ public class Board extends GameObject
 	public void init()
 	{
 		
-		for(GameObject o : getBoardTiles()) {
+		for (GameObject o : getBoardTiles())
+		{
 			Game.instantiate(o);
 		}
 	}
 	
-	public static BoardTile getTile(Point p) {
-		//FIXME bounds
+	public static BoardTile getTile(Point p)
+	{
+		// FIXME bounds
 		return boardArray[p.x][p.y];
 	}
 	
 	/**
 	 * Attempts to load board from text. Checks header to determine format
+	 * 
 	 * @param text contents of a board text file
 	 */
 	private void loadBoardFromText(String[] text)
@@ -90,12 +91,15 @@ public class Board extends GameObject
 	}
 	
 	/**
-	 * Generates boardArray and startingLocations from loaded board file using format1
+	 * Generates boardArray and startingLocations from loaded board file using
+	 * format1
+	 * 
 	 * @param text contents of a format1 text file
 	 */
-	private void loadBoardFormat1(String[] text) {
+	private void loadBoardFormat1(String[] text)
+	{
 		
-		//Validates the number of rows
+		// Validates the number of rows
 		if (text.length < 2)
 		{
 			Logger.log(this, LogSeverity.ERROR, "Board data has no rows!");
@@ -108,17 +112,19 @@ public class Board extends GameObject
 		boardArray = new BoardTile[width][height];
 		Point[] startingLocations = new Point[4];
 		
-		//Loops through each row
-		for (int y = 0; y < height; y++) {
-			//Checks for valid length
-			if (text[y + 1].length() != width) {
+		// Loops through each row
+		for (int y = 0; y < height; y++)
+		{
+			// Checks for valid length
+			if (text[y + 1].length() != width)
+			{
 				Logger.log(this, LogSeverity.WARNING, "Board data has inconsistent row lengths. Reading further may fail.");
 			}
 			
-			//Loops through each char
+			// Loops through each char
 			for (int x = 0; x < width; x++)
 			{
-				//For each char in text
+				// For each char in text
 				
 				char c = text[y + 1].charAt(x);
 				Point p = new Point(x, y);
@@ -126,7 +132,7 @@ public class Board extends GameObject
 				switch (c)
 				{
 					case '.':
-						//Normal Tile
+						// Normal Tile
 						boardArray[p.x][p.y] = new BoardTile(p);
 						break;
 					case '0':
@@ -214,34 +220,39 @@ public class Board extends GameObject
 			}
 		}
 		
-		for(Point p : startingLocations) {
-			if(p != null) {
+		for (Point p : startingLocations)
+		{
+			if (p != null)
+			{
 				this.startingLocations.add(p);
 				
-				//TEMP!!
-				//Game.instantiate(new Robot(p, 1));
+				// TEMP!!
+				// Game.instantiate(new Robot(p, 1));
 			}
 		}
 		
 	}
-	
 	
 	/**
 	 * 
 	 * @return returns a ArrayList of all BoardTiles in boardArray
 	 */
-	public ArrayList<BoardTile> getBoardTiles() {
+	public ArrayList<BoardTile> getBoardTiles()
+	{
 		
 		ArrayList<BoardTile> tiles = new ArrayList<BoardTile>();
-		for (BoardTile[] a : boardArray) {
-			for (BoardTile t : a) {
+		for (BoardTile[] a : boardArray)
+		{
+			for (BoardTile t : a)
+			{
 				tiles.add(t);
 			}
 		}
 		return tiles;
 	}
-
-	public ArrayList<Point> getStartingLocations() {
+	
+	public ArrayList<Point> getStartingLocations()
+	{
 		return startingLocations;
 	}
 }

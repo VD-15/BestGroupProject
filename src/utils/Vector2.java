@@ -30,7 +30,7 @@ public final class Vector2 implements Cloneable
 	
 	public Vector2 add(Vector2 v)
 	{
-		return new Vector2(x + v.getArray()[0], y + v.getArray()[1]);
+		return new Vector2(x + v.x, y + v.y);
 	}
 	
 	public Vector2 rotate(float a)
@@ -57,11 +57,6 @@ public final class Vector2 implements Cloneable
 		return new Vector2(newX, newY);
 	}
 	
-	public Vector2 scale(float s)
-	{
-		return new Vector2(x * s, y * s);
-	}
-	
 	public void setX(float x)
 	{
 		this.x = x;
@@ -78,10 +73,35 @@ public final class Vector2 implements Cloneable
 		this.y = y;
 	}
 	
+	public void translate(Vector2 v)
+	{
+		this.x += v.x;
+		this.y += v.y;
+	}
+	
 	public void set(Vector2 v)
 	{
 		this.x = v.x;
 		this.y = v.y;
+	}
+	
+	public float length()
+	{
+		return (float)Math.sqrt((this.x * this.x) + (this.y * this.y));
+	}
+	
+	public void normalize()
+	{
+		float magnitude = length();
+		
+		this.x /= magnitude;
+		this.y /= magnitude;
+	}
+	
+	public void scale(float s)
+	{
+		this.x *= s;
+		this.y *= s;
 	}
 	
 	@Override
@@ -99,8 +119,34 @@ public final class Vector2 implements Cloneable
 	}
 	
 	@Override
+	public String toString()
+	{
+		return "Vector2 {X:" + this.x + ", Y:" + this.y + "}";
+	}
+	
+	@Override
 	public Vector2 clone()
 	{
 		return new Vector2(this.x, this.y);
+	}
+	
+	public static Vector2 UP()
+	{
+		return new Vector2(0f, 1f);
+	}
+
+	public static Vector2 DOWN()
+	{
+		return new Vector2(0f, -1f);
+	}
+
+	public static Vector2 LEFT()
+	{
+		return new Vector2(-1f, 0f);
+	}
+
+	public static Vector2 RIGHT()
+	{
+		return new Vector2(1f, 0f);
 	}
 }
