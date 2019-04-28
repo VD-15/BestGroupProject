@@ -217,7 +217,6 @@ public class Board extends GameObject
 		for(Point p : startingLocations) {
 			if(p != null) {
 				this.startingLocations.add(p);
-				Game.instantiate(new Robot(p, 1));
 			}
 		}
 		

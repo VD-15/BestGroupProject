@@ -38,7 +38,7 @@ public class Robot extends GameObject implements IDrawable, IUpdatable
 
 	
 	/** The default Directions for all robots*/
-	private static final Direction DEFAULT_DIRECTION = Direction.WEST;
+	private static final Direction DEFAULT_DIRECTION = Direction.NORTH;
 	
 	
 	/**
