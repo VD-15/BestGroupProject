@@ -18,6 +18,7 @@ import graphics.RenderBatch;
 import graphics.Renderer;
 import input.KeyBinding;
 import input.Keyboard;
+import input.Mouse;
 import utils.LogSeverity;
 import utils.Logger;
 import utils.Vector2;
@@ -42,6 +43,7 @@ public class GameWindow implements GLEventListener
 	private Renderer renderer;
 	
 	private Keyboard keyboard;
+	private Mouse mouse;
 
 	private Vector2 viewport;
 
@@ -67,6 +69,7 @@ public class GameWindow implements GLEventListener
 		this.window = GLWindow.create(capabilities);
 
 		this.keyboard = new Keyboard();
+		this.mouse = new Mouse();
 		
 		//Setup the window
 		this.window.setTitle(_title);
@@ -75,6 +78,7 @@ public class GameWindow implements GLEventListener
 		this.window.setResizable(true);
 		this.window.addGLEventListener(this);
 		this.window.addKeyListener(this.keyboard);
+		this.window.addMouseListener(this.mouse);
 		//this.window.setFullscreen(true);
 		
 		this.window.setDefaultCloseOperation(WindowClosingProtocol.WindowClosingMode.DISPOSE_ON_CLOSE);
@@ -181,11 +185,14 @@ public class GameWindow implements GLEventListener
 		
 		ContentManager.loadText("programs/4players.prg", "4players");
 		
+		//Bindings for the MainCamera
+		//Up & down are inverted here due to the way handle the Y-axis, remember, +ve is down.
 		this.keyboard.addBinding("cameraDown", 	new KeyBinding(KeyEvent.VK_W, KeyEvent.VK_UP));
 		this.keyboard.addBinding("cameraLeft", 	new KeyBinding(KeyEvent.VK_A, KeyEvent.VK_LEFT));
 		this.keyboard.addBinding("cameraRight", new KeyBinding(KeyEvent.VK_D, KeyEvent.VK_RIGHT));
 		this.keyboard.addBinding("cameraUp", 	new KeyBinding(KeyEvent.VK_S, KeyEvent.VK_DOWN));
 		
+		//Binding to quit the game (remember to unbind on final release)
 		this.keyboard.addBinding("gameQuit", 	new KeyBinding(KeyEvent.VK_ESCAPE));
 		
 		animator.start();
