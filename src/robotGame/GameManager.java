@@ -4,12 +4,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Queue;
 
+import core.ContentManager;
 import core.Game;
 import core.GameObject;
 import core.IUpdatable;
 import robotGame.tiles.BoardTile;
 import utils.LogSeverity;
 import utils.Logger;
+import utils.Point;
 
 /**
  * GameManager
@@ -30,68 +32,73 @@ public class GameManager extends GameObject implements IUpdatable {
 	/** Time in seconds between each Round*/
 	private static final double ROUND_TIME = 5;
 	
-	/** Order */
 	private Queue<Robot> robots;
+	
+	private HashMap<Integer, ArrayList<Instruction[]>> players;
+	private ArrayList<Point> startingLocations;
 
 	@Override
-	public void init() {
+	public void init() 
+	{
 		board = new Board();
 		Game.instantiate(board);
-		
+		players = formatInstructions(ContentManager.getTextByName("4players"));
+		startingLocations = board.getStartingLocations();
+		for (int i = 0; i < players.size(); i++)
+		{
+			Robot r = new Robot(startingLocations.get(i), i);
+			Game.instantiate(r);
+			robots.offer(r);
+		}
 		
 	}
 
 	
-	public void formatInstructions(String[] text )
+	public HashMap<Integer, ArrayList<Instruction[]>> formatInstructions(String[] text )
 	{	
 		HashMap<Integer, ArrayList<Instruction[]>> players = new HashMap<Integer, ArrayList<Instruction[]>>();
 		for (int i = 1; i < text.length; i++)
 		{
 			String[] line = text[i].split(" ");
-			if (i == 1)
+			for (i = 0; i < line.length; i++)
 			{
-				int playernumber = line.length;
-			}
-			else 
-			{
-				for (i = 0; i < line.length; i++)
+				Instruction[] round = new Instruction[line[i].length()];
+				for (int j = 0; j < line[i].length();j++)
 				{
-					Instruction[] instructions = new Instruction[line[i].length()];
-					for (int j = 0; j < line[i].length();j++)
+					char c = line[i].charAt(j);
+					switch (c)
 					{
-						char c = line[i].charAt(j);
-						switch (c)
-						{
-						case 'F':
-							instructions[i] = Instruction.FORWARD;
-							break;
-						case 'B':
-							instructions[i] = Instruction.BACKWARD;
-							break;
-						case 'R':
-							instructions[i] = Instruction.RIGHT;
-							break;
-						case 'L':
-							instructions[i] = Instruction.LEFT;
-							break;
-						case 'U':
-							instructions[i] = Instruction.UTURN;
-							break;
-						case 'W':
-							instructions[i] = Instruction.WAIT;
-							break;
-						default:
-							Logger.log(this, LogSeverity.ERROR, "Encountered an invalid character while reading board file: {" + c + "}");
-							break;
-						}
+					case 'F':
+						round[i] = Instruction.FORWARD;
+						break;
+					case 'B':
+						round[i] = Instruction.BACKWARD;
+						break;
+					case 'R':
+						round[i] = Instruction.RIGHT;
+						break;
+					case 'L':
+						round[i] = Instruction.LEFT;
+						break;
+					case 'U':
+						round[i] = Instruction.UTURN;
+						break;
+					case 'W':
+						round[i] = Instruction.WAIT;
+						break;
+					default:
+						Logger.log(this, LogSeverity.ERROR, "Encountered an invalid character while reading board file: {" + c + "}");
+						break;
 					}
-					ArrayList<Instruction[]> temp = players.get(i);
-					temp.add(instructions);
-					players.put(i, temp);
-
 				}
+				ArrayList<Instruction[]> temp = players.get(i);
+				temp.add(round);
+				players.put(i, temp);
+
 			}
+			
 		}
+		return players;
 	}
 	
 	
@@ -127,7 +134,7 @@ public class GameManager extends GameObject implements IUpdatable {
 		if (rDeltaT > TURN_TIME) {
 			rDeltaT = 0;
 			
-			//turn();
+			//round();
 			
 			
 		}

@@ -236,4 +236,8 @@ public class Board extends GameObject
 		}
 		return tiles;
 	}
+
+	public ArrayList<Point> getStartingLocations() {
+		return startingLocations;
+	}
 }
