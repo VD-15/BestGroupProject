@@ -143,7 +143,7 @@ public class GameManager extends GameObject implements IUpdatable {
 		if (rDeltaT > TURN_TIME) {
 			rDeltaT = 0;
 			
-			round();
+			//round();
 			
 			
 		}
