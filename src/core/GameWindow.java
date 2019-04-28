@@ -164,6 +164,9 @@ public class GameWindow implements GLEventListener
 		ContentManager.loadText("boards/conveyor-loops.brd", "testBoard2");
 		ContentManager.loadText("boards/example-board.brd", "testBoard3");
 
+		
+		ContentManager.loadText("programs/4players", "4players");
+		
 		animator.start();
 		renderer.init(gl);
 		Game.init(this);
