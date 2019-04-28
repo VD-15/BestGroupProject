@@ -57,43 +57,43 @@ public class GameManager extends GameObject implements IUpdatable {
 	public HashMap<Integer, ArrayList<Instruction[]>> formatInstructions(String[] text )
 	{	
 		HashMap<Integer, ArrayList<Instruction[]>> players = new HashMap<Integer, ArrayList<Instruction[]>>();
-		for (int i = 1; i < text.length; i++)
+		for (int i = 2; i < text.length; i++)
 		{
 			String[] line = text[i].split(" ");
-			for (i = 0; i < line.length; i++)
+			for (int l = 0; l < line.length; l++)
 			{
-				Instruction[] round = new Instruction[line[i].length()];
-				for (int j = 0; j < line[i].length();j++)
+				Instruction[] round = new Instruction[line[l].length()];
+				for (int j = 0; j < line[l].length();j++)
 				{
-					char c = line[i].charAt(j);
+					char c = line[l].charAt(j);
 					switch (c)
 					{
 					case 'F':
-						round[i] = Instruction.FORWARD;
+						round[j] = Instruction.FORWARD;
 						break;
 					case 'B':
-						round[i] = Instruction.BACKWARD;
+						round[j] = Instruction.BACKWARD;
 						break;
 					case 'R':
-						round[i] = Instruction.RIGHT;
+						round[j] = Instruction.RIGHT;
 						break;
 					case 'L':
-						round[i] = Instruction.LEFT;
+						round[j] = Instruction.LEFT;
 						break;
 					case 'U':
-						round[i] = Instruction.UTURN;
+						round[j] = Instruction.UTURN;
 						break;
 					case 'W':
-						round[i] = Instruction.WAIT;
+						round[j] = Instruction.WAIT;
 						break;
 					default:
-						Logger.log(this, LogSeverity.ERROR, "Encountered an invalid character while reading board file: {" + c + "}");
+						Logger.log(this, LogSeverity.ERROR, "Encountered an invalid character while reading program file: {" + c + "}");
 						break;
 					}
 				}
-				ArrayList<Instruction[]> temp = players.get(i);
+				ArrayList<Instruction[]> temp = players.get(l);
 				temp.add(round);
-				players.put(i, temp);
+				players.put(l, temp);
 
 			}
 			
