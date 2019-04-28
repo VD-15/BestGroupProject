@@ -21,7 +21,7 @@ public class BeltTile extends BoardTile
 {
 	private Direction direction;
 	private int rotation;
-	
+
 	/**
 	 * Creates a new belt
 	 * @param index The point on a grid.
@@ -35,7 +35,7 @@ public class BeltTile extends BoardTile
 		this.rotation = rotation;
 		this.tag = "BeltTile";
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 * Rotates robot then moves it.
@@ -43,8 +43,10 @@ public class BeltTile extends BoardTile
 	@Override
 	public void act() 
 	{
-		currentRobot.changeDirection(rotation);
-		currentRobot.move(direction);
+		if (currentRobot != null) {
+			currentRobot.changeDirection(rotation);
+			currentRobot.move(direction);
+		}
 	}
 
 	/**
@@ -54,7 +56,7 @@ public class BeltTile extends BoardTile
 	public void draw(RenderBatch b) 
 	{
 		String name = "tileBelt" + direction.getName();
-		
+
 		switch (rotation) {
 		case 1: //CC belt
 			name += "CC";
@@ -68,13 +70,13 @@ public class BeltTile extends BoardTile
 			Logger.log(this, LogSeverity.WARNING, "No sprite for belt with rotation" + rotation);
 			break;
 		}
-		
+
 		b.draw(new RenderInstance()
-			.withTexture(name)
-			.withDestinationRegion(new Region(this.position, new Vector2(TILE_SIZE), true))
-			.withDepth(1f)
-			.withLayer(1)
-			);
+				.withTexture(name)
+				.withDestinationRegion(new Region(this.position, new Vector2(TILE_SIZE), true))
+				.withDepth(1f)
+				.withLayer(1)
+				);
 	}
 
 }

@@ -54,7 +54,7 @@ public enum Direction {
 	 * @return new Direction after rotation
 	 */
 	public Direction add(int rotations) {
-		return Direction.values()[(ordinal() + rotations) % Direction.values().length];
+		return Direction.values()[Math.floorMod((ordinal() + rotations), Direction.values().length)];
 	}
 
 	/**

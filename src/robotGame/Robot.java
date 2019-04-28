@@ -32,15 +32,15 @@ public class Robot extends GameObject implements IDrawable, IUpdatable
 	private Direction facingDirection;
 	/** Player number */
 	private int number;
-	
+
 	/** queue of actions to be committed */
 	private Queue<Instruction> actions;
 
-	
+
 	/** The default Directions for all robots*/
 	private static final Direction DEFAULT_DIRECTION = Direction.NORTH;
-	
-	
+
+
 	/**
 	 * Robot Constructor
 	 * @param index starting location
@@ -54,9 +54,9 @@ public class Robot extends GameObject implements IDrawable, IUpdatable
 		this.facingDirection = DEFAULT_DIRECTION;
 		this.number = number;
 		this.tag = "robot";
-		
+
 	}
-	
+
 	/**
 	 * Initialise
 	 */
@@ -65,10 +65,8 @@ public class Robot extends GameObject implements IDrawable, IUpdatable
 	{
 		Board.getTile(index).onRobotEnter(this);
 		actions = new LinkedList<Instruction>();
-		
-		actions.add(Instruction.FORWARD);
 	}
-	
+
 	/**
 	 * 
 	 */
@@ -79,31 +77,36 @@ public class Robot extends GameObject implements IDrawable, IUpdatable
 		{
 			actions.offer(i);
 		}
+
 	}
-	
+
 	/**
 	 * Commit an action from the action queue
 	 */
 	public void act()
 	{
+		//for Testing purposes
+		//actions.add(Instruction.RIGHT);
 		// Pop the action from the queue.
 		Instruction i = actions.poll();
 		changeDirection(i.getRotation());
 		move(facingDirection, i.getTranslation());
 	}
-	
-	
+
+
 	/**
 	 * Adds a angle to the direction
-	 * @param angle in half pi radians (90° left = +1) accepts any integer value
+	 * @param angle in half pi radians (90° right = +1) accepts any integer value
 	 * @return new direction after angle transform
 	 */
 	public void changeDirection(int rotation) {
 		Direction oldD =  facingDirection;
 		facingDirection = facingDirection.add(rotation);
-		Logger.log(this, LogSeverity.INFO, "Robot" + number + " direction was " + oldD + " is now " + facingDirection + " after adding rotation of " + rotation);
+
+		if (facingDirection != oldD)
+			Logger.log(this, LogSeverity.INFO, "Robot" + number + " direction was " + oldD + " is now " + facingDirection + " after adding rotation of " + rotation);
 	}
-	
+
 
 	/**
 	 * 
@@ -112,44 +115,45 @@ public class Robot extends GameObject implements IDrawable, IUpdatable
 	public void move(Direction direction) {
 		move(direction, 1);
 	}
-	
+
 	/**
 	 * @param direction to move robot in
 	 */
 	public void move(Direction direction, int ammount) {
 		//FIXME not the best implementation robot shouldn't decide what the Direction's transform is
-		
+
 		Point pIndex = index;
 		Board.getTile(index).onRobotLeave(this);
-		
+
 		switch (direction)
 		{
-			case NORTH:
-				this.index.y += ammount;
-				break;
-			case SOUTH:
-				this.index.y -= ammount;
-				break;
-			case EAST:
-				this.index.x += ammount;
-				break;
-			case WEST:
-				this.index.x -= ammount;
-				break;
-			default:
-				Logger.log(this, LogSeverity.ERROR, "Robot had invalid direction. Resetting to north.");
-				facingDirection = Direction.NORTH;
-				this.index.y += ammount;
-				break;
+		case NORTH:
+			this.index.y += ammount;
+			break;
+		case SOUTH:
+			this.index.y -= ammount;
+			break;
+		case EAST:
+			this.index.x += ammount;
+			break;
+		case WEST:
+			this.index.x -= ammount;
+			break;
+		default:
+			Logger.log(this, LogSeverity.ERROR, "Robot" + number + " had invalid direction. Resetting to" + DEFAULT_DIRECTION);
+			facingDirection = DEFAULT_DIRECTION;
+			this.index.y += ammount;
+			break;
 		}
-		
+
 		Board.getTile(index).onRobotEnter(this);
-		
-		
+
+
 		position = new Vector2(index.x * 64, index.y * 64);
-		Logger.log(this, LogSeverity.INFO, "Moving Robot " + number + " from (" + pIndex.x + "," + pIndex.y + ") to (" + index.x + "," + index.y + ")" );
+		if (pIndex.x != index.x || pIndex.y != index.y)
+			Logger.log(this, LogSeverity.INFO, "Moving Robot" + number + " from (" + pIndex.x + "," + pIndex.y + ") to (" + index.x + "," + index.y + ")" );
 	}
-	
+
 	/**
 	 * Reset the Location of Robot back to its starting position
 	 */
@@ -158,24 +162,24 @@ public class Robot extends GameObject implements IDrawable, IUpdatable
 		index = startIndex;
 		facingDirection = DEFAULT_DIRECTION;
 	}
-	
+
 	@Override
 	public void update(double time)
 	{
-		
+
 	}
-	
+
 	@Override
 	public void draw(RenderBatch b)
 	{
 		b.draw(new RenderInstance()
-			.withTexture("robot" + number)
-			.withDestinationRegion(new Region(this.position, new Vector2(64), true))
-			.withDepth(2f)
-			.withLayer(1)
-			.withRotation(facingDirection.getAngle())
-			.withRotationOrigin(this.position)
-		);
+				.withTexture("robot" + number)
+				.withDestinationRegion(new Region(this.position, new Vector2(64), true))
+				.withDepth(2f)
+				.withLayer(1)
+				.withRotation(facingDirection.getAngle())
+				.withRotationOrigin(this.position)
+				);
 	}
-	
+
 }

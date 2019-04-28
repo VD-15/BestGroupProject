@@ -42,6 +42,7 @@ public class Board extends GameObject
 		this.boardFile = boardFile;
 		
 		startingLocations = new ArrayList<Point>();
+		loadBoardFromText(ContentManager.getTextByName(boardFile));
 	}
 	
 	/** Creates a default testBoard*/
@@ -53,7 +54,6 @@ public class Board extends GameObject
 	@Override
 	public void init()
 	{
-		loadBoardFromText(ContentManager.getTextByName(boardFile));
 		
 		for(GameObject o : getBoardTiles()) {
 			Game.instantiate(o);
@@ -217,6 +217,9 @@ public class Board extends GameObject
 		for(Point p : startingLocations) {
 			if(p != null) {
 				this.startingLocations.add(p);
+				
+				//TEMP!!
+				//Game.instantiate(new Robot(p, 1));
 			}
 		}
 		

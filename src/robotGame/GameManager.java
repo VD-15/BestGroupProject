@@ -2,6 +2,7 @@ package robotGame;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Queue;
 
 import core.ContentManager;
@@ -37,16 +38,23 @@ public class GameManager extends GameObject implements IUpdatable {
 	private HashMap<Integer, ArrayList<Instruction[]>> players;
 	private ArrayList<Point> startingLocations;
 
+	public GameManager() {
+		players = new HashMap<Integer, ArrayList<Instruction[]>>();
+		robots = new LinkedList<Robot>();
+	}
 	@Override
 	public void init() 
 	{
 		board = new Board();
 		Game.instantiate(board);
-		players = formatInstructions(ContentManager.getTextByName("4players"));
+		//TEMP!! commented out as causes errors
+		//players = formatInstructions(ContentManager.getTextByName("4players"));
 		startingLocations = board.getStartingLocations();
-		for (int i = 0; i < players.size(); i++)
+		//TEMP!! commented out and replaced with 4 so that it works for testing 
+		//for (int i = 0; i < players.size(); i++)
+		for (int i = 0; i < 4; i++)
 		{
-			Robot r = new Robot(startingLocations.get(i), i);
+			Robot r = new Robot(startingLocations.get(i), i + 1);
 			Game.instantiate(r);
 			robots.offer(r);
 		}
@@ -56,6 +64,7 @@ public class GameManager extends GameObject implements IUpdatable {
 	
 	public HashMap<Integer, ArrayList<Instruction[]>> formatInstructions(String[] text )
 	{	
+		
 		HashMap<Integer, ArrayList<Instruction[]>> players = new HashMap<Integer, ArrayList<Instruction[]>>();
 		for (int i = 2; i < text.length; i++)
 		{
@@ -134,7 +143,7 @@ public class GameManager extends GameObject implements IUpdatable {
 		if (rDeltaT > TURN_TIME) {
 			rDeltaT = 0;
 			
-			//round();
+			round();
 			
 			
 		}
