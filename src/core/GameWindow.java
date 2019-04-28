@@ -160,6 +160,11 @@ public class GameWindow implements GLEventListener
 		ContentManager.loadImage(gl, "textures/RobotWest.png", 		"robotWEST", 		64, 	64);
 		ContentManager.loadImage(gl, "textures/RobotEast.png", 	"robotEAST", 		64, 	64);
 
+		ContentManager.loadImage(gl, "textures/Robot1.gif", 		"robot1", 		64, 	64);
+		ContentManager.loadImage(gl, "textures/Robot2.gif", 		"robot2", 		64, 	64);
+		ContentManager.loadImage(gl, "textures/Robot3.gif", 		"robot3", 		64, 	64);
+		ContentManager.loadImage(gl, "textures/Robot4.gif", 	"robot4", 		64, 	64);
+		
 		ContentManager.loadText("boards/testboard.brd", "testBoard");
 		ContentManager.loadText("boards/conveyor-loops.brd", "testBoard2");
 		ContentManager.loadText("boards/example-board.brd", "testBoard3");

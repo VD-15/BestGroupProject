@@ -38,7 +38,7 @@ public class Robot extends GameObject implements IDrawable, IUpdatable
 
 	
 	/** The default Directions for all robots*/
-	private static final Direction DEFAULT_DIRECTION = Direction.NORTH;
+	private static final Direction DEFAULT_DIRECTION = Direction.WEST;
 	
 	
 	/**
@@ -169,10 +169,12 @@ public class Robot extends GameObject implements IDrawable, IUpdatable
 	public void draw(RenderBatch b)
 	{
 		b.draw(new RenderInstance()
-			.withTexture("robot" + facingDirection)
+			.withTexture("robot" + number)
 			.withDestinationRegion(new Region(this.position, new Vector2(64), true))
 			.withDepth(2f)
 			.withLayer(1)
+			.withRotation(facingDirection.getAngle())
+			.withRotationOrigin(this.position)
 		);
 	}
 	
