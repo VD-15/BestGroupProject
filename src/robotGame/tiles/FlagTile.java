@@ -11,46 +11,33 @@ import utils.Vector2;
 /**
  * Flag Tile
  * 
- * @author Jedd Morgan
- * @author Vanessa Kostadinova
- * @version 25/04/2019
+ * @author Jedd Morgan, Vanessa Kostadinova
+ * @version 24/05/2019
  */
 public class FlagTile extends BoardTile 
 {
-	
 	private int flagNumber;
 
 	public FlagTile(Point index, int flagNumber) 
 	{
 		super(index);
 		this.flagNumber = flagNumber;
-		this.tag = "tileFlag";
+		this.tag = "flagTile";
 	}
 	
-	@Override
-	public void init() 
-	{
-				
-	}
-	
+	/**
+	 * {@inheritDoc}
+	 * Adds the flag to the robot.
+	 */
 	@Override
 	public void act() 
 	{
-		//No implementation required
+		//currentRobot.addFlag(flagNumber);
 	}
 
-	@Override
-	public void onRobotEnter(Robot robot) 
-	{
-
-	}
-	
-	@Override
-	public void onRobotLeave(Robot robot)
-	{
-		
-	}
-
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void draw(RenderBatch b) 
 	{
@@ -59,7 +46,6 @@ public class FlagTile extends BoardTile
 			.withDestinationRegion(new Region(this.position, new Vector2(TILE_SIZE), true))
 			.withDepth(1f)
 			.withLayer(1)
-			);
+		);
 	}
-
 }

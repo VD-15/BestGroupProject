@@ -14,9 +14,8 @@ import utils.Vector2;
 /**
  * Belt Tile
  * 
- * @author Jedd Morgan
- * @author Vanessa Kostadinova
- * @version 25/04/2019
+ * @author Jedd Morgan, Vanessa Kostadinova
+ * @version 24/05/2019
  */
 public class BeltTile extends BoardTile 
 {
@@ -24,60 +23,39 @@ public class BeltTile extends BoardTile
 	private int rotation;
 	
 	/**
-	 * Creates a new straight belt
-	 * @param direction The direction the tile acts in.
-	 */
-	public BeltTile(Point index, Direction direction) 
-	{
-		this(index, direction, 0);
-	}
-	
-	/**
 	 * Creates a new belt
-	 * @param index
+	 * @param index The point on a grid.
 	 * @param direction The direction the tile acts in.
-	 * @param rotation for corner belts
+	 * @param rotation For corner belts use 1 for left and -1 for right. For normal belt tiles 0.
 	 */
-	public BeltTile(Point index, Direction direction, int rotation) 
+	public BeltTile(Point index, Direction direction, int rotation)
 	{
 		super(index);
 		this.direction = direction;
-		this.tag = "tileBelt";
 		this.rotation = rotation;
+		this.tag = "BeltTile";
 	}
 	
-	@Override
-	public void init() 
-	{
-		// No implementation
-	}
-	
+	/**
+	 * {@inheritDoc}
+	 * Rotates robot then moves it.
+	 */
 	@Override
 	public void act() 
 	{
-		//TODO
-		//currentRobot.move(direction);
+		currentRobot.changeDirection(rotation);
+		currentRobot.move(direction);
 	}
 
-	@Override
-	public void onRobotEnter(Robot robot) 
-	{
-		//TODO
-	}
-	
-	@Override
-	public void onRobotLeave(Robot robot)
-	{
-		//TODO
-	}
-
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void draw(RenderBatch b) 
 	{
-		//TODO
 		String name = "tileBelt" + direction.getName();
 		
-		switch (rotation % Direction.values().length) {
+		switch (rotation) {
 		case 1: //CC belt
 			name += "CC";
 			break;
@@ -91,13 +69,12 @@ public class BeltTile extends BoardTile
 			break;
 		}
 		
-		
 		b.draw(new RenderInstance()
 			.withTexture(name)
 			.withDestinationRegion(new Region(this.position, new Vector2(TILE_SIZE), true))
 			.withDepth(1f)
 			.withLayer(1)
-			);		
+			);
 	}
 
 }

@@ -11,46 +11,26 @@ import utils.Vector2;
 /**
  * Pit Tile
  * 
- * @author Jedd Morgan
- * @author Vanessa Kostadinova
- * @version 25/04/2019
+ * @author Jedd Morgan, Vanessa Kostadinova
+ * @version 24/05/2019
  */
 public class PitTile extends BoardTile
 {
-	
-	
-	
 	public PitTile(Point index)
 	{
 		super(index);
 		this.tag = "tilePit";
 	}
 	
-	
-	@Override
-	public void init()
-	{
-		
-	}
-	
-	@Override
-	public void act()
-	{
-		//No implementation required
-	}
-
+	/**
+	 * 
+	 */
 	@Override
 	public void onRobotEnter(Robot robot)
 	{
 		robot.resetLocation();
 	}
 	
-	@Override
-	public void onRobotLeave(Robot robot)
-	{
-		
-	}
-
 	@Override
 	public void draw(RenderBatch b)
 	{
