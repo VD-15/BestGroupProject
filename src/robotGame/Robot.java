@@ -7,6 +7,7 @@ import core.GameObject;
 import graphics.IDrawable;
 import graphics.RenderBatch;
 import graphics.RenderInstance;
+import robotGame.tiles.BoardTile;
 import utils.Direction;
 import utils.LogSeverity;
 import utils.Logger;
@@ -144,13 +145,19 @@ public class Robot extends GameObject implements IDrawable
 			this.index.y += ammount;
 			break;
 		}
-
-		Board.getTile(index).onRobotEnter(this);
-
+		
 		setPosition(index);
 		if (pIndex != index)
 			Logger.log(this, LogSeverity.INFO, "Moving Robot" + number + " from (" + pIndex.x + "," + pIndex.y + ") to (" + index.x + "," + index.y + ")" );
+
+
+		BoardTile b = Board.getTile(index);
+		if (b == null) {
+			resetLocation();
+			return;
+		}
 		
+		b.onRobotEnter(this);
 	}
 	
 	private void setPosition(Point p) {
@@ -164,6 +171,7 @@ public class Robot extends GameObject implements IDrawable
 	{
 		setPosition(startIndex);
 		facingDirection = DEFAULT_DIRECTION;
+		Logger.log(this, LogSeverity.INFO, "Reseting Robot" + number + " to start location (" + index.x + "," + index.y + ")" );
 	}
 
 

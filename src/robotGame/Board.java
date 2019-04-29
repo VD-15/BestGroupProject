@@ -61,7 +61,13 @@ public class Board extends GameObject
 	
 	public static BoardTile getTile(Point p)
 	{
-		// FIXME bounds
+		if(p.x > boardArray.length || p.x < 0) {
+			return null;
+		}
+		if(p.y > boardArray[p.x].length || p.y < 0) {
+			return null;
+		}
+				
 		return boardArray[p.x][p.y];
 	}
 	
