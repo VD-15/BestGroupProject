@@ -26,18 +26,14 @@ public class FlagTile extends BoardTile
 	}
 	
 	/**
-	 * {@inheritDoc}
 	 * Adds the flag to the robot.
-	 */
+	 */	
 	@Override
-	public void act() 
+	public void onRobotEnter(Robot robot) 
 	{
-		//currentRobot.addFlag(flagNumber);
+		robot.addFlag(flagNumber);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void draw(RenderBatch b) 
 	{

@@ -44,7 +44,7 @@ public class BeltTile extends BoardTile
 	public void act() 
 	{
 		if (currentRobot != null) {
-			currentRobot.changeDirection(rotation);
+			currentRobot.rotate(rotation);
 			currentRobot.move(direction);
 		}
 	}

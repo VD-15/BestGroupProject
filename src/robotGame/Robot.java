@@ -44,7 +44,8 @@ public class Robot extends GameObject implements IDrawable, IUpdatable
 
 	/**
 	 * Robot Constructor
-	 * @param index starting location
+	 * @param index - starting location
+	 * @param number - number of the robot for textures and logging
 	 */
 	public Robot(Point index, int number)
 	{
@@ -90,7 +91,7 @@ public class Robot extends GameObject implements IDrawable, IUpdatable
 		//actions.add(Instruction.RIGHT);
 		// Pop the action from the queue.
 		Instruction i = actions.poll();
-		changeDirection(i.getRotation());
+		rotate(i.getRotation());
 		move(facingDirection, i.getTranslation());
 	}
 
@@ -100,7 +101,7 @@ public class Robot extends GameObject implements IDrawable, IUpdatable
 	 * @param angle in half pi radians (90° right = +1) accepts any integer value
 	 * @return new direction after angle transform
 	 */
-	public void changeDirection(int rotation) {
+	public void rotate(int rotation) {
 		Direction oldD =  facingDirection;
 		facingDirection = facingDirection.add(rotation);
 
@@ -181,6 +182,11 @@ public class Robot extends GameObject implements IDrawable, IUpdatable
 				.withRotation(facingDirection.getAngle())
 				.withRotationOrigin(this.position)
 				);
+	}
+
+	public void addFlag(int flagNumber) {
+		// TODO Work out how we are handling flag tiles!
+		
 	}
 
 }

@@ -17,23 +17,26 @@ import utils.Vector2;
 public class GearTile extends BoardTile 
 {
 	/**
-	 * Is true if the GearTile is rotating clockwise, false otherwise.
-	 */
-	private boolean isClockwise;
-	/**
 	 * Stores the rotation quantity, 1 for left, -1 for right.
 	 */
 	private int rotation;
+	
+	private boolean isClockwise;
 
 	/**
 	 * 
 	 * @param index {@inheritDoc}
 	 * @param clockwise Boolean which determines what direction the gear acts in, true for clockwise, false for counterclockwise.
 	 */
-	public GearTile(Point index, boolean clockwise) 
+	public GearTile(Point index, boolean isClockwise) 
 	{
 		super(index);
-		this.isClockwise = clockwise;
+		this.isClockwise = isClockwise;
+		if(isClockwise) {
+			rotation = -1;
+		} else {
+			rotation = 1;
+		}
 	}
 	
 	/**
@@ -43,11 +46,7 @@ public class GearTile extends BoardTile
 	@Override
 	public void act()
 	{
-		if(isClockwise) {
-			rotation = 1;
-		} else {
-			rotation = -1;
-		}
+		currentRobot.rotate(rotation);
 	}
 
 	@Override
