@@ -29,8 +29,6 @@ public class GameManager extends GameObject implements IUpdatable {
 	double rDeltaT = 0;
 	/** Time in seconds between each Turn*/
 	private static final double TURN_TIME = 1; 
-	/** Time in seconds between each Round*/
-	private static final double ROUND_TIME = 5;
 	
 	private Queue<Robot> robots;
 	
@@ -110,11 +108,40 @@ public class GameManager extends GameObject implements IUpdatable {
 	}
 	
 	
+	/*
+	 * MESSAGE TO OWEN!! VERRY IMPORTANT DON'T MISS THIS!! ITS VERY IMPORTANT THAT THIS MESSAGE IS READ IN ITS ENTIREITY LEST THEIR BE SOME SORT OF CONFUSION ATTAINING TO THE NATURE OF THIS METHOD
+	 * What needs to be done is fairly simple but we can't really progress with this turn thing without
+	 * V's input system which is very close to completion ( or depending on V's ability to power work through the night is complete but would be on the master branch )
+	 * I suggest you wait for the completion of said input system, and me to merge the two branches so that we can continue
+	 * 
+	 * When that has happened, We basically want to not start running instructions until a start button is pressed
+	 * The way we check for that is unclear at the moment and requires V to decide how button events will be handled
+	 * Once the round has started we execute robot instructions with the delay of TURN_TIME
+	 * 
+	 * Then we wait until the round start button is pressed again. 
+	 * This will allow for future expandability when we use the input system to its entirety to get user input through the keyboard listener
+	 * Rather than through the program file.
+	 * Very nice ;)
+	 */
+	@Override
+	public void update(double time) {
+		rDeltaT += time;
+		
+		if (rDeltaT > TURN_TIME) {
+			rDeltaT = 0;
+			
+			//round();
+			
+			
+		}
+	}
+	
 	
 	
 	/**
 	 * Executes a round, round is made up of turns one for each player and one for the board
 	 */
+	/*
 	private void round() {
 		for(int i = 0; i < robots.size(); i++) {
 			//Each Player Turn
@@ -131,20 +158,6 @@ public class GameManager extends GameObject implements IUpdatable {
 		}
 		
 		Logger.log(this, LogSeverity.INFO, "Done a turn");
-		
 	}
-	
-	
-	@Override
-	public void update(double time) {
-		rDeltaT += time;
-		
-		if (rDeltaT > TURN_TIME) {
-			rDeltaT = 0;
-			
-			//round();
-			
-			
-		}
-	}
+	*/
 }
