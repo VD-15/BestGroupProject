@@ -12,19 +12,58 @@ import robotGame.UICamera;
 import utils.LogSeverity;
 import utils.Logger;
 
+/**
+ * Facilitates the running of the game
+ * @author Vee
+ *
+ */
 public class Game
 {
-	private static LinkedList<GameObject> objects = new LinkedList<GameObject>();;
+	/**
+	 * GameObjects currently in the game
+	 */
+	private static LinkedList<GameObject> objects = new LinkedList<GameObject>();
+	
+	/**
+	 * GameObjects to be added to the game
+	 */
 	private static LinkedList<GameObject> toAdd = new LinkedList<GameObject>();
+	
+	/**
+	 * GameObjects to remove from the game
+	 */
 	private static LinkedList<GameObject> toRemove = new LinkedList<GameObject>();
 	
+	/**
+	 * The window the game is being hosted in
+	 */
 	private static GameWindow window;
 	
+	/**
+	 * Stores the last read of System.nanoTime() to
+	 * allow for smooth movement of various objects
+	 * regardless of frame rate
+	 */
 	private static double lastNano = 0d;
+	
+	/**
+	 * Whether or not the game is still running.
+	 * Setting this to false will terminate the
+	 * application
+	 */
 	private static boolean isRunning = false;
 	
+	/**
+	 * Initialises the game in the given window
+	 * @param g
+	 */
 	public static void init(GameWindow g)
-	{		
+	{
+		if (isRunning)
+		{
+			Logger.log(Game.class, LogSeverity.ERROR, "Tried to instantiate a game when one was already running.");
+		}
+		
 		window = g;
 		
 		//Don't touch this unless you hate yourself
@@ -39,17 +78,23 @@ public class Game
 		isRunning = true;
 	}
 	
+	/**
+	 * Updates the game's logic
+	 */
 	public static void update()
 	{
+		//Check if the game should update
 		if (window.getKeyboard().isKeyDown("gameQuit"))
 		{
 			isRunning = false;
 			return;
 		}
 		
+		//Calculate time since last update
 		double newNano = System.nanoTime();
 		double delta = (newNano - lastNano) / 1000000000f;
 		
+		//Update every object
 		for (GameObject g : objects)
 		{
 			if (g instanceof IUpdatable)
@@ -59,6 +104,7 @@ public class Game
 			}
 		}
 		
+		//Remove old objects from game
 		while (!toRemove.isEmpty())
 		{
 			GameObject g = toRemove.poll();
@@ -66,6 +112,7 @@ public class Game
 			objects.remove(g);
 		}		
 		
+		//Add new objects to game
 		while (!toAdd.isEmpty())
 		{
 			GameObject g = toAdd.poll();
@@ -76,6 +123,10 @@ public class Game
 		lastNano = newNano;
 	}
 	
+	/**
+	 * Renders the game to the given RenderBatch
+	 * @param b The renderbatch to draw the game to
+	 */
 	public static void draw(RenderBatch b)
 	{
 		for (GameObject g : objects)
@@ -88,21 +139,40 @@ public class Game
 		}
 	}
 	
+	/**
+	 * Instantiates a new GameObject to the game. 
+	 * Use this instead of adding to toAdd or gameObjects
+	 * @param g
+	 */
 	public static void instantiate(GameObject g)
 	{
 		toAdd.offer(g);
 	}
 	
+	/**
+	 * Removes a gameobject from the game.
+	 * Use this instead of adding to toRemove or removing from gameObjects
+	 * @param g
+	 */
 	public static void destroy(GameObject g)
 	{
 		toRemove.offer(g);
 	}
 	
+	/**
+	 * Gets the window this game is hosted in
+	 * @return
+	 */
 	public static GameWindow getWindow()
 	{
 		return window;
 	}
 	
+	/**
+	 * Retrieves a list of GameObjects that match a given tag
+	 * @param tag The tag to search for
+	 * @return an ArrayList of GameObjects currently in the game with a matching tag
+	 */
 	public static ArrayList<GameObject> getGameObjectsByTag(String tag)
 	{
 		ArrayList<GameObject> matches = new ArrayList<GameObject>();
@@ -118,6 +188,10 @@ public class Game
 		return matches;
 	}
 	
+	/**
+	 * Gets whether or not the game is running.
+	 * @return whether or not the game is running
+	 */
 	public static boolean isRunning()
 	{
 		return isRunning;

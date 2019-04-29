@@ -85,7 +85,7 @@ public class GameWindow implements GLEventListener
 
 		//Create the animator
 		this.animator = new Animator(this.window);
-		this.viewport = new Vector2(640, 480);  //FIXME is this meant to have fixed values?
+		this.viewport = new Vector2(_width, _height);
 		this.renderer = new Renderer();
 	}
 
@@ -96,24 +96,7 @@ public class GameWindow implements GLEventListener
 	{
 		Logger.log(this, LogSeverity.INFO, "Running.");
 		window.setVisible(true);
-		//window.setUpdateFPSFrames(15, null);
-		
-		/*
-		//Run the garbage collector every 5 seconds to avoid big boi memory leaks.
-		{
-			Timer timer = new Timer();
-			TimerTask task = new TimerTask()
-			{
-				@Override
-				public void run()
-				{
-					Runtime.getRuntime().gc();
-				}
-			};
-
-			timer.schedule(task, 0, 5000);
-		}
-		*/
+		window.setUpdateFPSFrames(15, null);
 	}
 	 /**
 	  * Used to close the window at runtime
@@ -150,6 +133,7 @@ public class GameWindow implements GLEventListener
 	{
 		GL3 gl = drawable.getGL().getGL3();
 
+		//Load textures
 		ContentManager.setRootDirectory("content/");		
 		ContentManager.loadImage(gl, "textures/TilePit.bmp", 				"tilePit", 			64, 	64);
 		ContentManager.loadImage(gl, "textures/TileNormal.bmp", 			"tileNormal", 		64, 	64);
@@ -186,11 +170,13 @@ public class GameWindow implements GLEventListener
 		ContentManager.loadImage(gl, "textures/UI/button_edge.png",			"buttonEdge", 		15, 	64);
 		ContentManager.loadImage(gl, "textures/UI/button_middle.png",		"buttonCenter",		15, 	64);
 		
+		//Load boards
 		ContentManager.loadText("boards/testboard.brd", "testBoard");
 		ContentManager.loadText("boards/conveyor-loops.brd", "testBoard2");
 		ContentManager.loadText("boards/example-board.brd", "testBoard3");
 
-		
+
+		//Load programs
 		ContentManager.loadText("programs/4players.prg", "4players");
 		
 		//Bindings for the MainCamera

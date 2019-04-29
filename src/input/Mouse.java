@@ -7,14 +7,40 @@ import utils.LogSeverity;
 import utils.Logger;
 import utils.Point;
 
+/**
+ * Represents a virtual mouse that tracks the position of the cursor and any pressed buttons
+ * @author Vee
+ */
 public class Mouse implements MouseListener
 {
+	/**
+	 * Whether the left mouse button is pressed
+	 */
 	private boolean leftButtonDown;
+	
+	/**
+	 * Whether the right mouse button is pressed
+	 */
 	private boolean rightButtonDown;
+	
+	/**
+	 * Whether the middle mouse button is pressed, normally the scroll wheel, but is independent of scrolling
+	 */
 	private boolean middleButtonDown;
+	
+	/**
+	 * The position of the mouse cursor
+	 */
 	private Point mousePos;
+	
+	/**
+	 * How many scroll units the mouse has scrolled since this object was created
+	 */
 	private float scrollDelta;
 	
+	/**
+	 * Creates a Mouse
+	 */
 	public Mouse()
 	{
 		leftButtonDown = false;
@@ -24,8 +50,22 @@ public class Mouse implements MouseListener
 		scrollDelta = 0f;
 	}
 	
+	/**
+	 * Get whether the left mouse button is pressed
+	 * @return Whether the left mouse button is pressed
+	 */
 	public boolean isLeftButtonDown() { return leftButtonDown; }
+	
+	/**
+	 * Get whether the right mouse button is pressed
+	 * @return Whether the right mouse button is pressed
+	 */
 	public boolean isRightButtonDown() { return rightButtonDown; }
+	
+	/**
+	 * Get whether the middle mouse button is pressed, normally the scroll wheel, but is independent of scrolling
+	 * @return Whether the middle mouse button is pressed
+	 */
 	public boolean isMiddleButtonDown() { return middleButtonDown; }
 	
 	public Point getMousePos() { return mousePos; }

@@ -78,7 +78,6 @@ public class Robot extends GameObject implements IDrawable, IUpdatable
 		{
 			actions.offer(i);
 		}
-
 	}
 
 	/**

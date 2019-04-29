@@ -1,7 +1,6 @@
 package graphics;
 
 /**
- * <h1>Color</h1>
  * Represents a color with 4 floating-point channels
  * @ author Vee
  */
