@@ -65,4 +65,11 @@ public class BoardTile extends GameObject implements IDrawable
 			.withLayer(1)
 			);
 	}
+
+	@Override
+	public void destroy()
+	{
+		// TODO Auto-generated method stub
+		
+	}
 }

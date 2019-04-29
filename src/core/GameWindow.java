@@ -34,7 +34,7 @@ public class GameWindow implements GLEventListener
 	/**
 	 * OpenGL rendering target and actual application window
 	 */
-	private GLWindow window;
+	public GLWindow window;
 
 	/**
 	 * Facilitates drawing every frame
@@ -133,6 +133,11 @@ public class GameWindow implements GLEventListener
 	{
 		return this.keyboard;
 	}
+	
+	public Mouse getMouse()
+	{
+		return this.mouse;
+	}
 
 	/**
 	 * Called once when the window is first displayed
@@ -177,6 +182,9 @@ public class GameWindow implements GLEventListener
 		ContentManager.loadImage(gl, "textures/Robot2.gif", 				"robot2", 			64, 	64);
 		ContentManager.loadImage(gl, "textures/Robot3.gif", 				"robot3", 			64, 	64);
 		ContentManager.loadImage(gl, "textures/Robot4.gif", 				"robot4", 			64, 	64);
+
+		ContentManager.loadImage(gl, "textures/UI/button_edge.png",			"buttonEdge", 		15, 	64);
+		ContentManager.loadImage(gl, "textures/UI/button_middle.png",		"buttonCenter",		15, 	64);
 		
 		ContentManager.loadText("boards/testboard.brd", "testBoard");
 		ContentManager.loadText("boards/conveyor-loops.brd", "testBoard2");

@@ -183,4 +183,11 @@ public class Robot extends GameObject implements IDrawable, IUpdatable
 				);
 	}
 
+	@Override
+	public void destroy()
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
 }

@@ -8,8 +8,6 @@ public abstract class GameObject
 {
 	protected Vector2 position;
 	protected String tag;
-	protected GameObject parent;
-	protected ArrayList<GameObject> children;
 	
 	public GameObject()
 	{
@@ -24,4 +22,5 @@ public abstract class GameObject
 	}
 	
 	public abstract void init();
+	public abstract void destroy();
 }

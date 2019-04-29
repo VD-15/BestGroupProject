@@ -41,5 +41,12 @@ public class TestObject extends GameObject implements IDrawable, IUpdatable
 			.withDepth(1f)
 			);
 	}
+
+	@Override
+	public void destroy()
+	{
+		// TODO Auto-generated method stub
+		
+	}
 	
 }

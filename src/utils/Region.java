@@ -66,7 +66,16 @@ public final class Region implements Cloneable
 	public Vector2 getCenter()
 	{
 		return new Vector2(this.x + (this.width / 2), (this.y + this.height / 2));
-		
+	}
+	
+	public boolean containsPoint(Vector2 v)
+	{
+		return (v.x > this.x && v.x < this.x + this.width && v.y > this.y && v.y < this.y + this.height);
+	}
+	
+	public boolean containsPoint(Point v)
+	{
+		return (v.x > this.x && v.x < this.x + this.width && v.y > this.y && v.y < this.y + this.height);
 	}
 	
 	@Override

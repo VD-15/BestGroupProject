@@ -148,4 +148,10 @@ public class GameManager extends GameObject implements IUpdatable {
 			
 		}
 	}
+	@Override
+	public void destroy()
+	{
+		// TODO Auto-generated method stub
+		
+	}
 }

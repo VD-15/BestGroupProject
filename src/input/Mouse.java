@@ -40,7 +40,7 @@ public class Mouse implements MouseListener
 	@Override
 	public void mouseDragged(MouseEvent e)
 	{
-		
+		mousePos = new Point(e.getX(), e.getY());
 	}
 
 	@Override
@@ -104,5 +104,4 @@ public class Mouse implements MouseListener
 	{
 		scrollDelta += e.getRotation()[1] * e.getRotationScale();
 	}
-	
 }

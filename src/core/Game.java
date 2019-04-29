@@ -3,10 +3,12 @@ package core;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
+import UI.Button;
 import graphics.IDrawable;
 import graphics.RenderBatch;
 import robotGame.GameManager;
 import robotGame.MainCamera;
+import robotGame.UICamera;
 import utils.LogSeverity;
 import utils.Logger;
 
@@ -30,6 +32,8 @@ public class Game
 		
 		Game.instantiate(new GameManager());
 		Game.instantiate(new MainCamera());
+		Game.instantiate(new UICamera());
+		Game.instantiate(new Button());
 		
 		lastNano = System.nanoTime();
 		isRunning = true;
@@ -57,7 +61,9 @@ public class Game
 		
 		while (!toRemove.isEmpty())
 		{
-			objects.remove(toRemove.poll());
+			GameObject g = toRemove.poll();
+			g.destroy();
+			objects.remove(g);
 		}		
 		
 		while (!toAdd.isEmpty())

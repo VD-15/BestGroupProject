@@ -42,5 +42,11 @@ public class Camera extends GameObject implements IDrawable
 	{
 		b.registerCamera(this.layer, this);
 	}
+
+	@Override
+	public void destroy()
+	{
+		
+	}
 	
 }
