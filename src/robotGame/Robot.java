@@ -150,10 +150,14 @@ public class Robot extends GameObject implements IDrawable, IUpdatable
 
 		Board.getTile(index).onRobotEnter(this);
 
-
-		position = new Vector2(index.x * 64, index.y * 64);
-		if (pIndex.x != index.x || pIndex.y != index.y)
+		setPosition(index);
+		if (pIndex != index)
 			Logger.log(this, LogSeverity.INFO, "Moving Robot" + number + " from (" + pIndex.x + "," + pIndex.y + ") to (" + index.x + "," + index.y + ")" );
+		
+	}
+	
+	private void setPosition(Point p) {
+		position = new Vector2(p.x * 64, p.y * 64);
 	}
 
 	/**
@@ -161,7 +165,7 @@ public class Robot extends GameObject implements IDrawable, IUpdatable
 	 */
 	public void resetLocation()
 	{
-		index = startIndex;
+		setPosition(startIndex);
 		facingDirection = DEFAULT_DIRECTION;
 	}
 
