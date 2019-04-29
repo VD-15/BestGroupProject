@@ -12,9 +12,11 @@ import javax.imageio.ImageIO;
 
 import com.jogamp.opengl.GL3;
 
+import UI.Font;
 import graphics.Texture;
 import utils.LogSeverity;
 import utils.Logger;
+import utils.Point;
 
 /**
  * Facilitates the loading of game content in a streamlined 
@@ -33,6 +35,8 @@ public class ContentManager
 	 * Loaded plain text files accessed by name
 	 */
 	private static HashMap<String, String[]> PLAINTEXT;
+	
+	private static HashMap<String, Font> FONTS;
 	
 	/**
 	 * Relative or absolute root directory to search for content in
@@ -54,6 +58,25 @@ public class ContentManager
 		ContentManager.ROOT_DIR = root;
 		ContentManager.TEXTURES = new HashMap<String, Texture>();
 		ContentManager.PLAINTEXT = new HashMap<String, String[]>();
+		ContentManager.FONTS = new HashMap<String, Font>();
+	}
+	
+	/**
+	 * Creates a font and stores it in the content manager
+	 * @param textureName the name of the texture to load
+	 * @param fontName the the font will be accessed with
+	 * @param letterSize the size of each font letter
+	 * @return
+	 */
+	public static boolean createFont(String textureName, String fontName, Point letterSize)
+	{
+		if (ContentManager.TEXTURES.containsKey(textureName))
+		{
+			ContentManager.FONTS.put(fontName, new Font(ContentManager.TEXTURES.get(textureName), letterSize));
+			return true;
+		}
+		
+		return false;
 	}
 	
 	/**
@@ -140,7 +163,7 @@ public class ContentManager
 
 	/**
 	 * Removes a plain text file from the content manager
-	 * @param name the plain text file of the texture to destroy
+	 * @param name the plain text file to destroy
 	 */
 	public static void destroyText(String name)
 	{
@@ -151,6 +174,18 @@ public class ContentManager
 		else
 		{
 			Logger.log(ContentManager.class, LogSeverity.ERROR, "Failed to find plain text with name: {" + name + "}");
+		}
+	}
+	
+	public static void destroyFont(String name)
+	{
+		if (ContentManager.FONTS.containsKey(name))
+		{
+			ContentManager.FONTS.remove(name);
+		}
+		else
+		{
+			Logger.log(ContentManager.class, LogSeverity.ERROR, "Failed to find font with name: {" + name + "}");
 		}
 	}
 	
@@ -186,6 +221,19 @@ public class ContentManager
 		else
 		{
 			Logger.log(ContentManager.class, LogSeverity.ERROR, "Failed to find texture with name: {" + name + "}");
+			return null;
+		}
+	}
+	
+	public static Font getFontByName(String name)
+	{
+		if (ContentManager.FONTS.containsKey(name))
+		{
+			return ContentManager.FONTS.get(name);
+		}
+		else
+		{
+			Logger.log(ContentManager.class, LogSeverity.ERROR, "Failed to find font with name: {" + name + "}");
 			return null;
 		}
 	}

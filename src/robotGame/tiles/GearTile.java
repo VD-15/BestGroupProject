@@ -60,6 +60,7 @@ public class GearTile extends BoardTile
 			.withDestinationRegion(new Region(this.position, new Vector2(TILE_SIZE), true))
 			.withDepth(1f)
 			.withLayer(1)
+			.build()
 			);
 	}
 

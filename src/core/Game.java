@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 
 import UI.Button;
+import UI.Panel;
 import graphics.IDrawable;
 import graphics.RenderBatch;
 import robotGame.GameManager;
@@ -72,7 +73,7 @@ public class Game
 		Game.instantiate(new GameManager());
 		Game.instantiate(new MainCamera());
 		Game.instantiate(new UICamera());
-		Game.instantiate(new Button());
+		Game.instantiate(new Panel());
 		
 		lastNano = System.nanoTime();
 		isRunning = true;

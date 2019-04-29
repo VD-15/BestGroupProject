@@ -39,6 +39,7 @@ public class TestObject2 extends GameObject implements IDrawable, IUpdatable
 			.withRotation(this.rotation)
 			.withRotationOrigin(this.position)
 			.withDepth(2f)
+			.build()
 			);
 	}
 

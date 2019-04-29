@@ -1,6 +1,8 @@
 package graphics;
 
 import core.ContentManager;
+import utils.LogSeverity;
+import utils.Logger;
 import utils.Region;
 import utils.Vector2;
 
@@ -74,6 +76,52 @@ public class RenderInstance
 	public RenderInstance withLayer(Integer layer)
 	{
 		this.layer = new Integer(layer);
+		return this;
+	}
+	
+	public RenderInstance build()
+	{
+		if (texture == null)
+		{
+			Logger.log(this, LogSeverity.ERROR, "RenderInstance texture was null. You actually NEED to supply this.");
+		}
+		
+		if (destination == null)
+		{
+			Logger.log(this, LogSeverity.WARNING, "RenderInstance destination region was null. Will draw at origin point.");
+			destination = new Region(0, 0, texture.getWidth(), texture.getHeight());
+		}
+		
+		if (source == null)
+		{
+			source = new Region(0, 0, texture.getWidth(), texture.getHeight());
+		}
+		
+		if (color == null)
+		{
+			color = Color.WHITE();
+		}
+		
+		if (depth == null)
+		{
+			depth = new Float(0f);
+		}
+		
+		if (rotation == null)
+		{
+			rotation = new Float(0f);
+		}
+
+		if (rotationOrigin == null)
+		{
+			rotationOrigin = new Vector2();
+		}
+		
+		if (layer == null)
+		{
+			layer = new Integer(-1);
+		}
+		
 		return this;
 	}
 }

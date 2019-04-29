@@ -2,10 +2,12 @@ package UI;
 
 import com.jogamp.newt.event.MouseEvent;
 
+import core.ContentManager;
 import graphics.Color;
 import graphics.IDrawable;
 import graphics.RenderBatch;
 import graphics.RenderInstance;
+import graphics.StringRenderInstance;
 import utils.LogSeverity;
 import utils.Logger;
 import utils.Point;
@@ -14,16 +16,23 @@ import utils.Vector2;
 
 public class Button extends UIObject implements IDrawable
 {
-	private static float BUTTON_HEIGHT = 64;
+	private static float BUTTON_HEIGHT = 64f;
+	private static float BUTTON_MIN_WIDTH = 30f;
 	private float width;
-	private boolean isActive;
+	protected boolean isActive;
+	protected boolean isEnabled;
 	private boolean isClicked;
+	private String text;
+	protected Color highlight;
 	
 	public Button()
 	{
 		super();
 		this.width = 200;
 		this.isActive = false;
+		this.isEnabled = true;
+		this.text = "";
+		this.highlight = Color.WHITE();
 	}
 	
 	protected void onClick()
@@ -31,11 +40,17 @@ public class Button extends UIObject implements IDrawable
 		
 	}
 	
+	protected void setText(String text)
+	{
+		this.text = text;
+		this.setWidth(ContentManager.getFontByName("fontSmall").getStringSize(text).x + 20);
+	}
+	
 	protected void setWidth(float w)
 	{
-		if (w < 30f)
+		if (w < BUTTON_MIN_WIDTH)
 		{
-			Logger.log(this, LogSeverity.ERROR, "Button width must be greater than or equal to 30!");
+			Logger.log(this, LogSeverity.ERROR, "Button width must be greater than or equal to " + BUTTON_MIN_WIDTH + "!");
 		}
 		else
 		{
@@ -56,7 +71,7 @@ public class Button extends UIObject implements IDrawable
 	{
 		if (e.getButton() == MouseEvent.BUTTON1)
 		{
-			if (this.isActive)
+			if (this.isActive && this.isEnabled)
 			{
 				this.isClicked = true;
 				this.onClick();
@@ -76,56 +91,75 @@ public class Button extends UIObject implements IDrawable
 	@Override
 	public void draw(RenderBatch b)
 	{
-		Color highlight = Color.WHITE();
+		this.highlight = Color.WHITE();
 		
-		if (isActive)
+		if (this.isEnabled)
 		{
-			if (isClicked)
+			if (this.isActive)
 			{
-				highlight = new Color(0.5f, 0.5f, 0.5f);
+				if (isClicked)
+				{
+					this.highlight = new Color(0.5f, 0.5f, 0.5f);
+				}
+				else
+				{
+					this.highlight = new Color(1.5f, 1.5f, 1.5f);
+				}
 			}
-			else
-			{
-				highlight = new Color(1.5f, 1.5f, 1.5f);
-			}
+		}
+		else
+		{
+			this.highlight = new Color(0.75f, 0.125f, 0.125f);
 		}
 		
 		b.draw(new RenderInstance()
 				.withTexture("buttonEdge")
 				.withLayer(2)
 				.withDepth(16f)
-				.withColor(highlight)
+				.withColor(this.highlight)
 				.withDestinationRegion(
 						new Region(
 								this.position.add(new Vector2(0, 0)), 
 								new Vector2(15, BUTTON_HEIGHT), 
 								false)
 						)
+				.build()
 				);
 		
 		b.draw(new RenderInstance()
 				.withTexture("buttonCenter")
 				.withLayer(2)
 				.withDepth(16f)
-				.withColor(highlight)
+				.withColor(this.highlight)
 				.withDestinationRegion(
 						new Region(
 								this.position.add(new Vector2(15, 0)), 
 								new Vector2(width - 30, BUTTON_HEIGHT), 
 								false)
 						)
+				.build()
 				);
 		
 		b.draw(new RenderInstance()
 				.withTexture("buttonEdge")
-				.withLayer(2).withDepth(16f)
-				.withColor(highlight)
+				.withLayer(2)
+				.withDepth(16f)
+				.withColor(this.highlight)
 				.withDestinationRegion(
 						new Region(
 								this.position.add(new Vector2(width, 0)), 
 								new Vector2(-15, BUTTON_HEIGHT), 
 								false)
 						)
+				.build()
+				);
+				
+		b.drawString(new StringRenderInstance()
+				.withFont("fontSmall")
+				.withText(this.text)
+				.withColor(this.highlight)
+				.withLocation(this.position.add(new Vector2(10, 7)))
+				.build()
 				);
 	}
 }

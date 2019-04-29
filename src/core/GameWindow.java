@@ -21,6 +21,7 @@ import input.Keyboard;
 import input.Mouse;
 import utils.LogSeverity;
 import utils.Logger;
+import utils.Point;
 import utils.Vector2;
 
 /**
@@ -169,6 +170,11 @@ public class GameWindow implements GLEventListener
 
 		ContentManager.loadImage(gl, "textures/UI/button_edge.png",			"buttonEdge", 		15, 	64);
 		ContentManager.loadImage(gl, "textures/UI/button_middle.png",		"buttonCenter",		15, 	64);
+		
+		ContentManager.loadImage(gl, "textures/UI/ui_blank.png", 			"uiBlank", 			64, 	64);
+		
+		ContentManager.loadImage(gl, "textures/UI/font_small.png",			"fontSmall", 		2000, 	50);
+		ContentManager.createFont("fontSmall", "fontSmall", new Point(20, 50));
 		
 		//Load boards
 		ContentManager.loadText("boards/testboard.brd", "testBoard");
