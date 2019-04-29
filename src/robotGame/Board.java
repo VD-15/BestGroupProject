@@ -118,11 +118,11 @@ public class Board extends GameObject
 			// Checks for valid length
 			if (text[y + 1].length() != width)
 			{
-				Logger.log(this, LogSeverity.WARNING, "Board data has inconsistent row lengths. Reading further may fail.");
+				Logger.log(this, LogSeverity.WARNING, "Board data has inconsistent row lengths. Problems may occur");
 			}
 			
 			// Loops through each char
-			for (int x = 0; x < width; x++)
+			for (int x = 0; x < text[y + 1].length(); x++)
 			{
 				// For each char in text
 				
@@ -246,7 +246,7 @@ public class Board extends GameObject
 			{
 				for (BoardTile t : a)
 				{
-					tiles.add(t);
+					if (t != null) tiles.add(t);
 				}
 			}
 		}
