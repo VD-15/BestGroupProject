@@ -23,7 +23,7 @@ import utils.Vector2;
  * @author Jedd Morgan
  * @version 27/04/2019
  */
-public class Robot extends GameObject implements IDrawable, IUpdatable
+public class Robot extends GameObject implements IDrawable
 {
 	/** Indices for coordinates on board*/
 	private Point index;
@@ -169,11 +169,6 @@ public class Robot extends GameObject implements IDrawable, IUpdatable
 		facingDirection = DEFAULT_DIRECTION;
 	}
 
-	@Override
-	public void update(double time)
-	{
-
-	}
 
 	@Override
 	public void draw(RenderBatch b)
