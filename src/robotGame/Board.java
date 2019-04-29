@@ -46,7 +46,7 @@ public class Board extends GameObject
 	/** Creates a default testBoard */
 	public Board()
 	{
-		this("testBoard3");
+		this("testBoard4");
 	}
 	
 	@Override
@@ -241,11 +241,13 @@ public class Board extends GameObject
 	{
 		
 		ArrayList<BoardTile> tiles = new ArrayList<BoardTile>();
-		for (BoardTile[] a : boardArray)
-		{
-			for (BoardTile t : a)
+		if (boardArray != null) {
+			for (BoardTile[] a : boardArray)
 			{
-				tiles.add(t);
+				for (BoardTile t : a)
+				{
+					tiles.add(t);
+				}
 			}
 		}
 		return tiles;

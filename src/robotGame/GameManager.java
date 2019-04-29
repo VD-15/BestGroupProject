@@ -5,10 +5,16 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Queue;
 
+import core.ContentManager;
 import core.Game;
 import core.GameObject;
 import core.IUpdatable;
+import robotGame.tiles.BeltTile;
 import robotGame.tiles.BoardTile;
+import robotGame.tiles.FlagTile;
+import robotGame.tiles.GearTile;
+import robotGame.tiles.PitTile;
+import utils.Direction;
 import utils.LogSeverity;
 import utils.Logger;
 import utils.Point;
@@ -24,14 +30,14 @@ import utils.Point;
 public class GameManager extends GameObject implements IUpdatable {
 
 	private Board board;
-	
+
 	/** Time elapsed between Round*/
 	double rDeltaT = 0;
 	/** Time in seconds between each Turn*/
 	private static final double TURN_TIME = 1; 
-	
+
 	private Queue<Robot> robots;
-	
+
 	private HashMap<Integer, ArrayList<Instruction[]>> players;
 	private ArrayList<Point> startingLocations;
 
@@ -44,70 +50,117 @@ public class GameManager extends GameObject implements IUpdatable {
 	{
 		board = new Board();
 		Game.instantiate(board);
-		//TEMP!! commented out as causes errors
-		//players = formatInstructions(ContentManager.getTextByName("4players"));
+
+		players = formatInstructions(ContentManager.getTextByName("4players"));
 		startingLocations = board.getStartingLocations();
-		//TEMP!! commented out and replaced with 4 so that it works for testing 
-		//for (int i = 0; i < players.size(); i++)
-		for (int i = 0; i < 4; i++)
+		
+		for (int i = 0; i < Math.min(players.size(), startingLocations.size()); i++)
 		{
 			Robot r = new Robot(startingLocations.get(i), i + 1);
 			Game.instantiate(r);
 			robots.offer(r);
 		}
-		
+
 	}
 
-	
-	public HashMap<Integer, ArrayList<Instruction[]>> formatInstructions(String[] text )
+	private HashMap<Integer, ArrayList<Instruction[]>> formatInstructions(String[] text)
+	{
+		if (!text[0].startsWith("format "))
+		{
+			Logger.log(this, LogSeverity.ERROR, "Could not discern format from instruction data.");
+			return null;
+		}
+
+		int formatVersion = Integer.valueOf(text[0].split("format ")[1]);
+
+		switch (formatVersion)
+		{
+		case 1:
+			return loadInstructionsFormat1(text);
+		default:
+			Logger.log(this, LogSeverity.ERROR, "Instruction data had invalid version: {" + formatVersion + "}");
+		}
+		return null;
+	}
+
+	private HashMap<Integer, ArrayList<Instruction[]>> loadInstructionsFormat1(String[] text )
 	{	
+		final int INSTRUCTION_LINE_STARTS = 2; //Instructions start on line (starting from 0)
+		final int EXPECTED_NUM_INSTRUCTIONS = 5; //Expected number of instructions for each player per round
+		
+		//VALIDATE instruction file contains instructions
+		if (text.length < INSTRUCTION_LINE_STARTS + 1)
+		{
+			Logger.log(this, LogSeverity.ERROR, "Instruction file does not contain any instructions!");
+			return null;
+		}
 		
 		HashMap<Integer, ArrayList<Instruction[]>> players = new HashMap<Integer, ArrayList<Instruction[]>>();
-		for (int i = 2; i < text.length; i++)
+		
+		//For each round
+		for (int y = INSTRUCTION_LINE_STARTS; y < text.length; y++)
 		{
-			String[] line = text[i].split(" ");
-			for (int l = 0; l < line.length; l++)
+			
+			String[] roundInstructions = text[y].split(" ");
+			
+			
+			
+			//For each player
+			for (int playerNum = 0; playerNum < roundInstructions.length; playerNum++)
 			{
-				Instruction[] round = new Instruction[line[l].length()];
-				for (int j = 0; j < line[l].length();j++)
+				
+				Instruction[] playerInstructions = new Instruction[roundInstructions[playerNum].length()];
+				
+				//VALIDATE playerRound is of expected size
+				if (roundInstructions[playerNum].length() != EXPECTED_NUM_INSTRUCTIONS)
 				{
-					char c = line[l].charAt(j);
+					Logger.log(this, LogSeverity.ERROR, "Instruction file contains inconsistant number of instructions");
+					return null;
+				}
+				
+				
+				for (int j = 0; j < roundInstructions[playerNum].length();j++)
+				{
+					char c = roundInstructions[playerNum].charAt(j);
 					switch (c)
 					{
 					case 'F':
-						round[j] = Instruction.FORWARD;
+						playerInstructions[j] = Instruction.FORWARD;
 						break;
 					case 'B':
-						round[j] = Instruction.BACKWARD;
+						playerInstructions[j] = Instruction.BACKWARD;
 						break;
 					case 'R':
-						round[j] = Instruction.RIGHT;
+						playerInstructions[j] = Instruction.RIGHT;
 						break;
 					case 'L':
-						round[j] = Instruction.LEFT;
+						playerInstructions[j] = Instruction.LEFT;
 						break;
 					case 'U':
-						round[j] = Instruction.UTURN;
+						playerInstructions[j] = Instruction.UTURN;
 						break;
 					case 'W':
-						round[j] = Instruction.WAIT;
+						playerInstructions[j] = Instruction.WAIT;
 						break;
 					default:
 						Logger.log(this, LogSeverity.ERROR, "Encountered an invalid character while reading program file: {" + c + "}");
 						break;
 					}
 				}
-				ArrayList<Instruction[]> temp = players.get(l);
-				temp.add(round);
-				players.put(l, temp);
+				
+				
+				ArrayList<Instruction[]> temp = players.get(playerNum);
+				if (temp == null) temp = new ArrayList<Instruction[]>();
+				temp.add(playerInstructions);
+				players.put(playerNum, temp);
 
 			}
-			
+
 		}
 		return players;
 	}
-	
-	
+
+
 	/*
 	 * MESSAGE TO OWEN!! VERRY IMPORTANT DON'T MISS THIS!! ITS VERY IMPORTANT THAT THIS MESSAGE IS READ IN ITS ENTIREITY LEST THEIR BE SOME SORT OF CONFUSION ATTAINING TO THE NATURE OF THIS METHOD
 	 * What needs to be done is fairly simple but we can't really progress with this turn thing without
@@ -126,18 +179,18 @@ public class GameManager extends GameObject implements IUpdatable {
 	@Override
 	public void update(double time) {
 		rDeltaT += time;
-		
+
 		if (rDeltaT > TURN_TIME) {
 			rDeltaT = 0;
-			
+
 			//round();
-			
-			
+
+
 		}
 	}
-	
-	
-	
+
+
+
 	/**
 	 * Executes a round, round is made up of turns one for each player and one for the board
 	 */
@@ -147,17 +200,17 @@ public class GameManager extends GameObject implements IUpdatable {
 			//Each Player Turn
 			Robot r = robots.poll();
 			r.act();
-			
+
 			robots.add(r);
 		}
 		robots.add(robots.poll());
-		
+
 		//
 		for(BoardTile tile : board.getBoardTiles()) {
 			tile.act();
 		}
-		
+
 		Logger.log(this, LogSeverity.INFO, "Done a turn");
 	}
-	*/
+	 */
 }
