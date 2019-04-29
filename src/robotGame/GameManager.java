@@ -9,12 +9,6 @@ import core.ContentManager;
 import core.Game;
 import core.GameObject;
 import core.IUpdatable;
-import robotGame.tiles.BeltTile;
-import robotGame.tiles.BoardTile;
-import robotGame.tiles.FlagTile;
-import robotGame.tiles.GearTile;
-import robotGame.tiles.PitTile;
-import utils.Direction;
 import utils.LogSeverity;
 import utils.Logger;
 import utils.Point;
@@ -25,7 +19,7 @@ import utils.Point;
  * 
  * @author Jedd Morgan
  * @author Owen Craig
- * @version 27/04/2019
+ * @version 29/04/2019
  */
 public class GameManager extends GameObject implements IUpdatable {
 
