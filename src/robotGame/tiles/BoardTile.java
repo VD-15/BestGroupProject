@@ -1,6 +1,5 @@
 package robotGame.tiles;
 
-import core.Game;
 import core.GameObject;
 import graphics.IDrawable;
 import graphics.RenderBatch;

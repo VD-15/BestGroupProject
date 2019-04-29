@@ -1,12 +1,9 @@
 package robotGame;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
 
 import core.GameObject;
-import core.IUpdatable;
-import graphics.Color;
 import graphics.IDrawable;
 import graphics.RenderBatch;
 import graphics.RenderInstance;
@@ -21,7 +18,7 @@ import utils.Vector2;
  * Robot
  * 
  * @author Jedd Morgan
- * @version 27/04/2019
+ * @version 29/04/2019
  */
 public class Robot extends GameObject implements IDrawable
 {
@@ -122,7 +119,7 @@ public class Robot extends GameObject implements IDrawable
 	 * @param direction to move robot in
 	 */
 	public void move(Direction direction, int ammount) {
-		//FIXME not the best implementation robot shouldn't decide what the Direction's transform is
+		//TODO not the best implementation robot shouldn't decide what the Direction's transform is
 
 		Point pIndex = index;
 		Board.getTile(index).onRobotLeave(this);

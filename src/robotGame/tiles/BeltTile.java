@@ -1,9 +1,7 @@
 package robotGame.tiles;
 
-import core.Game;
 import graphics.RenderBatch;
 import graphics.RenderInstance;
-import robotGame.Robot;
 import utils.Direction;
 import utils.LogSeverity;
 import utils.Logger;

@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Queue;
 
-import core.ContentManager;
 import core.Game;
 import core.GameObject;
 import core.IUpdatable;
