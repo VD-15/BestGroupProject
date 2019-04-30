@@ -6,13 +6,17 @@ import java.util.LinkedList;
 import graphics.IDrawable;
 import graphics.RenderBatch;
 import robotGame.GameManager;
+import robotGame.Instruction;
 import robotGame.MainCamera;
 import robotGame.UICamera;
-import robotGame.CustomUI.ButtonGo;
+import robotGame.CustomUI.DeleteInstructionButton;
+import robotGame.CustomUI.GoButton;
+import robotGame.CustomUI.InstructionButton;
 import robotGame.CustomUI.PlayerLabel;
 import robotGame.CustomUI.SidePanel;
 import utils.LogSeverity;
 import utils.Logger;
+import utils.Vector2;
 
 /**
  * Facilitates the running of the game
@@ -76,7 +80,14 @@ public class Game
 		Game.instantiate(new UICamera());
 		Game.instantiate(new SidePanel());
 		Game.instantiate(new PlayerLabel());
-		Game.instantiate(new ButtonGo());
+		Game.instantiate(new GoButton());
+		Game.instantiate(new InstructionButton(new Vector2(10, 478), Instruction.FORWARD));
+		Game.instantiate(new InstructionButton(new Vector2(10, 552), Instruction.BACKWARD));
+		Game.instantiate(new InstructionButton(new Vector2(84, 478), Instruction.LEFT));
+		Game.instantiate(new InstructionButton(new Vector2(158, 478), Instruction.RIGHT));
+		Game.instantiate(new InstructionButton(new Vector2(84, 552), Instruction.UTURN));
+		Game.instantiate(new InstructionButton(new Vector2(158, 552), Instruction.WAIT));
+		Game.instantiate(new DeleteInstructionButton(new Vector2(158, 626)));
 		
 		lastNano = System.nanoTime();
 		isRunning = true;

@@ -171,6 +171,14 @@ public class GameWindow implements GLEventListener
 		ContentManager.loadImage(gl, "textures/UI/button_edge.png",			"buttonEdge", 		15, 	64);
 		ContentManager.loadImage(gl, "textures/UI/button_middle.png",		"buttonCenter",		15, 	64);
 		
+		ContentManager.loadImage(gl, "textures/UI/icon_back.png",			"iconBackward",		64, 	64);
+		ContentManager.loadImage(gl, "textures/UI/icon_forward.png",		"iconForward",		64, 	64);
+		ContentManager.loadImage(gl, "textures/UI/icon_turnLeft.png",		"iconLeft",			64, 	64);
+		ContentManager.loadImage(gl, "textures/UI/icon_turnRight.png",		"iconRight",		64, 	64);
+		ContentManager.loadImage(gl, "textures/UI/icon_uturn.png",			"iconUturn",		64, 	64);
+		ContentManager.loadImage(gl, "textures/UI/icon_wait.png",			"iconWait",			64, 	64);
+		ContentManager.loadImage(gl, "textures/UI/icon_delete.png",			"iconDelete",			64, 	64);
+		
 		ContentManager.loadImage(gl, "textures/UI/ui_blank.png", 			"uiBlank", 			64, 	64);
 		
 		ContentManager.loadImage(gl, "textures/UI/font_small.png",			"fontSmall", 		2000, 	50);

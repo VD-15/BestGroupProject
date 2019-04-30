@@ -6,12 +6,13 @@ import core.IUpdatable;
 import graphics.Color;
 import utils.Vector2;
 
-public class ButtonGo extends Button implements IUpdatable
+public class GoButton extends Button implements IUpdatable
 {
-	public ButtonGo()
+	public GoButton()
 	{
-		this.setText("    GO!");
-		this.setWidth(236);
+		this.setText("  GO!");
+		this.setWidth(138);
+		this.tag = "buttonGo";
 	}
 	
 	@Override

@@ -12,6 +12,7 @@ public class SidePanel extends Panel implements IUpdatable
 		super();
 		this.color = new Color(0.1f, 0.1f, 0.1f);
 		this.tag = "UI_sidePanel";
+		this.size.x = 232;
 	}
 	
 	@Override
