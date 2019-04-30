@@ -26,7 +26,7 @@ public class BeltTile extends BoardTile
 	 * Creates a new belt
 	 * @param index The point on a grid.
 	 * @param direction The direction the tile acts in.
-	 * @param rotation For corner belts use 1 for left and -1 for right. For normal belt tiles 0.
+	 * @param rotation For corner belts use 1 for right and -1 for left. For normal belt tiles 0.
 	 */
 	public BeltTile(Point index, Direction direction, int rotation)
 	{
@@ -40,9 +40,9 @@ public class BeltTile extends BoardTile
 		{
 			String name = "tileBelt";
 
-			if(rotation == -1) {
+			if(rotation == 1) {
 				name += "C";
-			} else if (rotation == 1) {
+			} else if (rotation == -1) {
 				name += "CC";
 			}
 
@@ -62,11 +62,12 @@ public class BeltTile extends BoardTile
 	 * Rotates robot then moves it.
 	 */
 	@Override
-	public void act() 
+	public void act()
 	{
 		if (currentRobot != null) {
-			currentRobot.rotate(rotation);
+			//currentRobot.rotate(rotation);
 			currentRobot.move(direction);
+			
 		}
 	}
 
