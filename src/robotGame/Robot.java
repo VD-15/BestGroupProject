@@ -184,6 +184,7 @@ public class Robot extends GameObject implements IDrawable
 				.withLayer(1)
 				.withRotation(facingDirection.getAngle())
 				.withRotationOrigin(this.position)
+				.build()
 				);
 	}
 
