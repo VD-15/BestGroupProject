@@ -199,11 +199,10 @@ public class GameManager extends GameObject implements IUpdatable {
 		}
 	}
 
-
-
 	/**
 	 * Executes a round, round is made up of turns one for each player and one for the board
 	 */
+	
 	/*
 	private void round() {
 		for(int i = 0; i < robots.size(); i++) {
@@ -227,5 +226,16 @@ public class GameManager extends GameObject implements IUpdatable {
 	{
 		// TODO Auto-generated method stub
 
+	}*/
+
+	@Override
+	public void destroy() {
+		// TODO Auto-generated method stub
+		
 	}
+	
 }
+
+
+
+

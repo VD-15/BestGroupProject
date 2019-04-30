@@ -17,7 +17,7 @@ import utils.Vector2;
 
 /**
  * Robot
- *
+ * 
  * @author Jedd Morgan
  * @version 29/04/2019
  */
@@ -68,7 +68,7 @@ public class Robot extends GameObject implements IDrawable
 	}
 
 	/**
-	 *
+	 * 
 	 */
 	public void setInstructions(Instruction[] instructions)
 	{
@@ -77,6 +77,7 @@ public class Robot extends GameObject implements IDrawable
 		{
 			actions.offer(i);
 		}
+
 	}
 
 	/**
@@ -95,7 +96,7 @@ public class Robot extends GameObject implements IDrawable
 
 	/**
 	 * Adds a angle to the direction
-	 * @param angle in half pi radians (90ï¿½ right = +1) accepts any integer value
+	 * @param angle in half pi radians (90° right = +1) accepts any integer value
 	 * @return new direction after angle transform
 	 */
 	public void rotate(int rotation) {
@@ -108,7 +109,7 @@ public class Robot extends GameObject implements IDrawable
 
 
 	/**
-	 *
+	 * 
 	 * @param direction to move robot in
 	 */
 	public void move(Direction direction) {
@@ -144,7 +145,7 @@ public class Robot extends GameObject implements IDrawable
 			this.index.y += ammount;
 			break;
 		}
-
+		
 		setPosition(index);
 		if (pIndex != index)
 			Logger.log(this, LogSeverity.INFO, "Moving Robot" + number + " from (" + pIndex.x + "," + pIndex.y + ") to (" + index.x + "," + index.y + ")" );
@@ -155,10 +156,10 @@ public class Robot extends GameObject implements IDrawable
 			resetLocation();
 			return;
 		}
-
+		
 		b.onRobotEnter(this);
 	}
-
+	
 	private void setPosition(Point p) {
 		position = new Vector2(p.x * 64, p.y * 64);
 	}
@@ -184,15 +185,18 @@ public class Robot extends GameObject implements IDrawable
 				.withLayer(1)
 				.withRotation(facingDirection.getAngle())
 				.withRotationOrigin(this.position)
-				.build()
 				);
 	}
 
-	@Override
-	public void destroy()
-	{
-		// TODO Auto-generated method stub
+	public void addFlag(int flagNumber) {
+		// TODO Work out how we are handling flag tiles!
+		
+	}
 
+	@Override
+	public void destroy() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
