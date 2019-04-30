@@ -23,7 +23,7 @@ public class MainCamera extends Camera implements IUpdatable
 	public void init()
 	{
 		this.viewportSize = Game.getWindow().getViewport();
-		this.position = new Vector2(300,200);
+		this.position = new Vector2(232,200);
 	}
 	
 	@Override
