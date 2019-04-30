@@ -2,7 +2,7 @@ package robotGame.tiles;
 
 import graphics.RenderBatch;
 import graphics.RenderInstance;
-import utils.Direction;
+import robotGame.Direction;
 import utils.LogSeverity;
 import utils.Logger;
 import utils.Point;

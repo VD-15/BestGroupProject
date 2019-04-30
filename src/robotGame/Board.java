@@ -6,7 +6,6 @@ import core.ContentManager;
 import core.Game;
 import core.GameObject;
 import robotGame.tiles.*;
-import utils.Direction;
 import utils.LogSeverity;
 import utils.Logger;
 import utils.Point;
