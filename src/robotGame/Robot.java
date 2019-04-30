@@ -49,7 +49,7 @@ public class Robot extends GameObject implements IDrawable
 		super();
 		this.position = new Vector2(index.x * 64, index.y * 64);
 		this.index = index;
-		this.startIndex = index;
+		this.startIndex = index.clone();
 		this.facingDirection = DEFAULT_DIRECTION;
 		this.number = number;
 		this.tag = "robot";
@@ -85,7 +85,8 @@ public class Robot extends GameObject implements IDrawable
 	public void act()
 	{
 		//for Testing purposes
-		//actions.add(Instruction.RIGHT);
+		actions.add(Instruction.FORWARD);
+		actions.add(Instruction.FORWARD);
 		// Pop the action from the queue.
 		Instruction i = actions.poll();
 		rotate(i.getRotation());

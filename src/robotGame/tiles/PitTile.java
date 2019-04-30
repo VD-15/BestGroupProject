@@ -4,6 +4,8 @@ import core.Game;
 import graphics.RenderBatch;
 import graphics.RenderInstance;
 import robotGame.Robot;
+import utils.LogSeverity;
+import utils.Logger;
 import utils.Point;
 import utils.Region;
 import utils.Vector2;
@@ -29,6 +31,7 @@ public class PitTile extends BoardTile
 	public void onRobotEnter(Robot robot)
 	{
 		robot.resetLocation();
+		Logger.log(this, LogSeverity.ERROR, "ree");
 	}
 	
 	@Override

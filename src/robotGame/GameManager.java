@@ -9,6 +9,7 @@ import core.ContentManager;
 import core.Game;
 import core.GameObject;
 import core.IUpdatable;
+import robotGame.tiles.BoardTile;
 import utils.LogSeverity;
 import utils.Logger;
 import utils.Point;
@@ -193,9 +194,7 @@ public class GameManager extends GameObject implements IUpdatable {
 		if (rDeltaT > TURN_TIME) {
 			rDeltaT = 0;
 
-			//round();
-
-
+			round();
 		}
 	}
 
@@ -203,7 +202,6 @@ public class GameManager extends GameObject implements IUpdatable {
 	 * Executes a round, round is made up of turns one for each player and one for the board
 	 */
 	
-	/*
 	private void round() {
 		for(int i = 0; i < robots.size(); i++) {
 			//Each Player Turn
@@ -218,15 +216,9 @@ public class GameManager extends GameObject implements IUpdatable {
 		for(BoardTile tile : board.getBoardTiles()) {
 			tile.act();
 		}
-
 		Logger.log(this, LogSeverity.INFO, "Done a turn");
 	}
-	@Override
-	public void destroy()
-	{
-		// TODO Auto-generated method stub
 
-	}*/
 
 	@Override
 	public void destroy() {
