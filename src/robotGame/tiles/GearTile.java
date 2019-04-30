@@ -40,14 +40,16 @@ public class GearTile extends BoardTile
 	}
 	
 	/**
-	 * {@inheritDoc}:
-	 * Rotates the robot 90°
-	 * */
-	@Override
-	public void act()
-	{
-		currentRobot.rotate(rotation);
-	}
+     * {@inheritDoc}:
+     * Rotates the robot 90°
+     * */
+    @Override
+    public void act()
+    {
+        if(currentRobot != null) {
+        currentRobot.rotate(rotation);
+        }
+    }
 
 	@Override
 	public void draw(RenderBatch b)

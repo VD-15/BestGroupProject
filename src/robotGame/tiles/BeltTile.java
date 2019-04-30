@@ -56,7 +56,6 @@ public class BeltTile extends BoardTile
 					.build();
 		}
 		
-		
 	}
 	/**
 	 * {@inheritDoc}<br>
@@ -70,8 +69,6 @@ public class BeltTile extends BoardTile
 			currentRobot.move(direction);
 		}
 	}
-
-
 
 	@Override
 	public void draw(RenderBatch b) 
