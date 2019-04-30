@@ -11,10 +11,9 @@ import utils.Vector2;
 
 public class DeleteInstructionButton extends Button implements IUpdatable
 {
-
-	public DeleteInstructionButton(Vector2 location)
+	public DeleteInstructionButton()
 	{
-		this.position = location;
+		super();
 		this.tag = "deleteInstructionButton";
 		this.setWidth(64);
 	}

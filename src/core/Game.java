@@ -81,13 +81,13 @@ public class Game
 		Game.instantiate(new SidePanel());
 		Game.instantiate(new PlayerLabel());
 		Game.instantiate(new GoButton());
+		Game.instantiate(new DeleteInstructionButton());
 		Game.instantiate(new InstructionButton(new Vector2(10, 148), Instruction.FORWARD));
 		Game.instantiate(new InstructionButton(new Vector2(10, 222), Instruction.BACKWARD));
 		Game.instantiate(new InstructionButton(new Vector2(84, 148), Instruction.LEFT));
 		Game.instantiate(new InstructionButton(new Vector2(158, 148), Instruction.RIGHT));
 		Game.instantiate(new InstructionButton(new Vector2(84, 222), Instruction.UTURN));
 		Game.instantiate(new InstructionButton(new Vector2(158, 222), Instruction.WAIT));
-		Game.instantiate(new DeleteInstructionButton(new Vector2(158, 626)));
 		
 		lastNano = System.nanoTime();
 		isRunning = true;
