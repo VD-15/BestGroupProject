@@ -66,6 +66,11 @@ public class Robot extends GameObject implements IDrawable
 		actions = new LinkedList<Instruction>();
 	}
 
+	
+	public Point getIndex() {
+		return index;
+	}
+	
 	/**
 	 * 
 	 */
@@ -85,8 +90,7 @@ public class Robot extends GameObject implements IDrawable
 	public void act()
 	{
 		//for Testing purposes
-		actions.add(Instruction.FORWARD);
-		actions.add(Instruction.FORWARD);
+		//actions.add(Instruction.FORWARD);
 		// Pop the action from the queue.
 		Instruction i = actions.poll();
 		rotate(i.getRotation());
@@ -120,18 +124,18 @@ public class Robot extends GameObject implements IDrawable
 	 * @param direction to move robot in
 	 */
 	public void move(Direction direction, int ammount) {
-		//TODO not the best implementation robot shouldn't decide what the Direction's transform is
-
-		Point pIndex = index;
+		
+		Point pIndex = index.clone();
+		
 		Board.getTile(index).onRobotLeave(this);
 
 		switch (direction)
 		{
 		case NORTH:
-			this.index.y += ammount;
+			this.index.y -= ammount;
 			break;
 		case SOUTH:
-			this.index.y -= ammount;
+			this.index.y += ammount;
 			break;
 		case EAST:
 			this.index.x += ammount;
@@ -145,11 +149,15 @@ public class Robot extends GameObject implements IDrawable
 			this.index.y += ammount;
 			break;
 		}
+	
+		
+		
 		
 		setPosition(index);
-		if (pIndex != index)
-			Logger.log(this, LogSeverity.INFO, "Moving Robot" + number + " from (" + pIndex.x + "," + pIndex.y + ") to (" + index.x + "," + index.y + ")" );
-
+		
+		
+		if (!pIndex.equals(index))
+			Logger.log(this, LogSeverity.INFO, "Moving Robot" + number + " in direction " + direction + ammount + " from (" + pIndex.x + "," + pIndex.y + ") to (" + index.x + "," + index.y + ")" );
 
 		BoardTile b = Board.getTile(index);
 		if (b == null) {
@@ -158,9 +166,11 @@ public class Robot extends GameObject implements IDrawable
 		}
 		
 		b.onRobotEnter(this);
+
 	}
 	
 	private void setPosition(Point p) {
+		index = new Point(p.x, p.y);
 		position = new Vector2(p.x * 64, p.y * 64);
 	}
 

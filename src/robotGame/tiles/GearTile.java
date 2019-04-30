@@ -33,9 +33,9 @@ public class GearTile extends BoardTile
 		super(index);
 		this.isClockwise = isClockwise;
 		if(isClockwise) {
-			rotation = -1;
-		} else {
 			rotation = 1;
+		} else {
+			rotation = -1;
 		}
 	}
 	

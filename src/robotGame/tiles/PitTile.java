@@ -31,7 +31,6 @@ public class PitTile extends BoardTile
 	public void onRobotEnter(Robot robot)
 	{
 		robot.resetLocation();
-		Logger.log(this, LogSeverity.ERROR, "ree");
 	}
 	
 	@Override
