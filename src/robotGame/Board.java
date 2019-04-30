@@ -45,7 +45,7 @@ public class Board extends GameObject
 	/** Creates a default testBoard */
 	public Board()
 	{
-		this("testBoard4");
+		this("testBoard3");
 	}
 	
 	@Override
