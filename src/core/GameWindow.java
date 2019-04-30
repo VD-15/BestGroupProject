@@ -174,7 +174,7 @@ public class GameWindow implements GLEventListener
 		ContentManager.loadImage(gl, "textures/UI/ui_blank.png", 			"uiBlank", 			64, 	64);
 		
 		ContentManager.loadImage(gl, "textures/UI/font_small.png",			"fontSmall", 		2000, 	50);
-		ContentManager.createFont("fontSmall", "fontSmall", new Point(20, 50));
+		ContentManager.createFont("fontSmall", new Point(20, 50));
 		
 		//Load boards
 		ContentManager.loadText("boards/testboard.brd", "testBoard");

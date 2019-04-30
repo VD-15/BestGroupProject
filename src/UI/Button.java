@@ -16,14 +16,13 @@ import utils.Vector2;
 
 public class Button extends UIObject implements IDrawable
 {
-	private static float BUTTON_HEIGHT = 64f;
-	private static float BUTTON_MIN_WIDTH = 30f;
+	public static float BUTTON_HEIGHT = 64f;
+	public static float BUTTON_MIN_WIDTH = 30f;
 	private float width;
 	protected boolean isActive;
 	protected boolean isEnabled;
 	private boolean isClicked;
 	private String text;
-	protected Color highlight;
 	
 	public Button()
 	{
@@ -32,7 +31,6 @@ public class Button extends UIObject implements IDrawable
 		this.isActive = false;
 		this.isEnabled = true;
 		this.text = "";
-		this.highlight = Color.WHITE();
 	}
 	
 	protected void onClick()
@@ -56,6 +54,26 @@ public class Button extends UIObject implements IDrawable
 		{
 			width = w;
 		}
+	}
+	
+	protected Color getEnabledColor()
+	{
+		return Color.WHITE();
+	}
+	
+	protected Color getDisabledColor()
+	{
+		return new Color(0.75f, 0.125f, 0.125f);
+	}
+	
+	protected Color getHoveredColor()
+	{
+		return new Color(1.5f, 1.5f, 1.5f);
+	}
+	
+	protected Color getClickedColor()
+	{
+		return new Color(0.5f, 0.5f, 0.5f);
 	}
 	
 	@Override
@@ -91,7 +109,7 @@ public class Button extends UIObject implements IDrawable
 	@Override
 	public void draw(RenderBatch b)
 	{
-		this.highlight = Color.WHITE();
+		Color highlight;
 		
 		if (this.isEnabled)
 		{
@@ -99,24 +117,28 @@ public class Button extends UIObject implements IDrawable
 			{
 				if (isClicked)
 				{
-					this.highlight = new Color(0.5f, 0.5f, 0.5f);
+					highlight = this.getClickedColor();
 				}
 				else
 				{
-					this.highlight = new Color(1.5f, 1.5f, 1.5f);
+					highlight = this.getHoveredColor();
 				}
+			}
+			else
+			{
+				highlight = this.getEnabledColor();
 			}
 		}
 		else
 		{
-			this.highlight = new Color(0.75f, 0.125f, 0.125f);
+			highlight = this.getDisabledColor();
 		}
 		
 		b.draw(new RenderInstance()
 				.withTexture("buttonEdge")
 				.withLayer(2)
 				.withDepth(16f)
-				.withColor(this.highlight)
+				.withColor(highlight)
 				.withDestinationRegion(
 						new Region(
 								this.position.add(new Vector2(0, 0)), 
@@ -130,7 +152,7 @@ public class Button extends UIObject implements IDrawable
 				.withTexture("buttonCenter")
 				.withLayer(2)
 				.withDepth(16f)
-				.withColor(this.highlight)
+				.withColor(highlight)
 				.withDestinationRegion(
 						new Region(
 								this.position.add(new Vector2(15, 0)), 
@@ -144,7 +166,7 @@ public class Button extends UIObject implements IDrawable
 				.withTexture("buttonEdge")
 				.withLayer(2)
 				.withDepth(16f)
-				.withColor(this.highlight)
+				.withColor(highlight)
 				.withDestinationRegion(
 						new Region(
 								this.position.add(new Vector2(width, 0)), 
@@ -157,7 +179,7 @@ public class Button extends UIObject implements IDrawable
 		b.drawString(new StringRenderInstance()
 				.withFont("fontSmall")
 				.withText(this.text)
-				.withColor(this.highlight)
+				.withColor(highlight)
 				.withLocation(this.position.add(new Vector2(10, 7)))
 				.build()
 				);

@@ -3,13 +3,14 @@ package core;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
-import UI.Button;
-import UI.Panel;
 import graphics.IDrawable;
 import graphics.RenderBatch;
 import robotGame.GameManager;
 import robotGame.MainCamera;
 import robotGame.UICamera;
+import robotGame.CustomUI.ButtonGo;
+import robotGame.CustomUI.PlayerLabel;
+import robotGame.CustomUI.SidePanel;
 import utils.LogSeverity;
 import utils.Logger;
 
@@ -73,7 +74,9 @@ public class Game
 		Game.instantiate(new GameManager());
 		Game.instantiate(new MainCamera());
 		Game.instantiate(new UICamera());
-		Game.instantiate(new Panel());
+		Game.instantiate(new SidePanel());
+		Game.instantiate(new PlayerLabel());
+		Game.instantiate(new ButtonGo());
 		
 		lastNano = System.nanoTime();
 		isRunning = true;

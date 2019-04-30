@@ -62,17 +62,16 @@ public class ContentManager
 	}
 	
 	/**
-	 * Creates a font and stores it in the content manager
+	 * Creates a font from a texture and stores it in the content manager
 	 * @param textureName the name of the texture to load
-	 * @param fontName the the font will be accessed with
 	 * @param letterSize the size of each font letter
 	 * @return
 	 */
-	public static boolean createFont(String textureName, String fontName, Point letterSize)
+	public static boolean createFont(String textureName, Point letterSize)
 	{
 		if (ContentManager.TEXTURES.containsKey(textureName))
 		{
-			ContentManager.FONTS.put(fontName, new Font(ContentManager.TEXTURES.get(textureName), letterSize));
+			ContentManager.FONTS.put(textureName, new Font(ContentManager.TEXTURES.get(textureName), letterSize));
 			return true;
 		}
 		

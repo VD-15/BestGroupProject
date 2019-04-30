@@ -1,7 +1,5 @@
 package UI;
 
-import core.Game;
-import core.IUpdatable;
 import graphics.Color;
 import graphics.IDrawable;
 import graphics.RenderBatch;
@@ -9,20 +7,16 @@ import graphics.RenderInstance;
 import utils.Region;
 import utils.Vector2;
 
-public class Panel extends UIObject implements IDrawable, IUpdatable
+public class Panel extends UIObject implements IDrawable
 {
-	private Vector2 size;
+	protected Vector2 size;
+	protected Color color;
 	
 	public Panel()
 	{
 		super();
-		size = new Vector2(256, 700);
-	}
-	
-	@Override
-	public void update(double time)
-	{
-		this.size.y = Game.getWindow().getViewport().y;
+		this.size = new Vector2(256, 256);
+		this.color = Color.WHITE();
 	}
 	
 	@Override
@@ -32,7 +26,7 @@ public class Panel extends UIObject implements IDrawable, IUpdatable
 			.withTexture("uiBlank")
 			.withDepth(15f)
 			.withLayer(2)
-			.withColor(new Color(0.1f, 0.1f, 0.1f))
+			.withColor(this.color)
 			.withDestinationRegion(new Region(this.position, this.size, false))
 			.build()
 			);
