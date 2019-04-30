@@ -139,9 +139,9 @@ public class GameWindow implements GLEventListener
 		ContentManager.loadImage(gl, "textures/TilePit.bmp", 				"tilePit", 			64, 	64);
 		ContentManager.loadImage(gl, "textures/TileNormal.bmp", 			"tileNormal", 		64, 	64);
 		
-		ContentManager.loadImage(gl, "textures/TileBelt.gif", 			"tileBelt", 	64, 	64);
-		ContentManager.loadImage(gl, "textures/TileBeltC.gif", 			"tileBeltC", 	64, 	64);
-		ContentManager.loadImage(gl, "textures/TileBeltCC.gif", 			"tileBeltCC", 	64, 	64);
+		ContentManager.loadImage(gl, "textures/TileBelt.gif", 				"tileBelt", 		64, 	64);
+		ContentManager.loadImage(gl, "textures/TileBeltC.gif", 				"tileBeltC", 		64, 	64);
+		ContentManager.loadImage(gl, "textures/TileBeltCC.gif", 			"tileBeltCC", 		64, 	64);
 		
 		ContentManager.loadImage(gl, "textures/TileGearC.bmp", 				"tileGearC", 		64, 	64);
 		ContentManager.loadImage(gl, "textures/TileGearCC.bmp", 			"tileGearCC", 		64, 	64);
@@ -152,6 +152,8 @@ public class GameWindow implements GLEventListener
 		ContentManager.loadImage(gl, "textures/TileFlag4.bmp", 				"tileFlag4", 		64, 	64);
 		ContentManager.loadImage(gl, "textures/TileFlag5.bmp", 				"tileFlag5", 		64, 	64);
 		ContentManager.loadImage(gl, "textures/TileFlag6.bmp", 				"tileFlag6", 		64, 	64);
+		//Jedd's gay <3
+		ContentManager.loadImage(gl, "textures/TileError.bmp", 				"tileLaserEmitter", 64, 	64);
 
 		ContentManager.loadImage(gl, "textures/Robot1.gif", 				"robot1", 			64, 	64);
 		ContentManager.loadImage(gl, "textures/Robot2.gif", 				"robot2", 			64, 	64);
@@ -167,7 +169,7 @@ public class GameWindow implements GLEventListener
 		ContentManager.loadImage(gl, "textures/UI/icon_turnRight.png",		"iconRight",		64, 	64);
 		ContentManager.loadImage(gl, "textures/UI/icon_uturn.png",			"iconUturn",		64, 	64);
 		ContentManager.loadImage(gl, "textures/UI/icon_wait.png",			"iconWait",			64, 	64);
-		ContentManager.loadImage(gl, "textures/UI/icon_delete.png",			"iconDelete",			64, 	64);
+		ContentManager.loadImage(gl, "textures/UI/icon_delete.png",			"iconDelete",		64, 	64);
 		
 		ContentManager.loadImage(gl, "textures/UI/ui_blank.png", 			"uiBlank", 			64, 	64);
 		

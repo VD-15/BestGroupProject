@@ -17,8 +17,8 @@ import utils.Vector2;
 /**
  * Robot
  * 
- * @author Jedd Morgan
- * @version 29/04/2019
+ * @author Jedd Morgan, Vanessa Kostadinova
+ * @version 30/05/2019
  */
 public class Robot extends GameObject implements IDrawable
 {
@@ -30,6 +30,10 @@ public class Robot extends GameObject implements IDrawable
 	private Direction facingDirection;
 	/** Player number */
 	private int number;
+	/** Player health*/
+	private int health;
+	/** Number of flags collected*/
+	private int flags;
 
 	/** queue of actions to be committed */
 	private Queue<Instruction> actions;
@@ -53,7 +57,8 @@ public class Robot extends GameObject implements IDrawable
 		this.facingDirection = DEFAULT_DIRECTION;
 		this.number = number;
 		this.tag = "robot";
-
+		this.health = 100;
+		this.flags = 0;
 	}
 
 	/**
@@ -90,7 +95,7 @@ public class Robot extends GameObject implements IDrawable
 	public void act()
 	{
 		//for Testing purposes
-		//actions.add(Instruction.FORWARD);
+		actions.add(Instruction.FORWARD);
 		// Pop the action from the queue.
 		Instruction i = actions.poll();
 		rotate(i.getRotation());
@@ -113,7 +118,6 @@ public class Robot extends GameObject implements IDrawable
 
 
 	/**
-	 * 
 	 * @param direction to move robot in
 	 */
 	public void move(Direction direction) {
@@ -150,16 +154,13 @@ public class Robot extends GameObject implements IDrawable
 			break;
 		}
 	
-		
-		
-		
 		setPosition(index);
-		
-		
+
 		if (!pIndex.equals(index))
 			Logger.log(this, LogSeverity.INFO, "Moving Robot" + number + " in direction " + direction + ammount + " from (" + pIndex.x + "," + pIndex.y + ") to (" + index.x + "," + index.y + ")" );
 
 		BoardTile b = Board.getTile(index);
+		
 		if (b == null) {
 			resetLocation();
 			return;
@@ -182,6 +183,7 @@ public class Robot extends GameObject implements IDrawable
 		setPosition(startIndex);
 		facingDirection = DEFAULT_DIRECTION;
 		Logger.log(this, LogSeverity.INFO, "Reseting Robot" + number + " to start location (" + index.x + "," + index.y + ")" );
+		health = 100;
 	}
 
 
@@ -200,14 +202,22 @@ public class Robot extends GameObject implements IDrawable
 	}
 
 	public void addFlag(int flagNumber) {
-		// TODO Work out how we are handling flag tiles!
-		
+		if((flags + 1) == flagNumber) {
+			flags ++;
+		}	
 	}
-
+	
+	public void addDamage(int damage) {
+		health -= damage;
+		
+		if(health <= 0) {
+			resetLocation();
+		}
+	}
+	
 	@Override
 	public void destroy() {
-		// TODO Auto-generated method stub
-		
+		// No implementation required
 	}
 
 }

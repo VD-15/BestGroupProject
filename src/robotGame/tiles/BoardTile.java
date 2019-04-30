@@ -12,8 +12,9 @@ import utils.Vector2;
 /**
  * Normal Tile. Tile that does nothing
  * 
- * @author Jedd Morgan, Vanessa Kostadinova
- * @version 24/05/2019
+ * @author Jedd Morgan
+ * @author Vanessa Kostadinova
+ * @version 30/05/2019
  */
 public class BoardTile extends GameObject implements IDrawable
 {
@@ -28,6 +29,9 @@ public class BoardTile extends GameObject implements IDrawable
 		this.tag = "tile";
 	}
 	
+	public Robot getRobot() {
+		return currentRobot;
+	}
 	/**
 	 * {@inheritDoc}
 	 */

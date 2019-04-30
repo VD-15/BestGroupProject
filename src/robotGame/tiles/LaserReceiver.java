@@ -1,48 +1,34 @@
 package robotGame.tiles;
 
-import core.Game;
 import graphics.RenderBatch;
 import graphics.RenderInstance;
-import robotGame.Robot;
-import utils.LogSeverity;
-import utils.Logger;
 import utils.Point;
 import utils.Region;
 import utils.Vector2;
 
 /**
- * Pit Tile
+ * Laser Receiver
  * 
- * @author Jedd Morgan
  * @author Vanessa Kostadinova
- * @version 24/05/2019
+ * @version 30/05/2019
  */
-public class PitTile extends BoardTile
-{
-	public PitTile(Point index)
-	{
+public class LaserReceiver extends BoardTile {
+
+	public LaserReceiver(Point index) {
 		super(index);
-		this.tag = "tilePit";
-	}
-	
-	/**
-	 * 
-	 */
-	@Override
-	public void onRobotEnter(Robot robot)
-	{
-		robot.resetLocation();
+		this.tag = "LaserReceiver";
 	}
 	
 	@Override
 	public void draw(RenderBatch b)
 	{
 		b.draw(new RenderInstance()
-				.withTexture("tilePit")
+				.withTexture("tileLaserReceiver")
 				.withDestinationRegion(new Region(this.position, new Vector2(TILE_SIZE), true))
 				.withDepth(1f)
 				.withLayer(1)
 				.build()
 				);
 	}
+
 }

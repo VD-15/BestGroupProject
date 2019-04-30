@@ -11,7 +11,8 @@ import utils.Vector2;
 /**
  * Gear Tile. 
  * 
- * @author Jedd Morgan, Vanessa Kostadinova
+ * @author Jedd Morgan
+ * @author Vanessa Kostadinova
  * @version 24/05/2019
  */
 public class GearTile extends BoardTile 
