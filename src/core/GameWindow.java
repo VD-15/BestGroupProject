@@ -139,19 +139,9 @@ public class GameWindow implements GLEventListener
 		ContentManager.loadImage(gl, "textures/TilePit.bmp", 				"tilePit", 			64, 	64);
 		ContentManager.loadImage(gl, "textures/TileNormal.bmp", 			"tileNormal", 		64, 	64);
 		
-		ContentManager.loadImage(gl, "textures/NewBelts/BeltNorth.gif", 	"tileBeltNorth", 	64, 	64);
-		ContentManager.loadImage(gl, "textures/NewBelts/BeltEast.gif", 		"tileBeltEast", 	64, 	64);
-		ContentManager.loadImage(gl, "textures/NewBelts/BeltSouth.gif", 	"tileBeltSouth", 	64, 	64);
-		ContentManager.loadImage(gl, "textures/NewBelts/BeltWest.gif", 		"tileBeltWest", 	64, 	64);
-		
-		ContentManager.loadImage(gl, "textures/NewBelts/BeltNorthC.gif", 	"tileBeltNorthC", 	64, 	64);
-		ContentManager.loadImage(gl, "textures/NewBelts/BeltNorthCC.gif", 	"tileBeltNorthCC", 	64, 	64);
-		ContentManager.loadImage(gl, "textures/NewBelts/BeltEastC.gif", 	"tileBeltEastC", 	64, 	64);
-		ContentManager.loadImage(gl, "textures/NewBelts/BeltEastCC.gif", 	"tileBeltEastCC", 	64, 	64);
-		ContentManager.loadImage(gl, "textures/NewBelts/BeltSouthC.gif", 	"tileBeltSouthC", 	64, 	64);
-		ContentManager.loadImage(gl, "textures/NewBelts/BeltSouthCC.gif", 	"tileBeltSouthCC", 	64, 	64);
-		ContentManager.loadImage(gl, "textures/NewBelts/BeltWestC.gif", 	"tileBeltWestC", 	64, 	64);
-		ContentManager.loadImage(gl, "textures/NewBelts/BeltWestCC.gif", 	"tileBeltWestCC", 	64, 	64);
+		ContentManager.loadImage(gl, "textures/TileBelt.gif", 			"tileBelt", 	64, 	64);
+		ContentManager.loadImage(gl, "textures/TileBeltC.gif", 			"tileBeltC", 	64, 	64);
+		ContentManager.loadImage(gl, "textures/TileBeltCC.gif", 			"tileBeltCC", 	64, 	64);
 		
 		ContentManager.loadImage(gl, "textures/TileGearC.bmp", 				"tileGearC", 		64, 	64);
 		ContentManager.loadImage(gl, "textures/TileGearCC.bmp", 			"tileGearCC", 		64, 	64);

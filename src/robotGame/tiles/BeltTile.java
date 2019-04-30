@@ -18,7 +18,9 @@ import utils.Vector2;
 public class BeltTile extends BoardTile 
 {
 	private Direction direction;
-	private int rotation;
+	private final int rotation;
+	private RenderInstance renderInstance;
+
 
 	/**
 	 * Creates a new belt
@@ -34,8 +36,30 @@ public class BeltTile extends BoardTile
 		this.tag = "BeltTile";
 	}
 
+	public void init() {
+		{
+			String name = "tileBelt";
+
+			if(rotation == -1) {
+				name += "C";
+			} else if (rotation == 1) {
+				name += "CC";
+			}
+
+			renderInstance = new RenderInstance()
+					.withTexture(name)
+					.withDestinationRegion(new Region(this.position, new Vector2(TILE_SIZE), true))
+					.withDepth(1f)
+					.withLayer(1)
+					.withRotation(direction.getAngle())
+					.withRotationOrigin(this.position)
+					.build();
+		}
+		
+		
+	}
 	/**
-	 * {@inheritDoc}
+	 * {@inheritDoc}<br>
 	 * Rotates robot then moves it.
 	 */
 	@Override
@@ -47,35 +71,12 @@ public class BeltTile extends BoardTile
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
+
+
 	@Override
 	public void draw(RenderBatch b) 
 	{
-		String name = "tileBelt" + direction.getName();
-
-		switch (rotation) {
-		case 1: //CC belt
-			name += "CC";
-			break;
-		case -1: //C Belt
-			name += "C";
-			break;
-		case 0: break; //Belt
-		default:
-			name = "tileError";
-			Logger.log(this, LogSeverity.WARNING, "No sprite for belt with rotation" + rotation);
-			break;
-		}
-
-		b.draw(new RenderInstance()
-				.withTexture(name)
-				.withDestinationRegion(new Region(this.position, new Vector2(TILE_SIZE), true))
-				.withDepth(1f)
-				.withLayer(1)
-				.build()
-				);
+		b.draw(renderInstance);
 	}
 
 }
