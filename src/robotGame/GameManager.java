@@ -35,21 +35,29 @@ public class GameManager extends GameObject implements IUpdatable {
 	private HashMap<Integer, ArrayList<Instruction[]>> players;
 	private ArrayList<Point> startingLocations;
 
-	public GameManager() {
+	public GameManager() 
+	{
 		players = new HashMap<Integer, ArrayList<Instruction[]>>();
 		robots = new LinkedList<Robot>();
 	}
+	
+	
 	@Override
 	public void init() 
 	{
+		//creating a new board
 		board = new Board();
 		Game.instantiate(board);
 
+		//getting player data
 		players = formatInstructions(ContentManager.getTextByName("4players"));
 		startingLocations = board.getStartingLocations();
 		
+		//for the acceptable number of players
+		//i.e. the max unless the board is too small
 		for (int i = 0; i < Math.min(players.size(), startingLocations.size()); i++)
 		{
+			//creating the robots
 			Robot r = new Robot(startingLocations.get(i), i + 1);
 			Game.instantiate(r);
 			robots.offer(r);
@@ -57,20 +65,25 @@ public class GameManager extends GameObject implements IUpdatable {
 
 	}
 
+
 	private HashMap<Integer, ArrayList<Instruction[]>> formatInstructions(String[] text)
 	{
+		//checks for a format line 
 		if (!text[0].startsWith("format "))
 		{
 			Logger.log(this, LogSeverity.ERROR, "Could not discern format from instruction data.");
 			return null;
 		}
-
+		//sets the formatVersion from the file
 		int formatVersion = Integer.valueOf(text[0].split("format ")[1]);
 
+		//switch determined by formatVersion
+		//runs a method for each format type
 		switch (formatVersion)
 		{
 		case 1:
 			return loadInstructionsFormat1(text);
+		//default error for an invalid formatVersion
 		default:
 			Logger.log(this, LogSeverity.ERROR, "Instruction data had invalid version: {" + formatVersion + "}");
 		}
@@ -112,10 +125,12 @@ public class GameManager extends GameObject implements IUpdatable {
 					return null;
 				}
 				
-				
+				//for each instruction
 				for (int j = 0; j < roundInstructions[playerNum].length();j++)
 				{
 					char c = roundInstructions[playerNum].charAt(j);
+					//switch determined by the instruction value
+					//adds the appropriate instruction to playerInstructions based on the instruction value
 					switch (c)
 					{
 					case 'F':
@@ -136,13 +151,14 @@ public class GameManager extends GameObject implements IUpdatable {
 					case 'W':
 						playerInstructions[j] = Instruction.WAIT;
 						break;
+					//default error for invalid instruction values
 					default:
 						Logger.log(this, LogSeverity.ERROR, "Encountered an invalid character while reading program file: {" + c + "}");
 						break;
 					}
 				}
 				
-				
+				//updates the instruction arrays of each player
 				ArrayList<Instruction[]> temp = players.get(playerNum);
 				if (temp == null) temp = new ArrayList<Instruction[]>();
 				temp.add(playerInstructions);
