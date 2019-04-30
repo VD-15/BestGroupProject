@@ -16,7 +16,7 @@ import utils.Point;
 /**
  * GameManager
  * Instantiates board, and controls rounds
- * 
+ *
  * @author Jedd Morgan
  * @author Owen Craig
  * @version 29/04/2019
@@ -28,22 +28,22 @@ public class GameManager extends GameObject implements IUpdatable {
 	/** Time elapsed between Round*/
 	double rDeltaT = 0;
 	/** Time in seconds between each Turn*/
-	private static final double TURN_TIME = 1; 
+	private static final double TURN_TIME = 1;
 
 	private Queue<Robot> robots;
 
 	private HashMap<Integer, ArrayList<Instruction[]>> players;
 	private ArrayList<Point> startingLocations;
 
-	public GameManager() 
+	public GameManager()
 	{
 		players = new HashMap<Integer, ArrayList<Instruction[]>>();
 		robots = new LinkedList<Robot>();
 	}
-	
-	
+
+
 	@Override
-	public void init() 
+	public void init()
 	{
 		//creating a new board
 		board = new Board();
@@ -52,7 +52,7 @@ public class GameManager extends GameObject implements IUpdatable {
 		//getting player data
 		players = formatInstructions(ContentManager.getTextByName("4players"));
 		startingLocations = board.getStartingLocations();
-		
+
 		//for the acceptable number of players
 		//i.e. the max unless the board is too small
 		for (int i = 0; i < Math.min(players.size(), startingLocations.size()); i++)
@@ -68,7 +68,7 @@ public class GameManager extends GameObject implements IUpdatable {
 
 	private HashMap<Integer, ArrayList<Instruction[]>> formatInstructions(String[] text)
 	{
-		//checks for a format line 
+		//checks for a format line
 		if (!text[0].startsWith("format "))
 		{
 			Logger.log(this, LogSeverity.ERROR, "Could not discern format from instruction data.");
@@ -91,40 +91,40 @@ public class GameManager extends GameObject implements IUpdatable {
 	}
 
 	private HashMap<Integer, ArrayList<Instruction[]>> loadInstructionsFormat1(String[] text )
-	{	
+	{
 		final int INSTRUCTION_LINE_STARTS = 2; //Instructions start on line (starting from 0)
 		final int EXPECTED_NUM_INSTRUCTIONS = 5; //Expected number of instructions for each player per round
-		
+
 		//VALIDATE instruction file contains instructions
 		if (text.length < INSTRUCTION_LINE_STARTS + 1)
 		{
 			Logger.log(this, LogSeverity.ERROR, "Instruction file does not contain any instructions!");
 			return null;
 		}
-		
+
 		HashMap<Integer, ArrayList<Instruction[]>> players = new HashMap<Integer, ArrayList<Instruction[]>>();
-		
+
 		//For each round
 		for (int y = INSTRUCTION_LINE_STARTS; y < text.length; y++)
 		{
-			
+
 			String[] roundInstructions = text[y].split(" ");
-			
-			
-			
+
+
+
 			//For each player
 			for (int playerNum = 0; playerNum < roundInstructions.length; playerNum++)
 			{
-				
+
 				Instruction[] playerInstructions = new Instruction[roundInstructions[playerNum].length()];
-				
+
 				//VALIDATE playerRound is of expected size
 				if (roundInstructions[playerNum].length() != EXPECTED_NUM_INSTRUCTIONS)
 				{
 					Logger.log(this, LogSeverity.ERROR, "Instruction file contains inconsistant number of instructions");
 					return null;
 				}
-				
+
 				//for each instruction
 				for (int j = 0; j < roundInstructions[playerNum].length();j++)
 				{
@@ -157,7 +157,7 @@ public class GameManager extends GameObject implements IUpdatable {
 						break;
 					}
 				}
-				
+
 				//updates the instruction arrays of each player
 				ArrayList<Instruction[]> temp = players.get(playerNum);
 				if (temp == null) temp = new ArrayList<Instruction[]>();
@@ -176,12 +176,12 @@ public class GameManager extends GameObject implements IUpdatable {
 	 * What needs to be done is fairly simple but we can't really progress with this turn thing without
 	 * V's input system which is very close to completion ( or depending on V's ability to power work through the night is complete but would be on the master branch )
 	 * I suggest you wait for the completion of said input system, and me to merge the two branches so that we can continue
-	 * 
+	 *
 	 * When that has happened, We basically want to not start running instructions until a start button is pressed
 	 * The way we check for that is unclear at the moment and requires V to decide how button events will be handled
 	 * Once the round has started we execute robot instructions with the delay of TURN_TIME
-	 * 
-	 * Then we wait until the round start button is pressed again. 
+	 *
+	 * Then we wait until the round start button is pressed again.
 	 * This will allow for future expandability when we use the input system to its entirety to get user input through the keyboard listener
 	 * Rather than through the program file.
 	 * Very nice ;)
@@ -222,5 +222,10 @@ public class GameManager extends GameObject implements IUpdatable {
 
 		Logger.log(this, LogSeverity.INFO, "Done a turn");
 	}
-	 */
+	@Override
+	public void destroy()
+	{
+		// TODO Auto-generated method stub
+
+	}
 }

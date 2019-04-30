@@ -33,6 +33,11 @@ public final class Vector2 implements Cloneable
 		return new Vector2(x + v.x, y + v.y);
 	}
 	
+	public Vector2 multiply(float s)
+	{
+		return new Vector2(this.x * s, this.y * s);
+	}
+	
 	public Vector2 rotate(float a)
 	{
 		float cosa = (float)Math.cos(a);

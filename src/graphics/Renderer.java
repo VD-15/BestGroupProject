@@ -92,8 +92,7 @@ public class Renderer
 	private static int VERTEX_SIZE = 36;
 	
 	/**
-	 * Creates a renderer with the given GL context.
-	 * @param gl
+	 * Creates a renderer
 	 */
 	public Renderer()
 	{
@@ -105,9 +104,14 @@ public class Renderer
 		this.elementBufferAllocation = 0;
 	}
 	
+	/**
+	 * Initialises the renderer
+	 * @param gl the GL context to initialize the renderer on
+	 */
 	public void init(GL3 gl)
 	{
 		{
+			//Create the vertex array object and the buffer objects
 			IntBuffer vao = IntBuffer.allocate(1);
 			IntBuffer vbo = IntBuffer.allocate(2);
 			
@@ -117,25 +121,30 @@ public class Renderer
 			arrayObject = vao.get(0);
 			vertexBuffer = vbo.get(0);
 			elementBuffer = vbo.get(1);
-			
+			/*
+			//Check how many texture units are available.
 			IntBuffer units = IntBuffer.allocate(1);
 			gl.glGetIntegerv(GL3.GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS, units);
 			Logger.log(this, LogSeverity.VERBOSE, "Found {" + units.get(0) + "} available texture units.");
+			*/
 		}
 
 		//Set the clear color to black
 		gl.glClearColor(0f, 0f, 0f, 1f);
 		gl.glClearDepthf(1000);
 		
+		//Enable blending of translucent colors
 		gl.glEnable(GL3.GL_BLEND);
 		gl.glBlendFunc(GL3.GL_SRC_ALPHA, GL3.GL_ONE_MINUS_SRC_ALPHA);
 		
+		//Enable depth testing
 		gl.glEnable(GL3.GL_DEPTH_TEST);
 		gl.glDepthFunc(GL3.GL_LESS);
 		
+		//Use the vertex array object
 		gl.glBindVertexArray(arrayObject);
 		
-		/**
+		/*
 		 * Shaders are programs that get executed on the GPU instead 
 		 * of the CPU. Shaders are written in GLSL (OpenGL Shader 
 		 * Language) and in this particular case, they are loaded as
@@ -146,7 +155,7 @@ public class Renderer
 		String fragSource = loadFile("shaders/shader.frag");
 		String vertSource = loadFile("shaders/shader.vert");
 		
-		/**
+		/*
 		 * The vertex buffer contains attributes about the vertices we
 		 * want to draw, e.g. color, position & texture, but the GL
 		 * machine cannot discern any of these attributes from the
@@ -156,7 +165,7 @@ public class Renderer
 		gl.glBindBuffer(GL3.GL_ARRAY_BUFFER, vertexBuffer);
 		gl.glBufferData(GL3.GL_ARRAY_BUFFER, vertexBufferAllocation, null, GL3.GL_DYNAMIC_DRAW);
 
-		/**
+		/*
 		 * The element buffer contains the order we want to draw our
 		 * vertices in. Since OpenGL can only draw basic shapes like
 		 * triangles and lines, in order to draw more advanced
@@ -171,20 +180,20 @@ public class Renderer
 		gl.glBindBuffer(GL3.GL_ELEMENT_ARRAY_BUFFER, elementBuffer);
 		gl.glBufferData(GL3.GL_ELEMENT_ARRAY_BUFFER, elementBufferAllocation, null, GL3.GL_DYNAMIC_DRAW);
 		
-		/**
+		/*
 		 * Vertex shaders are called per-vertex and dictate where the
 		 * vertex will end up on-screen.
 		 */
 		int vertexShader = createShader(gl, GL3.GL_VERTEX_SHADER, vertSource);
 		
-		/**
+		/*
 		 * Fregment shaders are called per-pixel and dictate what color
 		 * that pixel will be. This can be done via vertex colors or
 		 * via texture samplers.
 		 */
 		int fragmentShader = createShader(gl, GL3.GL_FRAGMENT_SHADER, fragSource);
 				
-		/**
+		/*
 		 * Shader programs take the compiled GLSL code from the
 		 * shaders specified and link them together into a program
 		 * that can run on the GPU to draw our image. Since we're not
@@ -198,7 +207,7 @@ public class Renderer
 		gl.glLinkProgram(shaderProgram);
 		gl.glUseProgram(shaderProgram);
 		
-		/**
+		/*
 		 * After the shaders have been linked into a program, we don't
 		 * need the individual shader objects any more, so we can
 		 * delete them.
@@ -206,13 +215,16 @@ public class Renderer
 		gl.glDeleteShader(vertexShader);
 		gl.glDeleteShader(fragmentShader);
 		
-		/**
+		/*
 		 * Vertex attribute pointers tell the shader programs how to
 		 * interpret the raw vertex data we give it so that it can
 		 * be matched up to the variables declared in the shaders.
 		 * These need to be enabled before they can be used.
 		 */
 
+		//Create vertex attribute pointers and enable them
+		//These will be stored in out vertex array object so we can
+		//bind them later
 		//Position:	vec3	3 * 4
 		//Color:	vec4	4 * 4
 		//UV:		vec2	2 * 4
@@ -223,32 +235,58 @@ public class Renderer
 		gl.glEnableVertexAttribArray(1);
 		gl.glEnableVertexAttribArray(2);
 		
-		/**
+		/*
 		 * Unbind vertex array just to be safe
 		 */
 		gl.glBindVertexArray(0);
 	}
 	
+	/**
+	 * Draw the given RenderBatch to the GL context
+	 * @param gl the context to draw to
+	 * @param batch the RenderBatch to draw
+	 */
 	public void draw(GL3 gl, RenderBatch batch)
 	{
+		//This is where the fun begins ;)
+		
+		//Get all the RenderInstances in the RenderBatch
 		ArrayList<RenderInstance> instances = batch.getInstances();
+		
+		//Get all the Cameras in the RenderBatch
 		HashMap<Integer, Camera> cameras = batch.getCameras();
 
+		/*
+		 * This looks like a mess, and it is, but this allows us to sort
+		 * renderInstances first by layer and then by texture. We're doing
+		 * this because different layers can be drawn with different offsets
+		 * and viewports depending on where the camera is and how big it is.
+		 * Binding a texture also takes A LOT of work on the GPU's part, so
+		 * it's best to do it as seldom as possible.
+		 */
 		HashMap<Integer, HashMap<Texture, ArrayList<RenderInstance>>> renderPasses = new HashMap<Integer, HashMap<Texture, ArrayList<RenderInstance>>>();
 
+		//Bind the vertex array object to get our attribute pointers back
 		gl.glBindVertexArray(arrayObject);
+		
+		//Clear the depth and color buffer to wipe the existing image
 		gl.glClear(GL3.GL_COLOR_BUFFER_BIT | GL3.GL_DEPTH_BUFFER_BIT);
 		
+		//Loop over RenderInstances
 		for (RenderInstance r : instances)
 		{
+			//If the layer already has an entry
 			if (renderPasses.containsKey(r.layer))
 			{
+				//If the texture already has an entry
 				if (renderPasses.get(r.layer).containsKey(r.texture))
 				{
+					//Queue the RenderInstance in this render pass
 					renderPasses.get(r.layer).get(r.texture).add(r);
 				}
 				else
 				{
+					//Create a new render pass for this texture and push the current RenderInstance
 					ArrayList<RenderInstance> l = new ArrayList<RenderInstance>();
 					l.add(r);
 					
@@ -257,6 +295,7 @@ public class Renderer
 			}
 			else
 			{
+				//Create a new render pass for this layer and texture
 				HashMap<Texture, ArrayList<RenderInstance>> h = new HashMap<Texture, ArrayList<RenderInstance>>();
 				ArrayList<RenderInstance> l = new ArrayList<RenderInstance>();
 				l.add(r);
@@ -266,35 +305,49 @@ public class Renderer
 			}
 		}
 		
+		//For each unique layer to draw
 		for (Integer layer : renderPasses.keySet())
 		{
+			//Skip layer -1 (invalid layer)
 			if (layer.equals(-1)) continue;
 			
+			//Get the region for the camera observing this layer
 			Region view = cameras.get(layer).getViewport();
 			
+			//Create the matrix for the camera viewport
 			Matrix4 viewport = new Matrix4();
 			viewport.loadIdentity();
 			viewport.makeOrtho(view.x, view.x + view.width, view.y + view.height, view.y, -100, 100);
 			
+			//Bind this matrix to a uniform
 			gl.glUniformMatrix4fv(1, 1, false, viewport.getMatrix(), 0);
 			
+			//For each unique texture in this layer
 			for (Texture t : renderPasses.get(layer).keySet())
 			{
+				//Get the RenderInstances that match the layer and texture
 				ArrayList<RenderInstance> renderPass = renderPasses.get(layer).get(t);
+				
+				//Allocate native memory for the vertex buffer and ensure it has the same native byte order
 				ByteBuffer renderData = ByteBuffer.allocateDirect(renderPass.size() * VERTEX_SIZE * 4);
 				renderData.order(ByteOrder.nativeOrder());
+
+				//Allocate native memory for the element buffer and ensure it has the same native byte order
 				ByteBuffer renderElements = ByteBuffer.allocateDirect(renderPass.size() * 2 * 6);
 				renderElements.order(ByteOrder.nativeOrder());
 				
+				//Create texture matrix that maps pixels to GL texture coordinates
 				Matrix4 texMatrix = new Matrix4();
 				texMatrix.loadIdentity();
 				texMatrix.makeOrtho(-t.getWidth(), t.getWidth(), -t.getHeight(), t.getHeight(), -1f, 1f);
 				gl.glUniformMatrix4fv(2, 1, false, texMatrix.getMatrix(), 0);
 
+				//For each render instance in this render pass
 				for (short j = 0; j < renderPass.size(); j++)
 				{
 					RenderInstance r = renderPass.get(j);
 					
+					//Get corners of the destination region as a vector4 that we can multiply
 					Vector4[] points = new Vector4[]
 					{
 						new Vector4(r.destination.x, r.destination.y, 0f, 1f),
@@ -303,16 +356,17 @@ public class Renderer
 						new Vector4(r.destination.x, r.destination.y + r.destination.height, 0f, 1f)
 					};
 					
+					//If we need to rotate them
 					if (r.rotation != 0f)
 					{
+						//Rotation matrix
 						Matrix4 rotator = new Matrix4();
 						rotator.loadIdentity();
 						rotator.translate(r.rotationOrigin.x, r.rotationOrigin.y, 0);
 						rotator.rotate(r.rotation, 0, 0, 1);
 						rotator.translate(-r.rotationOrigin.x, -r.rotationOrigin.y, 0);
 						
-						//rotator.multMatrix(viewport);
-						
+						//Rotate each point
 						for (int i = 0; i < 4; i++)
 						{
 							float[] arr_out = new float[4];
@@ -374,37 +428,55 @@ public class Renderer
 					renderElements.putShort((short) ((j * 4) + 3));
 				}
 				
+				//Reset buffer positions
 				renderData.position(0);
 				renderElements.position(0);
 				
+				//bind vertex buffer
 				gl.glBindBuffer(GL3.GL_ARRAY_BUFFER, vertexBuffer);
+				
 				if (renderData.capacity() > vertexBufferAllocation)
 				{
+					//Reallocate buffer if we need to
 					gl.glBufferData(GL3.GL_ARRAY_BUFFER, renderData.capacity(), renderData, GL3.GL_DYNAMIC_DRAW);
 					vertexBufferAllocation = renderData.capacity();
 				}
 				else
 				{
+					//Otherwise, just fill it
 					gl.glBufferSubData(GL3.GL_ARRAY_BUFFER, 0, renderData.capacity(), renderData);
 				}
 				
+				//Bind element buffer
 				gl.glBindBuffer(GL3.GL_ELEMENT_ARRAY_BUFFER, elementBuffer);
+				
+				
 				if (renderElements.capacity() > elementBufferAllocation)
 				{
+					//Reallocate buffer if we need to
 					gl.glBufferData(GL3.GL_ELEMENT_ARRAY_BUFFER, renderElements.capacity(), renderElements, GL3.GL_DYNAMIC_DRAW);
 					elementBufferAllocation = renderElements.capacity();
 				}
 				else
 				{
+					//Otherwise, just fill it
 					gl.glBufferSubData(GL3.GL_ELEMENT_ARRAY_BUFFER, 0, renderElements.capacity(), renderElements);
 				}
 				
+				//Actually draw the render pass
 				gl.glBindTexture(GL3.GL_TEXTURE_2D, t.getID());
 				gl.glDrawElements(GL3.GL_TRIANGLES, renderPass.size() * 6, GL3.GL_UNSIGNED_SHORT, 0);
 			}
 		}
 	}
 	
+	/**
+	 * Creates a shader object
+	 * @param gl the GL context in which to make the shader
+	 * @param shaderType the type of shader, either GL_VERTEX_SHADER or GL_FRAGMENT_SHADER
+	 * @param shaderSource the GLSL source code of the shader
+	 * @return a handle to the shader object
+	 */
 	private static int createShader(GL3 gl, int shaderType, String shaderSource)
 	{
 		int vertexShader = gl.glCreateShader(shaderType);

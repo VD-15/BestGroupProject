@@ -1,22 +1,38 @@
 package core;
 
-import java.util.ArrayList;
-
 import utils.Vector2;
 
+/**
+ * Base class for all objects in the game.
+ * @author Vee
+ *
+ */
 public abstract class GameObject
 {
+	/**
+	 * Position of the object in world space
+	 */
 	protected Vector2 position;
-	protected String tag;
-	protected GameObject parent;
-	protected ArrayList<GameObject> children;
 	
+	/**
+	 * tag of the object that is used to identify it.
+	 */
+	protected String tag;
+	
+	/**
+	 * Creates a new GameObject
+	 */
 	public GameObject()
 	{
 		this.position = new Vector2();
 		this.tag = "";
 	}
 	
+	/**
+	 * Creates a new GameObject
+	 * @param location the position of the GameObject in world space
+	 * @param tag the tag of the GameObject
+	 */
 	public GameObject(Vector2 location, String tag)
 	{
 		this.position = location;
@@ -24,4 +40,5 @@ public abstract class GameObject
 	}
 	
 	public abstract void init();
+	public abstract void destroy();
 }

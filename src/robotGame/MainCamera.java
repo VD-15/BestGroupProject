@@ -4,13 +4,14 @@ import core.Camera;
 import core.Game;
 import core.IUpdatable;
 import input.Keyboard;
+import input.Mouse;
 import utils.LogSeverity;
 import utils.Logger;
+import utils.Region;
 import utils.Vector2;
 
 public class MainCamera extends Camera implements IUpdatable
 {
-	private Keyboard keyboard;
 	private static double CAMERA_SPEED = 256.0;
 	
 	public MainCamera()
@@ -23,13 +24,14 @@ public class MainCamera extends Camera implements IUpdatable
 	{
 		this.viewportSize = Game.getWindow().getViewport();
 		this.position = new Vector2(300,200);
-		this.keyboard = Game.getWindow().getKeyboard();
 	}
 	
 	@Override
 	public void update(double time)
 	{
 		Vector2 moveVector = new Vector2();
+		
+		Keyboard keyboard = Game.getWindow().getKeyboard();
 		
 		if (keyboard.isKeyDown("cameraUp")) moveVector.translate(Vector2.UP());
 			
@@ -44,5 +46,13 @@ public class MainCamera extends Camera implements IUpdatable
 		moveVector.scale((float)(CAMERA_SPEED * time));
 		
 		this.position.translate(moveVector);
+		
+		//zoom = (float)Math.pow(1.1f, -(mouse.getScrollDelta() / 1f));
+	}
+	
+	@Override
+	public Region getViewport()
+	{
+		return new Region(this.position, this.viewportSize, true);
 	}
 }

@@ -263,4 +263,11 @@ public class Board extends GameObject
 	{
 		return startingLocations;
 	}
+
+	@Override
+	public void destroy()
+	{
+		// TODO Auto-generated method stub
+		
+	}
 }

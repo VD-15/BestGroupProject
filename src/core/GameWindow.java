@@ -21,6 +21,7 @@ import input.Keyboard;
 import input.Mouse;
 import utils.LogSeverity;
 import utils.Logger;
+import utils.Point;
 import utils.Vector2;
 
 /**
@@ -34,7 +35,7 @@ public class GameWindow implements GLEventListener
 	/**
 	 * OpenGL rendering target and actual application window
 	 */
-	private GLWindow window;
+	public GLWindow window;
 
 	/**
 	 * Facilitates drawing every frame
@@ -85,7 +86,7 @@ public class GameWindow implements GLEventListener
 
 		//Create the animator
 		this.animator = new Animator(this.window);
-		this.viewport = new Vector2(640, 480);  //FIXME is this meant to have fixed values?
+		this.viewport = new Vector2(_width, _height);
 		this.renderer = new Renderer();
 	}
 
@@ -96,24 +97,7 @@ public class GameWindow implements GLEventListener
 	{
 		Logger.log(this, LogSeverity.INFO, "Running.");
 		window.setVisible(true);
-		//window.setUpdateFPSFrames(15, null);
-		
-		/*
-		//Run the garbage collector every 5 seconds to avoid big boi memory leaks.
-		{
-			Timer timer = new Timer();
-			TimerTask task = new TimerTask()
-			{
-				@Override
-				public void run()
-				{
-					Runtime.getRuntime().gc();
-				}
-			};
-
-			timer.schedule(task, 0, 5000);
-		}
-		*/
+		window.setUpdateFPSFrames(15, null);
 	}
 	 /**
 	  * Used to close the window at runtime
@@ -133,6 +117,11 @@ public class GameWindow implements GLEventListener
 	{
 		return this.keyboard;
 	}
+	
+	public Mouse getMouse()
+	{
+		return this.mouse;
+	}
 
 	/**
 	 * Called once when the window is first displayed
@@ -145,6 +134,7 @@ public class GameWindow implements GLEventListener
 	{
 		GL3 gl = drawable.getGL().getGL3();
 
+		//Load textures
 		ContentManager.setRootDirectory("content/");		
 		ContentManager.loadImage(gl, "textures/TilePit.bmp", 				"tilePit", 			64, 	64);
 		ContentManager.loadImage(gl, "textures/TileNormal.bmp", 			"tileNormal", 		64, 	64);
@@ -177,13 +167,31 @@ public class GameWindow implements GLEventListener
 		ContentManager.loadImage(gl, "textures/Robot2.gif", 				"robot2", 			64, 	64);
 		ContentManager.loadImage(gl, "textures/Robot3.gif", 				"robot3", 			64, 	64);
 		ContentManager.loadImage(gl, "textures/Robot4.gif", 				"robot4", 			64, 	64);
+
+		ContentManager.loadImage(gl, "textures/UI/button_edge.png",			"buttonEdge", 		15, 	64);
+		ContentManager.loadImage(gl, "textures/UI/button_middle.png",		"buttonCenter",		15, 	64);
 		
+		ContentManager.loadImage(gl, "textures/UI/icon_back.png",			"iconBackward",		64, 	64);
+		ContentManager.loadImage(gl, "textures/UI/icon_forward.png",		"iconForward",		64, 	64);
+		ContentManager.loadImage(gl, "textures/UI/icon_turnLeft.png",		"iconLeft",			64, 	64);
+		ContentManager.loadImage(gl, "textures/UI/icon_turnRight.png",		"iconRight",		64, 	64);
+		ContentManager.loadImage(gl, "textures/UI/icon_uturn.png",			"iconUturn",		64, 	64);
+		ContentManager.loadImage(gl, "textures/UI/icon_wait.png",			"iconWait",			64, 	64);
+		ContentManager.loadImage(gl, "textures/UI/icon_delete.png",			"iconDelete",			64, 	64);
+		
+		ContentManager.loadImage(gl, "textures/UI/ui_blank.png", 			"uiBlank", 			64, 	64);
+		
+		ContentManager.loadImage(gl, "textures/UI/font_small.png",			"fontSmall", 		2000, 	50);
+		ContentManager.createFont("fontSmall", new Point(20, 50));
+		
+		//Load boards
 		ContentManager.loadText("boards/testboard.brd", "testBoard");
 		ContentManager.loadText("boards/conveyor-loops.brd", "testBoard2");
 		ContentManager.loadText("boards/example-board.brd", "testBoard3");
 		ContentManager.loadText("boards/bigboard.brd", "testBoard4");
 
-		
+
+		//Load programs
 		ContentManager.loadText("programs/4players.prg", "4players");
 		
 		//Bindings for the MainCamera

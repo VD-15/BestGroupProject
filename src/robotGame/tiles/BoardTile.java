@@ -62,6 +62,14 @@ public class BoardTile extends GameObject implements IDrawable
 			.withDestinationRegion(new Region(this.position, new Vector2(TILE_SIZE), true))
 			.withDepth(1f)
 			.withLayer(1)
+			.build()
 			);
+	}
+
+	@Override
+	public void destroy()
+	{
+		// TODO Auto-generated method stub
+		
 	}
 }
