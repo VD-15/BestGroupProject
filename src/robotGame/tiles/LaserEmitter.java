@@ -56,6 +56,7 @@ public class LaserEmitter extends BoardTile implements IUpdatable {
 	 */
 	public void act()
 	{
+		laserWidth = 0;
 		// Whether the laser is firing horizontally or vertically.
 		boolean horizontal;
 
