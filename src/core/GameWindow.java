@@ -152,8 +152,9 @@ public class GameWindow implements GLEventListener
 		ContentManager.loadImage(gl, "textures/TileFlag4.bmp", 				"tileFlag4", 		64, 	64);
 		ContentManager.loadImage(gl, "textures/TileFlag5.bmp", 				"tileFlag5", 		64, 	64);
 		ContentManager.loadImage(gl, "textures/TileFlag6.bmp", 				"tileFlag6", 		64, 	64);
-		//Jedd's gay <3
+
 		ContentManager.loadImage(gl, "textures/TileError.bmp", 				"tileLaserEmitter", 64, 	64);
+		ContentManager.loadImage(gl, "textures/TileError.bmp", 				"tileLaserReceiver", 64, 	64);
 
 		ContentManager.loadImage(gl, "textures/Robot1.gif", 				"robot1", 			64, 	64);
 		ContentManager.loadImage(gl, "textures/Robot2.gif", 				"robot2", 			64, 	64);

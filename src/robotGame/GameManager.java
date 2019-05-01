@@ -55,7 +55,7 @@ public class GameManager extends GameObject implements IUpdatable {
 	
 	public GameManager() 
 	{
-		this("testGame3", "testInstruction3");
+		this("testBoard3", "4players");
 	}
 	
 
