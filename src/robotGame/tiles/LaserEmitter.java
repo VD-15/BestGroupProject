@@ -50,8 +50,7 @@ public class LaserEmitter extends BoardTile {
 	{
 		// Whether the laser is firing horizontally or vertically.
 		boolean horizontal;
-		// Whether the laser should continue past specified coordinate point.
-		boolean viable = true;
+
 		// Variable coordinate
 		int coord;
 		
@@ -65,7 +64,7 @@ public class LaserEmitter extends BoardTile {
 		}
 		
 		// Searches all consecutive tiles until it runs off the board or reaches receiver.
-		while(viable) {
+		while(true) {
 			// Point currently being searched.
 			Point boardPoint;
 
@@ -80,8 +79,8 @@ public class LaserEmitter extends BoardTile {
 			BoardTile currentTile = Board.getTile(boardPoint);
 
 			// Checks tile is viable.
-			if(currentTile == null || currentTile instanceof LaserReceiver) {
-				viable = false;
+			if(currentTile == null || (currentTile instanceof LaserReceiver)) {
+				break;
 			}
 
 			// Robot currently being acted upon.
