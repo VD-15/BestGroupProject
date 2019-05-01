@@ -62,8 +62,9 @@ public class Vector4
 	}
 	
 	/**
-	 * Constructs a Vector4 from an array of given values
-	 * @param arr
+	 * Constructs a Vector4 from an array of given values.
+	 * Identical in function to {@link #Vector4(float, float, float, float)}
+	 * @param arr The array of values to use. Must have at least four elements.
 	 */
 	public Vector4(float[] arr)
 	{
@@ -72,7 +73,12 @@ public class Vector4
 		this.z = arr[2];
 		this.w = arr[3];
 	}
-	
+
+	/**
+	 * Gets all the components of this vector
+	 * Useful for interfacing with OpenGL
+	 * @return a four-element float array containing the X, Y, Z and W-components of the vector
+	 */
 	public float[] getArray()
 	{
 		return new float[]
