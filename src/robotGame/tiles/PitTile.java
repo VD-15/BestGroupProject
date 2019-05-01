@@ -19,6 +19,10 @@ import utils.Vector2;
  */
 public class PitTile extends BoardTile
 {
+	/**
+	 * Constructs pit tile.
+	 * @param index
+	 */
 	public PitTile(Point index)
 	{
 		super(index);
@@ -26,7 +30,7 @@ public class PitTile extends BoardTile
 	}
 	
 	/**
-	 * 
+	 * {@inheritDoc}
 	 */
 	@Override
 	public void onRobotEnter(Robot robot)
@@ -34,6 +38,9 @@ public class PitTile extends BoardTile
 		robot.resetLocation();
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void draw(RenderBatch b)
 	{

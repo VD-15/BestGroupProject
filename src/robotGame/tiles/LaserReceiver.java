@@ -19,6 +19,9 @@ public class LaserReceiver extends BoardTile {
 		this.tag = "LaserReceiver";
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void draw(RenderBatch b)
 	{

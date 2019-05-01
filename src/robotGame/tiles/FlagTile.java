@@ -17,8 +17,14 @@ import utils.Vector2;
  */
 public class FlagTile extends BoardTile 
 {
+	/** Number of flag */
 	private int flagNumber;
 
+	/**
+	 * Creates flag tile.
+	 * @param index
+	 * @param flagNumber
+	 */
 	public FlagTile(Point index, int flagNumber) 
 	{
 		super(index);
@@ -35,6 +41,9 @@ public class FlagTile extends BoardTile
 		robot.addFlag(flagNumber);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void draw(RenderBatch b) 
 	{
