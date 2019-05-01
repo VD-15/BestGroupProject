@@ -19,8 +19,6 @@ import utils.Vector2;
  */
 public class LaserEmitter extends BoardTile implements IUpdatable {
 
-	/** Damage points dealt by the laser.*/
-	private static final int damage = 25;
 	/** Direction laser is facing.*/
 	private final Direction direction;
 	/** {@link utils.Point Point} where the {@link robotGame.tiles.BoardTile tile} is indexed.*/
@@ -97,8 +95,11 @@ public class LaserEmitter extends BoardTile implements IUpdatable {
 
 			// Applies damage if robot exists.
 			if(currentRobot != null) {
-				currentRobot.addDamage(damage);
-				
+				currentRobot.addDamage();
+				if(currentRobot.getHealth() <= 0) {
+					currentRobot.resetLocation();
+					currentTile.currentRobot = null;
+				}
 				break;
 			}
 
