@@ -33,5 +33,6 @@ public class PitTile extends BoardTile
 	public void onRobotEnter(Robot robot, Direction direction)
 	{
 		robot.resetLocation();
+		currentRobot = null;
 	}
 }

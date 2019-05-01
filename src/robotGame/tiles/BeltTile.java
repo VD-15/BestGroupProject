@@ -71,9 +71,17 @@ public class BeltTile extends BoardTile
 			
 		}
 		currentRobot = robot;
-		if (direction == this.direction) {
-			currentRobot.rotate(rotation);
+		
+		if(rotation == 1) {
+			if (direction == this.direction.add(-1)) {
+				currentRobot.rotate(rotation);
+			}
+		} else if (rotation == -1) {
+			if (direction == this.direction.add(+1)) {
+				currentRobot.rotate(rotation);
+			}
 		}
+		
 		
 		
 	}

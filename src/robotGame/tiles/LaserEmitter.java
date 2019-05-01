@@ -98,6 +98,7 @@ public class LaserEmitter extends BoardTile implements IUpdatable {
 			// Applies damage if robot exists.
 			if(currentRobot != null) {
 				currentRobot.addDamage(damage);
+				
 				break;
 			}
 
