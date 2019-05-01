@@ -21,7 +21,7 @@ public class GearTile extends BoardTile
 	 * Stores the rotation quantity, 1 for left, -1 for right.
 	 */
 	private int rotation;
-	
+	/** Whether the gear acts clockwise or counterclockwise.*/
 	private boolean isClockwise;
 
 	/**
@@ -52,6 +52,9 @@ public class GearTile extends BoardTile
         }
     }
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void draw(RenderBatch b)
 	{

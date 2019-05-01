@@ -10,7 +10,7 @@ import utils.Region;
 import utils.Vector2;
 
 /**
- * Normal Tile. Tile that does nothing
+ * Normal Tile.
  * 
  * @author Jedd Morgan
  * @author Vanessa Kostadinova
@@ -18,6 +18,7 @@ import utils.Vector2;
  */
 public class BoardTile extends GameObject implements IDrawable
 {
+	/** {@link robotGame.Robot Robot} instance stored in tile.*/
 	protected Robot currentRobot;
 	
 	protected static final int TILE_SIZE = 64;
@@ -29,9 +30,14 @@ public class BoardTile extends GameObject implements IDrawable
 		this.tag = "tile";
 	}
 	
+	/**
+	 * Returns instance of {@link robotGame.Robot Robot} stored in tile.
+	 * @return
+	 */
 	public Robot getRobot() {
 		return currentRobot;
 	}
+	
 	/**
 	 * {@inheritDoc}
 	 */
@@ -48,16 +54,27 @@ public class BoardTile extends GameObject implements IDrawable
 		// No implementation needed.
 	}
 
+	/**
+	 * Stores an instance of the robot which has entered this tile.
+	 * @param robot {@link robotGame.Robot Robot} which has entered the tile.
+	 */
 	public void onRobotEnter(Robot robot)
 	{
 		currentRobot = robot;
 	}
 	
+	/**
+	 * Clears instance of robot when it leaves.
+	 * @param robot {@link robotGame.Robot Robot} which has left the tile.
+	 */
 	public void onRobotLeave(Robot robot)
 	{
 		currentRobot = null;
 	}
-
+	
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void draw(RenderBatch b)
 	{
@@ -70,10 +87,13 @@ public class BoardTile extends GameObject implements IDrawable
 			);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void destroy()
 	{
-		// TODO Auto-generated method stub
+		// No implementation required.
 		
 	}
 }
