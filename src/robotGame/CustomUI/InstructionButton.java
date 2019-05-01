@@ -1,20 +1,24 @@
 package robotGame.CustomUI;
 
 import UI.Button;
+import core.Game;
+import core.IUpdatable;
 import graphics.RenderBatch;
 import graphics.RenderInstance;
 import robotGame.Instruction;
 import utils.Region;
 import utils.Vector2;
 
-public class InstructionButton extends Button
+public class InstructionButton extends Button implements IUpdatable
 {
 	private Instruction instruction;
+	private Vector2 offset;
 	
-	public InstructionButton(Vector2 location, Instruction i)
+	public InstructionButton(Vector2 offset, Instruction i)
 	{
+		super();
 		this.instruction = i;
-		this.position = location;
+		this.offset = offset;
 		this.tag = "instructionButton" + i.toString();
 		this.setWidth(64);
 	}
@@ -25,6 +29,12 @@ public class InstructionButton extends Button
 		////////////////////////////////////////////
 		////THIS IS WHERE YOU WANT TO PUT STUFF!////
 		////////////////////////////////////////////
+	}
+
+	@Override
+	public void update(double time)
+	{
+		this.position = new Vector2(offset.x, Game.getWindow().getViewport().y - offset.y);
 	}
 	
 	@Override
