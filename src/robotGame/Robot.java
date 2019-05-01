@@ -96,7 +96,7 @@ public class Robot extends GameObject implements IDrawable
 	public void act()
 	{
 		//for Testing purposes
-		actions.add(Instruction.FORWARD);
+		//actions.add(Instruction.FORWARD);
 		// Pop the action from the queue.
 		Instruction i = actions.poll();
 		rotate(i.getRotation());

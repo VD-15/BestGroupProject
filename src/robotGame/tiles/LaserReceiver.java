@@ -1,7 +1,11 @@
 package robotGame.tiles;
 
+import graphics.RenderBatch;
+import graphics.RenderInstance;
 import robotGame.Direction;
 import utils.Point;
+import utils.Region;
+import utils.Vector2;
 
 /**
  * Laser Receiver
@@ -23,5 +27,19 @@ public class LaserReceiver extends BoardTile {
 
 	public Direction getDirection() {
 		return direction;
+	}
+	
+	@Override
+	public void draw(RenderBatch b) 
+	{
+		b.draw(new RenderInstance()
+				.withTexture(sprite)
+				.withDestinationRegion(new Region(this.position, new Vector2(TILE_SIZE), true))
+				.withDepth(1f)
+				.withLayer(1)
+				.withRotation(direction.getAngle())
+				.withRotationOrigin(this.position)
+				.build()
+				);
 	}
 }

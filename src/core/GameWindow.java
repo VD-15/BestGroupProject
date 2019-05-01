@@ -150,11 +150,9 @@ public class GameWindow implements GLEventListener
 		ContentManager.loadImage(gl, "textures/TileFlag2.bmp", 				"tileFlag2", 		64, 	64);
 		ContentManager.loadImage(gl, "textures/TileFlag3.bmp", 				"tileFlag3", 		64, 	64);
 		ContentManager.loadImage(gl, "textures/TileFlag4.bmp", 				"tileFlag4", 		64, 	64);
-		ContentManager.loadImage(gl, "textures/TileFlag5.bmp", 				"tileFlag5", 		64, 	64);
-		ContentManager.loadImage(gl, "textures/TileFlag6.bmp", 				"tileFlag6", 		64, 	64);
 
-		ContentManager.loadImage(gl, "textures/TileError.bmp", 				"tileLaserEmitter", 64, 	64);
-		ContentManager.loadImage(gl, "textures/TileError.bmp", 				"tileLaserReceiver", 64, 	64);
+		ContentManager.loadImage(gl, "textures/TileLaserEmitter.bmp", 		"tileLaserEmitter", 64, 	64);
+		ContentManager.loadImage(gl, "textures/TileLaserReceiver.bmp", 		"tileLaserReceiver", 64, 	64);
 
 		ContentManager.loadImage(gl, "textures/Robot1.gif", 				"robot1", 			64, 	64);
 		ContentManager.loadImage(gl, "textures/Robot2.gif", 				"robot2", 			64, 	64);
@@ -196,8 +194,16 @@ public class GameWindow implements GLEventListener
 
 
 		//Load programs
-		ContentManager.loadText("programs/4players.prg", 			"4players");
-		ContentManager.loadText("programs/2players-2rounds.prg", 	"2players-2rounds");
+		ContentManager.loadText("programs/4players.prg", 					"4players");
+		ContentManager.loadText("programs/2players-2rounds.prg", 			"2players-2rounds");
+		
+		ContentManager.loadText("programs/0players.prg", 					"0players");
+		ContentManager.loadText("programs/1player-not_enough.prg", 			"1player-not_enough");
+		ContentManager.loadText("programs/2players-missing-program.prg", 	"2players-missing-program");
+		ContentManager.loadText("programs/2players-too-many-programs.prg", 	"2players-too-many-programs");
+		ContentManager.loadText("programs/wrong-format.prg", 				"wrong-format");
+		ContentManager.loadText("programs/empty-file.prg", 					"empty-file");
+		ContentManager.loadText("programs/1player-repeated.prg", 			"1players-repeated");
 		
 		//Bindings for the MainCamera
 		//Up & down are inverted here due to the way handle the Y-axis, remember, +ve is down.
