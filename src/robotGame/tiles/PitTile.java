@@ -1,5 +1,6 @@
 package robotGame.tiles;
 
+import robotGame.Direction;
 import robotGame.Robot;
 import utils.Point;
 
@@ -29,7 +30,7 @@ public class PitTile extends BoardTile
 	 * Resets the location of the robot upon entry.
 	 */
 	@Override
-	public void onRobotEnter(Robot robot)
+	public void onRobotEnter(Robot robot, Direction direction)
 	{
 		robot.resetLocation();
 	}

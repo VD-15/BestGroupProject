@@ -1,5 +1,6 @@
 package robotGame.tiles;
 
+import robotGame.Direction;
 import robotGame.Robot;
 import utils.Point;
 
@@ -33,7 +34,7 @@ public class FlagTile extends BoardTile
 	 * Adds the flag to the robot.
 	 */	
 	@Override
-	public void onRobotEnter(Robot robot) 
+	public void onRobotEnter(Robot robot, Direction direction) 
 	{
 		// Runs method of robot stood on tile.
 		robot.addFlag(flagNumber);
