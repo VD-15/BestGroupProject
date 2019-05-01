@@ -154,8 +154,6 @@ public class GameWindow implements GLEventListener
 		ContentManager.loadImage(gl, "textures/TileFlag6.bmp", 				"tileFlag6", 		64, 	64);
 		//Jedd's gay <3
 		ContentManager.loadImage(gl, "textures/TileError.bmp", 				"tileLaserEmitter", 64, 	64);
-		ContentManager.loadImage(gl, "textures/TileError.bmp", 				"tileLaserReceiver", 64, 	64);
-		
 
 		ContentManager.loadImage(gl, "textures/Robot1.gif", 				"robot1", 			64, 	64);
 		ContentManager.loadImage(gl, "textures/Robot2.gif", 				"robot2", 			64, 	64);
@@ -179,15 +177,26 @@ public class GameWindow implements GLEventListener
 		ContentManager.createFont("fontSmall", new Point(20, 50));
 		
 		//Load boards
-		ContentManager.loadText("boards/testboard.brd", "testBoard");
-		ContentManager.loadText("boards/conveyor-loops.brd", "testBoard2");
-		ContentManager.loadText("boards/example-board.brd", "testBoard3");
-		ContentManager.loadText("boards/bigboard.brd", "testBoard4");
+		ContentManager.loadText("boards/testboard.brd", 					"testBoard");
+		ContentManager.loadText("boards/conveyor-loops.brd", 				"testBoard2");
+		ContentManager.loadText("boards/example-board.brd", 				"testBoard3");
+		ContentManager.loadText("boards/bigboard.brd", 						"testBoard4");
+		
+		
+		ContentManager.loadText("games/01-90degturn/board.brd", 			"testGame1");
+		ContentManager.loadText("games/01-90degturn/alice-wins.prg", 		"testInstruction0");
+		ContentManager.loadText("games/01-90degturn/alice-wins.prg", 		"testInstruction1");
+		
+		ContentManager.loadText("games/02-pits/board.brd", 					"testGame2");
+		ContentManager.loadText("games/02-pits/bob-wins-using-pit_edge.prg", 	"testInstruction2");
+		
+		ContentManager.loadText("games/04-conveyor-straight/board.brd", 	"testGame3");
+		ContentManager.loadText("games/04-conveyor-straight/bob-wins.prg", 	"testInstruction3");
 
 
 		//Load programs
-		ContentManager.loadText("programs/4players.prg", "4players");
-		ContentManager.loadText("programs/2players-2rounds.prg", "2players-2rounds");
+		ContentManager.loadText("programs/4players.prg", 			"4players");
+		ContentManager.loadText("programs/2players-2rounds.prg", 	"2players-2rounds");
 		
 		//Bindings for the MainCamera
 		//Up & down are inverted here due to the way handle the Y-axis, remember, +ve is down.
