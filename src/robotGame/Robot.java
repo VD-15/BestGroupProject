@@ -31,6 +31,8 @@ public class Robot extends GameObject implements IDrawable
 	private Direction facingDirection;
 	/** Player number */
 	private int number;
+	/** Player default health*/
+	private static final int DEFAULT_HEALTH = 5;
 	/** Player health*/
 	private int health;
 	/** Number of flags collected*/
@@ -55,7 +57,7 @@ public class Robot extends GameObject implements IDrawable
 		this.facingDirection = DEFAULT_DIRECTION;
 		this.number = number;
 		this.tag = "robot";
-		this.health = 100;
+		this.health = DEFAULT_HEALTH;
 		this.flags = 0;
 	}
 
@@ -184,7 +186,7 @@ public class Robot extends GameObject implements IDrawable
 		setPosition(startIndex);
 		facingDirection = DEFAULT_DIRECTION;
 		Logger.log(this, LogSeverity.INFO, "Reseting Robot" + number + " to start location (" + index.x + "," + index.y + ")" );
-		health = 100;
+		health = DEFAULT_HEALTH;
 	}
 
 
@@ -210,15 +212,15 @@ public class Robot extends GameObject implements IDrawable
 		}
 	}
 	
-	public void addDamage(int damage) {
+	public void addDamage() {
 		// Reduces health.
-		health -= damage;
-		Logger.log(this, LogSeverity.INFO, "Robot" + number + " has been damaged by " + damage + ". health is now " + health);
+		health --;;
+		Logger.log(this, LogSeverity.INFO, "Robot" + number + " has been damaged " + "health is now " + health);
 		
-		// Resets robot if health reaches 0.
-		if(health <= 0) {
-			resetLocation();
-		}
+	}
+	
+	public int getHealth() {
+		return health;
 	}
 	
 	@Override
