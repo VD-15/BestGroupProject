@@ -62,7 +62,7 @@ public class GameManager extends GameObject implements IUpdatable {
 		Game.instantiate(board);
 
 		//getting player data
-		players = formatInstructions(ContentManager.getTextByName("4players"));
+		players = formatInstructions(ContentManager.getTextByName(this.programFile));
 		startingLocations = board.getStartingLocations();
 
 		//for the acceptable number of players

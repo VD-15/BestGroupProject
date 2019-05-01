@@ -4,6 +4,7 @@ import UI.Button;
 import core.Game;
 import core.IUpdatable;
 import graphics.Color;
+import robotGame.GameManager;
 import utils.Vector2;
 
 public class GoButton extends Button implements IUpdatable
@@ -24,7 +25,8 @@ public class GoButton extends Button implements IUpdatable
 	@Override
 	protected void onClick()
 	{
-		
+		GameManager o = (GameManager) Game.getGameObjectsByTag("gameManager").get(0);
+		o.setRound();
 	}
 	
 	@Override

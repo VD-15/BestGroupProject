@@ -185,6 +185,7 @@ public class GameWindow implements GLEventListener
 
 		//Load programs
 		ContentManager.loadText("programs/4players.prg", "4players");
+		ContentManager.loadText("programs/2players-2rounds.prg", "2players-2rounds");
 		
 		//Bindings for the MainCamera
 		//Up & down are inverted here due to the way handle the Y-axis, remember, +ve is down.
