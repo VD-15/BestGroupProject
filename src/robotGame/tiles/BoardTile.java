@@ -4,6 +4,7 @@ import core.GameObject;
 import graphics.IDrawable;
 import graphics.RenderBatch;
 import graphics.RenderInstance;
+import robotGame.Direction;
 import robotGame.Robot;
 import utils.Point;
 import utils.Region;
@@ -61,8 +62,9 @@ public class BoardTile extends GameObject implements IDrawable
 	/**
 	 * Stores an instance of the robot which has entered this tile.
 	 * @param robot {@link robotGame.Robot Robot} which has entered the tile.
+	 * @param direction Direction that the robot has moved in from
 	 */
-	public void onRobotEnter(Robot robot)
+	public void onRobotEnter(Robot robot, Direction direction)
 	{
 		// Sets currentRobot variable to robot which has entered.
 		currentRobot = robot;
