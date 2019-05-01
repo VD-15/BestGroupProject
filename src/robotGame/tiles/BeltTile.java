@@ -3,8 +3,6 @@ package robotGame.tiles;
 import graphics.RenderBatch;
 import graphics.RenderInstance;
 import robotGame.Direction;
-import utils.LogSeverity;
-import utils.Logger;
 import utils.Point;
 import utils.Region;
 import utils.Vector2;
@@ -14,15 +12,15 @@ import utils.Vector2;
  * 
  * @author Jedd Morgan
  * @author Vanessa Kostadinova
- * @version 30/05/2019
+ * @version 01/06/2019
  */
 public class BeltTile extends BoardTile 
 {
-	private Direction direction;
+	/** Direction tile is facing and acting in.*/
+	private final Direction direction;
+	/** Rotation tile performs.*/
 	private final int rotation;
-	private RenderInstance renderInstance;
-
-
+	
 	/**
 	 * Creates a new belt
 	 * @param index The point on a grid.
@@ -31,33 +29,21 @@ public class BeltTile extends BoardTile
 	 */
 	public BeltTile(Point index, Direction direction, int rotation)
 	{
+		// Sets variables.
 		super(index);
 		this.direction = direction;
-		this.rotation = rotation;
 		this.tag = "BeltTile";
-	}
-
-	public void init() {
-		{
-			String name = "tileBelt";
-
-			if(rotation == 1) {
-				name += "C";
-			} else if (rotation == -1) {
-				name += "CC";
-			}
-
-			renderInstance = new RenderInstance()
-					.withTexture(name)
-					.withDestinationRegion(new Region(this.position, new Vector2(TILE_SIZE), true))
-					.withDepth(1f)
-					.withLayer(1)
-					.withRotation(direction.getAngle())
-					.withRotationOrigin(this.position)
-					.build();
-		}
+		this.sprite = "tileBelt";
+		this.rotation = rotation;
 		
+		// Changes sprite based on rotation.
+		if(rotation == 1) {
+			sprite += "C";
+		} else if (rotation == -1) {
+			sprite += "CC";
+		}
 	}
+
 	/**
 	 * {@inheritDoc}<br>
 	 * Rotates robot then moves it.
@@ -65,17 +51,28 @@ public class BeltTile extends BoardTile
 	@Override
 	public void act()
 	{
+		// If there is a robot on tile rotation and movement are applied.
 		if (currentRobot != null) {
-			//currentRobot.rotate(rotation);
+			currentRobot.rotate(rotation);
 			currentRobot.move(direction);
-			
 		}
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void draw(RenderBatch b) 
 	{
-		b.draw(renderInstance);
+		b.draw(new RenderInstance()
+				.withTexture(sprite)
+				.withDestinationRegion(new Region(this.position, new Vector2(TILE_SIZE), true))
+				.withDepth(1f)
+				.withLayer(1)
+				.withRotation(direction.getAngle())
+				.withRotationOrigin(this.position)
+				.build()
+				);
 	}
 
 }

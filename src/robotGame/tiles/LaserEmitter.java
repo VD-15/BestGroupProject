@@ -1,18 +1,15 @@
 package robotGame.tiles;
 
-import graphics.RenderBatch;
-import graphics.RenderInstance;
 import robotGame.Board;
 import robotGame.Direction;
 import robotGame.Robot;
 import utils.Point;
-import utils.Region;
-import utils.Vector2;
+
 /**
  * Laser Emitter
  * 
  * @author Vanessa Kostadinova
- * @version 30/05/2019
+ * @version 01/06/2019
  */
 public class LaserEmitter extends BoardTile {
 
@@ -31,9 +28,11 @@ public class LaserEmitter extends BoardTile {
 	public LaserEmitter(Point index, Direction direction) {
 		super(index);
 		
+		// Sets variables.
 		this.damage = 25;
 		this.index = index;
 		this.tag = "LaserEmitter";
+		this.sprite = "tileLaserEmitter";
 		
 		// Detects correct direction has been given
 		if(direction != Direction.EAST || direction != Direction.SOUTH) {
@@ -93,32 +92,8 @@ public class LaserEmitter extends BoardTile {
 				currentRobot.addDamage(damage);
 			}
 			
+			// Increments coord for the search to continue.
 			coord ++;
 		}
 	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void draw(RenderBatch b)
-	{
-		b.draw(new RenderInstance()
-				.withTexture("tileLaserEmitter")
-				.withDestinationRegion(new Region(this.position, new Vector2(TILE_SIZE), true))
-				.withDepth(1f)
-				.withLayer(1)
-				.build()
-				);
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void destroy()
-	{
-		// No implementation required
-	}
-
 }

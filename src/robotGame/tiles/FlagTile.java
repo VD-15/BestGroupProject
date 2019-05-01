@@ -1,19 +1,14 @@
 package robotGame.tiles;
 
-import core.Game;
-import graphics.RenderBatch;
-import graphics.RenderInstance;
 import robotGame.Robot;
 import utils.Point;
-import utils.Region;
-import utils.Vector2;
 
 /**
  * Flag Tile
  * 
  * @author Jedd Morgan
  * @author Vanessa Kostadinova
- * @version 24/05/2019
+ * @version 01/06/2019
  */
 public class FlagTile extends BoardTile 
 {
@@ -27,9 +22,11 @@ public class FlagTile extends BoardTile
 	 */
 	public FlagTile(Point index, int flagNumber) 
 	{
+		// Sets variables.
 		super(index);
 		this.flagNumber = flagNumber;
 		this.tag = "flagTile";
+		this.sprite = "tileFlag" + this.flagNumber;
 	}
 	
 	/**
@@ -38,21 +35,7 @@ public class FlagTile extends BoardTile
 	@Override
 	public void onRobotEnter(Robot robot) 
 	{
+		// Runs method of robot stood on tile.
 		robot.addFlag(flagNumber);
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void draw(RenderBatch b) 
-	{
-		b.draw(new RenderInstance()
-			.withTexture("tileFlag" + this.flagNumber)
-			.withDestinationRegion(new Region(this.position, new Vector2(TILE_SIZE), true))
-			.withDepth(1f)
-			.withLayer(1)
-			.build()
-		);
 	}
 }
