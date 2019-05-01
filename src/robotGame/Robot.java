@@ -17,7 +17,8 @@ import utils.Vector2;
 /**
  * Robot
  * 
- * @author Jedd Morgan, Vanessa Kostadinova
+ * @author Jedd Morgan
+ * @author Vanessa Kostadinova
  * @version 30/05/2019
  */
 public class Robot extends GameObject implements IDrawable
@@ -34,14 +35,10 @@ public class Robot extends GameObject implements IDrawable
 	private int health;
 	/** Number of flags collected*/
 	private int flags;
-
 	/** queue of actions to be committed */
 	private Queue<Instruction> actions;
-
-
 	/** The default Directions for all robots*/
 	private static final Direction DEFAULT_DIRECTION = Direction.NORTH;
-
 
 	/**
 	 * Robot Constructor
@@ -50,6 +47,7 @@ public class Robot extends GameObject implements IDrawable
 	 */
 	public Robot(Point index, int number)
 	{
+		// Sets variables
 		super();
 		this.position = new Vector2(index.x * 64, index.y * 64);
 		this.index = index;
@@ -71,7 +69,10 @@ public class Robot extends GameObject implements IDrawable
 		actions = new LinkedList<Instruction>();
 	}
 
-	
+	/**
+	 * Returns index.
+	 * @return
+	 */
 	public Point getIndex() {
 		return index;
 	}
@@ -105,7 +106,7 @@ public class Robot extends GameObject implements IDrawable
 
 	/**
 	 * Adds a angle to the direction
-	 * @param angle in half pi radians (90° right = +1) accepts any integer value
+	 * @param angle in half pi radian's (90° right = +1) accepts any integer value
 	 * @return new direction after angle transform
 	 */
 	public void rotate(int rotation) {
@@ -202,14 +203,17 @@ public class Robot extends GameObject implements IDrawable
 	}
 
 	public void addFlag(int flagNumber) {
+		// Checks if previous flags have been attained. If so current flag is taken.
 		if((flags + 1) == flagNumber) {
 			flags ++;
 		}	
 	}
 	
 	public void addDamage(int damage) {
+		// Reduces health.
 		health -= damage;
 		
+		// Resets robot if health reaches 0.
 		if(health <= 0) {
 			resetLocation();
 		}

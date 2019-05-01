@@ -1,28 +1,18 @@
 package robotGame.tiles;
 
-import core.Game;
-import graphics.RenderBatch;
-import graphics.RenderInstance;
-import robotGame.Robot;
 import utils.Point;
-import utils.Region;
-import utils.Vector2;
 
 /**
  * Gear Tile. 
  * 
  * @author Jedd Morgan
  * @author Vanessa Kostadinova
- * @version 24/05/2019
+ * @version 01/06/2019
  */
 public class GearTile extends BoardTile 
 {
-	/**
-	 * Stores the rotation quantity, 1 for left, -1 for right.
-	 */
+	/** Stores the rotation quantity, 1 for left, -1 for right.*/
 	private int rotation;
-	/** Whether the gear acts clockwise or counterclockwise.*/
-	private boolean isClockwise;
 
 	/**
 	 * 
@@ -31,43 +21,31 @@ public class GearTile extends BoardTile
 	 */
 	public GearTile(Point index, boolean isClockwise) 
 	{
+		// Sets variables.
 		super(index);
-		this.isClockwise = isClockwise;
+		this.sprite = "tileGear";
+		
+		// Changes sprite based on rotation.
 		if(isClockwise) {
-			rotation = 1;
+			this.rotation = 1;
+			this.sprite += "C";
 		} else {
-			rotation = -1;
+			this.rotation = -1;
+			this.sprite += "CC";
 		}
 	}
 	
 	/**
-     * {@inheritDoc}:
-     * Rotates the robot 90°
+     * {@inheritDoc}
+     * Rotates the robot 90° according to its {@link robotGame.tiles.GearTile#rotation rotation} value.
      * */
     @Override
     public void act()
     {
+    	// If robot is on tile rotation is applied.
         if(currentRobot != null) {
         currentRobot.rotate(rotation);
         }
     }
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void draw(RenderBatch b)
-	{
-		String gearType = (isClockwise) ? "tileGearC" : "tileGearCC";
-		
-		b.draw(new RenderInstance()
-			.withTexture(gearType)
-			.withDestinationRegion(new Region(this.position, new Vector2(TILE_SIZE), true))
-			.withDepth(1f)
-			.withLayer(1)
-			.build()
-			);
-	}
-
 	
 }
