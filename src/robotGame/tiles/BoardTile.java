@@ -6,6 +6,8 @@ import graphics.RenderBatch;
 import graphics.RenderInstance;
 import robotGame.Direction;
 import robotGame.Robot;
+import utils.LogSeverity;
+import utils.Logger;
 import utils.Point;
 import utils.Region;
 import utils.Vector2;
@@ -67,6 +69,11 @@ public class BoardTile extends GameObject implements IDrawable
 	public void onRobotEnter(Robot robot, Direction direction)
 	{
 		// Sets currentRobot variable to robot which has entered.
+		if (currentRobot != null) {
+			Logger.log(this, LogSeverity.INFO, currentRobot + " Has been pushed " + direction + " pushed by " + robot);
+			currentRobot.move(direction);
+			
+		}
 		currentRobot = robot;
 	}
 	
