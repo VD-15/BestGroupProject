@@ -3,6 +3,9 @@ package robotGame.tiles;
 import graphics.RenderBatch;
 import graphics.RenderInstance;
 import robotGame.Direction;
+import robotGame.Robot;
+import utils.LogSeverity;
+import utils.Logger;
 import utils.Point;
 import utils.Region;
 import utils.Vector2;
@@ -53,9 +56,26 @@ public class BeltTile extends BoardTile
 	{
 		// If there is a robot on tile rotation and movement are applied.
 		if (currentRobot != null) {
-			currentRobot.rotate(rotation);
+			
 			currentRobot.move(direction);
 		}
+	}
+	
+	@Override
+	public void onRobotEnter(Robot robot, Direction direction)
+	{
+		// Sets currentRobot variable to robot which has entered.
+		if (currentRobot != null) {
+			Logger.log(this, LogSeverity.INFO, currentRobot + " Has been pushed " + direction + " pushed by " + robot);
+			currentRobot.move(direction);
+			
+		}
+		currentRobot = robot;
+		if (direction == this.direction) {
+			currentRobot.rotate(rotation);
+		}
+		
+		
 	}
 
 	/**
