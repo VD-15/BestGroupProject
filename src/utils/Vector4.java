@@ -1,12 +1,35 @@
 package utils;
 
+/**
+ * Stores two floating-point values ( x , y , z , w )
+ * Used for matrix multiplications and basically nothing else
+ * @author Vee
+ */
 public class Vector4
 {
+	/**
+	 * X-component of this point
+	 */
 	public float x;
+
+	/**
+	 * Y-component of this point
+	 */
 	public float y;
+
+	/**
+	 * Z-component of this point
+	 */
 	public float z;
+
+	/**
+	 * W-component of this point
+	 */
 	public float w;
-	
+
+	/**
+	 * Constructs an identity Vector4 (0, 0, 0, 1)
+	 */
 	public Vector4()
 	{
 		this.x = 0f;
@@ -14,7 +37,10 @@ public class Vector4
 		this.z = 0f;
 		this.w = 1f;
 	}
-	
+
+	/**
+	 * Constructs a Vector4 that represents the same position in space as the given Vector2
+	 */
 	public Vector4(Vector2 v)
 	{
 		this.x = v.x;
@@ -23,6 +49,10 @@ public class Vector4
 		this.w = 1f;
 	}
 	
+	/**
+	 * Creates a Vector4 with the given arguments.
+	 * Maybe don't use this.
+	 */
 	public Vector4(float x, float y, float z, float w)
 	{
 		this.x = x;
@@ -31,6 +61,10 @@ public class Vector4
 		this.w = w;
 	}
 	
+	/**
+	 * Constructs a Vector4 from an array of given values
+	 * @param arr
+	 */
 	public Vector4(float[] arr)
 	{
 		this.x = arr[0];

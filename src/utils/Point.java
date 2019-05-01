@@ -1,14 +1,20 @@
 package utils;
 
 /**
- * Stores two integer values ( x , y )
- * Used for the tile coordinates
+ * Stores two floating-point values ( x, y )
+ * Used for the tile coordinates and anything where atomic values are required
  * @author Vee
- *
  */
 public class Point implements Cloneable
 {
+	/**
+	 * X-component of this point
+	 */
 	public int x;
+	
+	/**
+	 * Y-component of this point
+	 */
 	public int y;
 	
 	/**

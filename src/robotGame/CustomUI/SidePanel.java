@@ -5,8 +5,16 @@ import core.Game;
 import core.IUpdatable;
 import graphics.Color;
 
+/**
+ * A side panel at the left-hand side of the screen that resizes with the window and seperates the UI from the world
+ * @author Valkyrie
+ *
+ */
 public class SidePanel extends Panel implements IUpdatable
 {
+	/**
+	 * Creates a side panel
+	 */
 	public SidePanel()
 	{
 		super();
@@ -15,6 +23,9 @@ public class SidePanel extends Panel implements IUpdatable
 		this.size.x = 232;
 	}
 	
+	/**
+	 * Updates every frame to resize with the window
+	 */
 	@Override
 	public void update(double time)
 	{

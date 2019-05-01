@@ -11,12 +11,33 @@ import robotGame.Instruction;
 import utils.Region;
 import utils.Vector2;
 
+/**
+ * A control to view all the instructions present in a robot
+ * @author Vee
+ */
 public class InstructionViewer extends Panel
 {
+	/**
+	 * A copy of the instructions in the robot
+	 * This is a can't really be a reference to the robot or it's instructions because it is created before the board (and robot) is loaded
+	 */
 	private LinkedList<Instruction> instructions;
+	
+	/**
+	 * The player number of the robot this object is viewing
+	 */
 	private int playerNumber;
+	
+	/**
+	 * The highlight of the player robot that can be used to identify the control
+	 */
 	private Color highlight;
 	
+	/**
+	 * Created an instruction viewer
+	 * @param playerNumber The player number of the robot this object is viewing
+	 * @param location The location on screen of the control, measured in pixels
+	 */
 	public InstructionViewer(int playerNumber, Vector2 location)
 	{
 		super();
@@ -50,24 +71,44 @@ public class InstructionViewer extends Panel
 		}
 	}
 	
+	/**
+	 * Gets the player number this control is observing
+	 * @return The player number this control is observing
+	 */
 	public int getPlayerNumber() { return this.playerNumber; }
 	
+	/**
+	 * Pushes an instruction to the back of this instruction list
+	 * @param i the instruction to add
+	 */
 	public void pushInstruction(Instruction i)
 	{
-		this.instructions.offer(i);
+		this.instructions.addLast(i);
 	}
 	
+	/**
+	 * Removes an instruction from the front of this instruction list
+	 * Has no effect if the list is empty
+	 */
 	public void removeFront()
 	{
-		this.instructions.removeFirst();
+		if (this.instructions.size() > 0)
+			this.instructions.removeFirst();
 	}
-	
+
+	/**
+	 * Removes an instruction from the back of this instruction list
+	 * Has no effect if the list is empty
+	 */
 	public void removeBack()
 	{
 		if (this.instructions.size() > 0)
 			this.instructions.removeLast();
 	}
 	
+	/**
+	 * Empties the instruction list
+	 */
 	public void clear()
 	{
 		this.instructions = new LinkedList<Instruction>();
@@ -76,6 +117,7 @@ public class InstructionViewer extends Panel
 	@Override
 	public void draw(RenderBatch b)
 	{
+		//Draw the background of the viewer
 		b.draw(new RenderInstance()
 				.withTexture("uiBlank")
 				.withDepth(16f)
@@ -85,8 +127,10 @@ public class InstructionViewer extends Panel
 				.build()
 				);
 		
+		//Draw each instruction
 		for (int i = 0; i < this.instructions.size(); i++)
 		{
+			//Back panel
 			b.draw(new RenderInstance()
 				.withTexture("uiBlank")
 				.withDepth(17f)
@@ -100,6 +144,7 @@ public class InstructionViewer extends Panel
 				.build()
 				);
 			
+			//Instruction icon
 			b.draw(new RenderInstance()
 				.withTexture("icon" + this.instructions.get(i).toString())
 				.withDestinationRegion(new Region(
