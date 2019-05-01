@@ -206,12 +206,14 @@ public class Robot extends GameObject implements IDrawable
 		// Checks if previous flags have been attained. If so current flag is taken.
 		if((flags + 1) == flagNumber) {
 			flags ++;
-		}	
+			Logger.log(this, LogSeverity.INFO, "Robot" + number + " has collected flag tile" + flagNumber);
+		}
 	}
 	
 	public void addDamage(int damage) {
 		// Reduces health.
 		health -= damage;
+		Logger.log(this, LogSeverity.INFO, "Robot" + number + " has been damaged by " + damage + ". health is now " + health);
 		
 		// Resets robot if health reaches 0.
 		if(health <= 0) {

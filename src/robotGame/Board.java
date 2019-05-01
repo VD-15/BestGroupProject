@@ -169,6 +169,22 @@ public class Board extends GameObject
 					// Pit Tile
 					boardArray[p.x][p.y] = new PitTile(p);
 					break;
+				case '[':
+					// WestCC Belt
+					boardArray[p.x][p.y] = new LaserEmitter(p, Direction.EAST);
+					break;
+				case ']':
+					// WestCC Belt
+					boardArray[p.x][p.y] = new LaserReceiver(p, Direction.WEST);
+					break;
+				case '(':
+					// WestCC Belt
+					boardArray[p.x][p.y] = new LaserEmitter(p, Direction.SOUTH);
+					break;
+				case ')':
+					// WestCC Belt
+					boardArray[p.x][p.y] = new LaserReceiver(p, Direction.NORTH);
+					break;
 				case '^':
 					// West Belt
 					boardArray[p.x][p.y] = new BeltTile(p, Direction.NORTH, 0);
