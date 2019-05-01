@@ -9,11 +9,27 @@ import robotGame.Instruction;
 import utils.Region;
 import utils.Vector2;
 
+/**
+ * A button representing an instruction that can be used to add an instruction to a robot
+ * @author Vee
+ */
 public class InstructionButton extends Button implements IUpdatable
 {
+	/**
+	 * The instruction that this button represents
+	 */
 	private Instruction instruction;
+	
+	/**
+	 * The offset from the bottom-left of the window
+	 */
 	private Vector2 offset;
 	
+	/**
+	 * Creates an instruction button
+	 * @param offset The {@link #offset offset} from the bottom-left of the window
+	 * @param i The {@link #instruction instruction} that is stored in this button
+	 */
 	public InstructionButton(Vector2 offset, Instruction i)
 	{
 		super();

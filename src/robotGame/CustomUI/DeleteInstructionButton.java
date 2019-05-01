@@ -9,8 +9,15 @@ import graphics.RenderInstance;
 import utils.Region;
 import utils.Vector2;
 
+/**
+ * A button that allows the player to remove an instruction from their robot
+ * @author Vee
+ */
 public class DeleteInstructionButton extends Button implements IUpdatable
 {
+	/**
+	 * Creates a delete instruction button
+	 */
 	public DeleteInstructionButton()
 	{
 		super();
@@ -18,6 +25,9 @@ public class DeleteInstructionButton extends Button implements IUpdatable
 		this.setWidth(64);
 	}
 
+	/**
+	 * Called every frame to keep the button aligned with the bottom of the window
+	 */
 	@Override
 	public void update(double time)
 	{

@@ -7,15 +7,26 @@ import graphics.Color;
 import robotGame.GameManager;
 import utils.Vector2;
 
+/**
+ * A big, fat go button to confirm instructions for a robot and start a round
+ * @author Vee
+ */
 public class GoButton extends Button implements IUpdatable
 {
+	/**
+	 * Creates a go button
+	 */
 	public GoButton()
 	{
+		super();
 		this.setText("  GO!");
 		this.setWidth(138);
 		this.tag = "buttonGo";
 	}
 	
+	/**
+	 * Called every frame to keep the button aligned with the bottom of the window
+	 */
 	@Override
 	public void update(double time)
 	{

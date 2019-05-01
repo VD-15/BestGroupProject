@@ -4,10 +4,21 @@ import UI.Label;
 import graphics.Color;
 import utils.Vector2;
 
+/**
+ * A label to show what player is currently active
+ * @author Vee
+ */
 public class PlayerLabel extends Label
 {
+	/**
+	 * The player that is shown as being active
+	 */
 	private int playerNumber;
 	
+	/**
+	 * Creates a player label
+	 * @param playerNumber the player number that is currently active
+	 */
 	public PlayerLabel(int playerNumber)
 	{
 		super();
@@ -18,6 +29,7 @@ public class PlayerLabel extends Label
 		
 	}
 	
+	//Sets what player is currently active
 	public void setPlayerNumber(int playerNumber)
 	{
 		this.playerNumber = playerNumber;
