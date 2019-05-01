@@ -57,7 +57,13 @@ public class Board extends GameObject
 			Game.instantiate(o);
 		}
 	}
-
+	
+	/**
+	 * Looks up the BoardTile in boardArray at the specified point<br>
+	 * If no BoardTile exists will return null
+	 * @param p - the index of the 
+	 * @return the tile at the specified point
+	 */
 	public static BoardTile getTile(Point p)
 	{
 		if(p.x >= boardArray.length || p.x < 0) {
@@ -168,22 +174,6 @@ public class Board extends GameObject
 				case 'x':
 					// Pit Tile
 					boardArray[p.x][p.y] = new PitTile(p);
-					break;
-				case '[':
-					// WestCC Belt
-					boardArray[p.x][p.y] = new LaserEmitter(p, Direction.EAST);
-					break;
-				case ']':
-					// WestCC Belt
-					boardArray[p.x][p.y] = new LaserReceiver(p, Direction.WEST);
-					break;
-				case '(':
-					// WestCC Belt
-					boardArray[p.x][p.y] = new LaserEmitter(p, Direction.SOUTH);
-					break;
-				case ')':
-					// WestCC Belt
-					boardArray[p.x][p.y] = new LaserReceiver(p, Direction.NORTH);
 					break;
 				case '^':
 					// West Belt

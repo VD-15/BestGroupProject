@@ -39,26 +39,31 @@ public class GameManager extends GameObject implements IUpdatable {
 	private HashMap<Integer, LinkedList<Instruction[]>> players;
 	private ArrayList<Point> startingLocations;
 	
-	private String programFile;
+	private final String programFile;
+	private final String boardFile;
 
-	public GameManager(String programFile) 
+	public GameManager(String boardFile, String programFile) 
 	{
-		players = new HashMap<Integer, LinkedList<Instruction[]>>();
-		robots = new LinkedList<Robot>();
 		this.tag = "gameManager";
 		this.programFile = programFile;
+		this.boardFile = boardFile;
+		
+		players = new HashMap<Integer, LinkedList<Instruction[]>>();
+		robots = new LinkedList<Robot>();
+		
 	}
 	
 	public GameManager() 
 	{
-		this("2players-2rounds");
+		this("testGame3", "testInstruction3");
 	}
+	
 
 	@Override
 	public void init() 
 	{
 		//creating a new board
-		board = new Board();
+		board = new Board(boardFile);
 		Game.instantiate(board);
 
 		//getting player data
