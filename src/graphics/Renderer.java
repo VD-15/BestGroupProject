@@ -37,12 +37,12 @@ import utils.Vector4;
 public class Renderer
 {		
 	/**
-	 * The vertex array object that specifies how OpenGL will read the vertex data from the buffer
+	 * The vertex array object that specifies how OpenGL will read the vertex data from the vertex buffer
 	 */
 	private int arrayObject;
 	
 	/**
-	 * The shader program to rasterize an image on screen
+	 * The shader program used to draw an image on screen
 	 */
 	private int shaderProgram;
 	
