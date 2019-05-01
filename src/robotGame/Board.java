@@ -281,6 +281,11 @@ public class Board extends GameObject
 
 		return tiles;
 	}
+	
+	public BoardTile[][] getBoardArray()
+	{
+		return boardArray;
+	}
 
 	public ArrayList<Point> getStartingLocations()
 	{
