@@ -65,7 +65,7 @@ public class Robot extends GameObject implements IDrawable
 	@Override
 	public void init()
 	{
-		Board.getTile(index).onRobotEnter(this, null);
+		Board.getTile(index).onRobotEnter(this, DEFAULT_DIRECTION);
 		actions = new LinkedList<Instruction>();
 	}
 
