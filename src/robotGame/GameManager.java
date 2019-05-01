@@ -58,7 +58,7 @@ public class GameManager extends GameObject implements IUpdatable {
 	
 	public GameManager() 
 	{
-		this("testBoard3", "4players");
+		this("testBoard3", "2players-2rounds");
 	}
 	
 	@Override
@@ -94,8 +94,8 @@ public class GameManager extends GameObject implements IUpdatable {
 
 	/**
 	 * 
-	 * @param text
-	 * @return
+	 * @param text the program file as an array of strings
+	 * @return a HashMap containing instructions for each round for each robot.
 	 */
 	private HashMap<Integer, LinkedList<Instruction[]>> formatInstructions(String[] text)
 	{
@@ -123,8 +123,8 @@ public class GameManager extends GameObject implements IUpdatable {
 
 	/**
 	 * 
-	 * @param text
-	 * @return
+	 * @param text the program file as an array of strings
+	 * @return a HashMap containing instructions for each round for each robot.
 	 */
 	private HashMap<Integer, LinkedList<Instruction[]>> loadInstructionsFormat1(String[] text )
 	{	
@@ -222,7 +222,32 @@ public class GameManager extends GameObject implements IUpdatable {
 		return players;
 	}
 
-
+	/**
+	 * 
+	 * @param button the button that has been pressed
+	 */
+	public void programInstructions(String button)
+	{
+		switch(button)
+		{
+		case "instructionButtonForward":
+			break;
+		case "instructionButtonBackward":
+			break;
+		case "instructionButtonWait":
+			break;
+		case "instructionButtonRight":
+			break;
+		case "instructionButtonLeft":
+			break;
+		case "instructionButtonUturn":
+			break;
+		default:
+			break;
+		}
+	}
+	
+	
 	@Override
 	public void update(double time) 
 	{
@@ -265,7 +290,7 @@ public class GameManager extends GameObject implements IUpdatable {
 		}
 		else 
 		{
-			Logger.log(this, LogSeverity.ERROR, "No more round data");
+			Logger.log(this, LogSeverity.WARNING, "No more round data");
 		}
 	}
 
