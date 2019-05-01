@@ -8,11 +8,13 @@ import graphics.StringRenderInstance;
 public class Label extends UIObject implements IDrawable
 {
 	protected String text;
+	protected Color color;
 	
 	public Label()
 	{
 		super();
 		this.text = "";
+		this.color = Color.WHITE();
 	}
 	
 	
@@ -23,7 +25,7 @@ public class Label extends UIObject implements IDrawable
 			.withFont("fontSmall")
 			.withLocation(this.position)
 			.withText(this.text)
-			.withColor(Color.WHITE())
+			.withColor(this.color)
 			.build()
 			);
 	}

@@ -1,20 +1,27 @@
 package robotGame.CustomUI;
 
 import UI.Button;
+import core.Game;
+import core.IUpdatable;
 import graphics.Color;
 import graphics.RenderBatch;
 import graphics.RenderInstance;
 import utils.Region;
 import utils.Vector2;
 
-public class DeleteInstructionButton extends Button
+public class DeleteInstructionButton extends Button implements IUpdatable
 {
-
-	public DeleteInstructionButton(Vector2 location)
+	public DeleteInstructionButton()
 	{
-		this.position = location;
+		super();
 		this.tag = "deleteInstructionButton";
 		this.setWidth(64);
+	}
+
+	@Override
+	public void update(double time)
+	{
+		this.position = new Vector2(158, Game.getWindow().getViewport().y - (Button.BUTTON_HEIGHT + 10));
 	}
 	
 	@Override
