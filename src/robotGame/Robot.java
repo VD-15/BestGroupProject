@@ -212,6 +212,14 @@ public class Robot extends GameObject implements IDrawable
 		}
 	}
 	
+	/**
+	 * Returns number of flags gotten.
+	 * @return
+	 */
+	public int returnFlag() {
+		return flags;
+	}
+	
 	public void addDamage() {
 		// Reduces health.
 		health --;;
