@@ -14,6 +14,7 @@ import robotGame.tiles.LaserEmitter;
 import utils.LogSeverity;
 import utils.Logger;
 import utils.Point;
+import UI.Button;
 
 /**
  * GameManager
@@ -21,7 +22,7 @@ import utils.Point;
  * 
  * @author Jedd Morgan
  * @author Owen Craig
- * @version 29/04/2019
+ * @version 02/05/2019
  */
 public class GameManager extends GameObject implements IUpdatable {
 
@@ -34,8 +35,13 @@ public class GameManager extends GameObject implements IUpdatable {
 
 	private static final int roundLength = 5;
 	
+	private static boolean fromFile;
+	
 	private int roundNumber;
 	private int turnNumber = 0;
+	private int playerNumber;
+	private int currentPlayer;
+	private boolean roundReady = false;
 
 	private Queue<Robot> robots;
 
@@ -45,12 +51,13 @@ public class GameManager extends GameObject implements IUpdatable {
 	private final String programFile;
 	private final String boardFile;
 
-	public GameManager(String boardFile, String programFile) 
+	public GameManager(String boardFile, String programFile, boolean fromFile, int playerNumber) 
 	{
 		this.tag = "gameManager";
-		this.programFile = programFile;
 		this.boardFile = boardFile;
-		
+		this.programFile = programFile;
+		this.fromFile = fromFile;
+		this.playerNumber = playerNumber; 
 		players = new HashMap<Integer, LinkedList<Instruction[]>>();
 		robots = new LinkedList<Robot>();
 		
@@ -58,7 +65,7 @@ public class GameManager extends GameObject implements IUpdatable {
 	
 	public GameManager() 
 	{
-		this("testBoard3", "2players-2rounds");
+		this("testBoard3", "2players-2rounds", true, 2);
 	}
 	
 	@Override
@@ -67,17 +74,30 @@ public class GameManager extends GameObject implements IUpdatable {
 		//creating a new board
 		board = new Board(boardFile);
 		Game.instantiate(board);
-
-		//getting player data
-		players = formatInstructions(ContentManager.getTextByName(this.programFile));
 		startingLocations = board.getStartingLocations();
 
+		if(fromFile == true)
+		{
+			//getting player data
+			formatInstructions(ContentManager.getTextByName(this.programFile));
+		}
+		else
+		{
+			for(int i = 0; i < playerNumber; i++)
+			{
+				Instruction[] t = new Instruction[this.roundLength];
+				LinkedList<Instruction[]> temp = new LinkedList<Instruction[]>();
+				temp.add(t);
+				players.put(i, temp);
+			}
+			currentPlayer = 1;
+		}
 		try
 		{
 			
 			//for the acceptable number of players
 			//i.e. the max unless the board is too small
-			for (int i = 0; i < Math.min(players.size(), startingLocations.size()); i++)
+			for (int i = 0; i < Math.min(playerNumber, startingLocations.size()); i++)
 			{
 				//creating the robots
 				Robot r = new Robot(startingLocations.get(i), i + 1);
@@ -92,18 +112,50 @@ public class GameManager extends GameObject implements IUpdatable {
 
 	}
 
+	
+	public static boolean getfromFile()
+	{
+		return fromFile;
+	}
+	public void run()
+	{
+		if(fromFile == false)
+		{
+			if(roundReady == true)
+			{
+				roundNumber = 1;
+				currentPlayer = 1;
+				setRound();
+				roundReady = false;
+			}
+			else
+			{
+				Logger.log(this, LogSeverity.WARNING, "players have not been fully programmed.");
+			}
+		}
+		else 
+		{
+			setRound();
+		}
+			
+	}
+	
+	
+	
+
+	
+	
 	/**
 	 * 
 	 * @param text the program file as an array of strings
 	 * @return a HashMap containing instructions for each round for each robot.
 	 */
-	private HashMap<Integer, LinkedList<Instruction[]>> formatInstructions(String[] text)
+	private void formatInstructions(String[] text)
 	{
 		//checks for a format line 
 		if (!text[0].startsWith("format "))
 		{
 			Logger.log(this, LogSeverity.ERROR, "Could not discern format from instruction data.");
-			return null;
 		}
 		//sets the formatVersion from the file
 		int formatVersion = Integer.valueOf(text[0].split("format ")[1]);
@@ -113,12 +165,14 @@ public class GameManager extends GameObject implements IUpdatable {
 		switch (formatVersion)
 		{
 		case 1:
-			return loadInstructionsFormat1(text);
+			roundNumber = text.length - 2;
+			players = loadInstructionsFormat1(text);
+			break;
 			//default error for an invalid formatVersion
 		default:
 			Logger.log(this, LogSeverity.ERROR, "Instruction data had invalid version: {" + formatVersion + "}");
+			break;
 		}
-		return null;
 	}
 
 	/**
@@ -139,8 +193,7 @@ public class GameManager extends GameObject implements IUpdatable {
 
 		HashMap<Integer, LinkedList<Instruction[]>> players = new HashMap<Integer, LinkedList<Instruction[]>>();
 		String[] playerNumber = text[1].split(" ");
-		
-		this.roundNumber = text.length - 2;
+	
 		//For each round
 		for (int y = INSTRUCTION_LINE_STARTS; y < text.length; y++)
 		{
@@ -181,33 +234,9 @@ public class GameManager extends GameObject implements IUpdatable {
 						return null;
 					}
 					else previous = c;
-					//switch determined by the instruction value
+					
 					//adds the appropriate instruction to playerInstructions based on the instruction value
-					switch (c)
-					{
-					case 'F':
-						playerInstructions[j] = Instruction.FORWARD;
-						break;
-					case 'B':
-						playerInstructions[j] = Instruction.BACKWARD;
-						break;
-					case 'R':
-						playerInstructions[j] = Instruction.RIGHT;
-						break;
-					case 'L':
-						playerInstructions[j] = Instruction.LEFT;
-						break;
-					case 'U':
-						playerInstructions[j] = Instruction.UTURN;
-						break;
-					case 'W':
-						playerInstructions[j] = Instruction.WAIT;
-						break;
-						//default error for invalid instruction values
-					default:
-						Logger.log(this, LogSeverity.ERROR, "Encountered an invalid character while reading program file: {" + c + "}");
-						break;
-					}
+					playerInstructions[j] = translateInstruction(c);
 					
 				}
 
@@ -228,25 +257,89 @@ public class GameManager extends GameObject implements IUpdatable {
 	 */
 	public void programInstructions(String button)
 	{
-		switch(button)
+
+		Instruction[] currentRoundData = players.get(currentPlayer-1).get(0);
+		char c = button.charAt(0);
+		
+		for(int i= 0; i < currentRoundData.length;i++)
 		{
-		case "instructionButtonForward":
-			break;
-		case "instructionButtonBackward":
-			break;
-		case "instructionButtonWait":
-			break;
-		case "instructionButtonRight":
-			break;
-		case "instructionButtonLeft":
-			break;
-		case "instructionButtonUturn":
-			break;
-		default:
-			break;
+			if(i == currentRoundData.length-1)
+			{
+				if(currentPlayer == playerNumber)
+				{
+					if(currentRoundData[i] == null)
+					{
+						currentRoundData[i] = translateInstruction(c);
+						roundReady = true;
+						
+						break;
+					}
+					else
+					{
+						Logger.log(this, LogSeverity.WARNING, "All player instructions have been programmed. Click the run button to play the round");
+					}
+				}
+				else
+				{
+					if(currentRoundData[i] == null)
+					{
+						currentRoundData[i] = translateInstruction(c);
+						break;
+					}
+					else
+					{
+						currentPlayer++;
+						currentRoundData = players.get(currentPlayer-1).get(0);
+						i = 0;
+					}
+				}
+			}
+			else
+			{
+				if(currentRoundData[i] == null)
+				{
+					currentRoundData[i] = translateInstruction(c);
+					break;
+				}
+			}
+			
 		}
 	}
-	
+	/**
+	 * 
+	 * @param c the instruction character to be translated
+	 * @return the translated instruction 
+	 */
+	public Instruction translateInstruction(char c)
+	{
+		//switch determined by the instruction value
+		switch (c)
+		{
+		case 'F':
+			return Instruction.FORWARD;
+
+		case 'B':
+			return Instruction.BACKWARD;
+
+		case 'R':
+			return Instruction.RIGHT;
+
+		case 'L':
+			return Instruction.LEFT;
+
+		case 'U':
+			return Instruction.UTURN;
+
+		case 'W':
+			return Instruction.WAIT;
+
+			//default error for invalid instruction values
+		default:
+			Logger.log(this, LogSeverity.ERROR, "Encountered an invalid instruction character: {" + c + "}");
+			return null;
+
+		}
+	}
 	
 	@Override
 	public void update(double time) 
@@ -282,8 +375,10 @@ public class GameManager extends GameObject implements IUpdatable {
 			for (int i=0;i < robots.size();i++)
 			{
 				Robot r = robots.poll();
-				r.setInstructions(players.get(i).poll());
+				r.setInstructions(players.get(r.getNumber()-1).poll());
 				robots.offer(r);
+				Instruction[] temp = new Instruction[roundLength];
+				players.get(r.getNumber()-1).offer(temp);
 			}
 			turnNumber = 1;
 			roundNumber--;
