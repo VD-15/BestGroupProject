@@ -222,7 +222,8 @@ public class Robot extends GameObject implements IDrawable
 	 * Returns number of flags gotten.
 	 * @return flags
 	 */
-	public int returnFlag() {
+	public int getFlag() 
+	{
 		return flags;
 	}
 	

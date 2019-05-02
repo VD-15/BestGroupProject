@@ -389,6 +389,19 @@ public class GameManager extends GameObject implements IUpdatable {
 		}
 	}
 
+	
+	public void victory(Robot r)
+	{
+		Logger.log(this, LogSeverity.INFO, "Player "+ r.getNumber() +"has won!");
+		
+		for(int i = 0; i < robots.size(); i++)
+		{
+			Robot j = robots.poll();
+			j.resetLocation();
+			robots.offer(j);
+		}
+	}
+	
 	/**
 	 * Executes a single turn
 	 */
@@ -400,6 +413,10 @@ public class GameManager extends GameObject implements IUpdatable {
 				Robot r = robots.poll();
 				r.act();
 				robots.offer(r);
+				if(r.getFlag() == 4)
+				{
+					victory(r);
+				}
 			}
 			
 			//changes the turn order for the next turn
