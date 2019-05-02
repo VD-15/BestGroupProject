@@ -25,7 +25,7 @@ public class BoardTile extends GameObject implements IDrawable
 	protected Robot currentRobot;
 	/** Default tile size for every tile*/
 	protected final int TILE_SIZE = 64;
-	
+
 	protected String sprite;
 
 	public BoardTile(Point index)
@@ -44,7 +44,7 @@ public class BoardTile extends GameObject implements IDrawable
 	public Robot getRobot() {
 		return currentRobot;
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -52,7 +52,7 @@ public class BoardTile extends GameObject implements IDrawable
 	{
 		// No implementation needed.
 	}
-	
+
 	/**
 	 * Acts on the robot at the start of a turn.
 	 */
@@ -72,21 +72,23 @@ public class BoardTile extends GameObject implements IDrawable
 		if (currentRobot != null) {
 			Logger.log(this, LogSeverity.INFO, currentRobot + " Has been pushed " + direction + " pushed by " + robot);
 			currentRobot.move(direction);
-			
+
 		}
 		currentRobot = robot;
 	}
-	
+
 	/**
 	 * Clears instance of robot when it leaves.
 	 * @param robot {@link robotGame.Robot Robot} which has left the tile.
 	 */
 	public void onRobotLeave(Robot robot)
 	{
-		// Cleared currentRobot variable on robot exit.
-		currentRobot = null;
+		if(robot == currentRobot) {
+			// Cleared currentRobot variable on robot exit.
+			currentRobot = null;
+		}
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -94,14 +96,14 @@ public class BoardTile extends GameObject implements IDrawable
 	public void draw(RenderBatch b)
 	{
 		b.draw(new RenderInstance()
-			// Sets texture to variable sprite.
-			.withTexture(sprite)
-			// Sets position
-			.withDestinationRegion(new Region(this.position, new Vector2(TILE_SIZE), true))
-			.withDepth(1f)
-			.withLayer(1)
-			.build()
-			);
+				// Sets texture to variable sprite.
+				.withTexture(sprite)
+				// Sets position
+				.withDestinationRegion(new Region(this.position, new Vector2(TILE_SIZE), true))
+				.withDepth(1f)
+				.withLayer(1)
+				.build()
+				);
 	}
 
 	/**
@@ -111,6 +113,6 @@ public class BoardTile extends GameObject implements IDrawable
 	public void destroy()
 	{
 		// No implementation required.
-		
+
 	}
 }
