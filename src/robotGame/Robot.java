@@ -227,6 +227,14 @@ public class Robot extends GameObject implements IDrawable
 	}
 	
 	/**
+	 * Returns the robot's number
+	 * @return robot's number
+	 */
+	public int getNumber() {
+		return number;
+	}
+	
+	/**
 	 * Performs damage calculations on robot.
 	 */
 	public void addDamage() {
