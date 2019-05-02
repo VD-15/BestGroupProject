@@ -76,7 +76,7 @@ public class Game
 		//Don't touch this unless you hate yourself
 		Logger.setLogSeverity(LogSeverity.INFO);
 		
-		Game.instantiate(new GameManager());
+		
 		Game.instantiate(new MainCamera());
 		Game.instantiate(new UICamera());
 		Game.instantiate(new SidePanel());
@@ -89,6 +89,7 @@ public class Game
 		Game.instantiate(new InstructionButton(new Vector2(158, 148), Instruction.RIGHT));
 		Game.instantiate(new InstructionButton(new Vector2(84, 222), Instruction.UTURN));
 		Game.instantiate(new InstructionButton(new Vector2(158, 222), Instruction.WAIT));
+		Game.instantiate(new GameManager());
 		
 		Game.instantiate(new InstructionViewer(1, new Vector2(10, 50)));
 		Game.instantiate(new InstructionViewer(2, new Vector2(10, 102)));

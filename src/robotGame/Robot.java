@@ -183,7 +183,8 @@ public class Robot extends GameObject implements IDrawable
 	 */
 	public void resetLocation()
 	{
-		Board.getTile(index).onRobotLeave(this);
+		BoardTile tile = Board.getTile(index);
+        if(tile != null) tile.onRobotLeave(this);
 		setPosition(startIndex);
 		facingDirection = DEFAULT_DIRECTION;
 		Logger.log(this, LogSeverity.INFO, "Reseting Robot" + number + " to start location (" + index.x + "," + index.y + ")" );

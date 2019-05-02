@@ -42,6 +42,7 @@ public class GameManager extends GameObject implements IUpdatable {
 	private int playerNumber;
 	private int currentPlayer;
 	private boolean roundReady = false;
+	private String previousInstruction;
 
 	private Queue<Robot> robots;
 
@@ -65,7 +66,7 @@ public class GameManager extends GameObject implements IUpdatable {
 	
 	public GameManager() 
 	{
-		this("testBoard3", "2players-2rounds", true, 2);
+		this("testBoard3", "2players-2rounds", false, 2);
 	}
 	
 	@Override
@@ -83,6 +84,8 @@ public class GameManager extends GameObject implements IUpdatable {
 		}
 		else
 		{
+			Button b = (Button) Game.getGameObjectsByTag("buttonGo").get(0);
+			b.disable();
 			for(int i = 0; i < playerNumber; i++)
 			{
 				Instruction[] t = new Instruction[this.roundLength];
@@ -112,11 +115,18 @@ public class GameManager extends GameObject implements IUpdatable {
 
 	}
 
-	
+	/**
+	 * 
+	 * @return
+	 */
 	public static boolean getfromFile()
 	{
 		return fromFile;
 	}
+	
+	/**
+	 * 
+	 */
 	public void run()
 	{
 		if(fromFile == false)
@@ -257,7 +267,15 @@ public class GameManager extends GameObject implements IUpdatable {
 	 */
 	public void programInstructions(String button)
 	{
-
+		if(previousInstruction != null)
+		{
+			Button b = (Button) Game.getGameObjectsByTag("instructionButton"+previousInstruction).get(0);
+			b.enable();
+		}
+		previousInstruction = button;
+		Button b = (Button) Game.getGameObjectsByTag("instructionButton"+button).get(0);
+		b.disable();
+		
 		Instruction[] currentRoundData = players.get(currentPlayer-1).get(0);
 		char c = button.charAt(0);
 		
@@ -271,7 +289,10 @@ public class GameManager extends GameObject implements IUpdatable {
 					{
 						currentRoundData[i] = translateInstruction(c);
 						roundReady = true;
-						
+						Button g = (Button) Game.getGameObjectsByTag("buttonGo").get(0);
+						g.enable();
+						b.enable();
+						previousInstruction = null;
 						break;
 					}
 					else
@@ -284,6 +305,8 @@ public class GameManager extends GameObject implements IUpdatable {
 					if(currentRoundData[i] == null)
 					{
 						currentRoundData[i] = translateInstruction(c);
+						b.enable();
+						previousInstruction = null;
 						break;
 					}
 					else
