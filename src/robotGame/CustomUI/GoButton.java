@@ -38,7 +38,7 @@ public class GoButton extends Button implements IUpdatable
 	{
 		//on click the go button runs GameManager.setRound
 		GameManager o = (GameManager) Game.getGameObjectsByTag("gameManager").get(0);
-		o.setRound();
+		o.run();
 	}
 	
 	@Override

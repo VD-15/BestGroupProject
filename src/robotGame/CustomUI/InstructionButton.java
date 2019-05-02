@@ -5,6 +5,7 @@ import core.Game;
 import core.IUpdatable;
 import graphics.RenderBatch;
 import graphics.RenderInstance;
+import robotGame.GameManager;
 import robotGame.Instruction;
 import utils.Region;
 import utils.Vector2;
@@ -37,14 +38,19 @@ public class InstructionButton extends Button implements IUpdatable
 		this.offset = offset;
 		this.tag = "instructionButton" + i.toString();
 		this.setWidth(64);
+		if (GameManager.getfromFile() == true)
+		{
+			this.disable();
+		}
 	}
 	
 	@Override
 	protected void onClick()
 	{
-		////////////////////////////////////////////
-		////THIS IS WHERE YOU WANT TO PUT STUFF!////
-		////////////////////////////////////////////
+		String button = this.tag.split("instructionButton")[1];
+		GameManager o = (GameManager) Game.getGameObjectsByTag("gameManager").get(0);
+		o.programInstructions(button);
+
 	}
 
 	@Override

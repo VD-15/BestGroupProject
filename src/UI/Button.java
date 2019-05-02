@@ -58,6 +58,16 @@ public class Button extends UIObject implements IDrawable
 		}
 	}
 	
+	public void enable()
+	{
+		isEnabled = true;
+	}
+	
+	public void disable()
+	{
+		isEnabled = false;
+	}
+	
 	protected Color getHighlight()
 	{
 		return this.highlight;
