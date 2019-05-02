@@ -183,10 +183,12 @@ public class Robot extends GameObject implements IDrawable
 	 */
 	public void resetLocation()
 	{
+		Board.getTile(index).onRobotLeave(this);
 		setPosition(startIndex);
 		facingDirection = DEFAULT_DIRECTION;
 		Logger.log(this, LogSeverity.INFO, "Reseting Robot" + number + " to start location (" + index.x + "," + index.y + ")" );
 		health = DEFAULT_HEALTH;
+		
 	}
 
 
@@ -204,6 +206,10 @@ public class Robot extends GameObject implements IDrawable
 				);
 	}
 
+	/**
+	 * Adds flag to the flags the robot has.
+	 * @param flagNumber
+	 */
 	public void addFlag(int flagNumber) {
 		// Checks if previous flags have been attained. If so current flag is taken.
 		if((flags + 1) == flagNumber) {
@@ -214,12 +220,15 @@ public class Robot extends GameObject implements IDrawable
 	
 	/**
 	 * Returns number of flags gotten.
-	 * @return
+	 * @return flags
 	 */
 	public int returnFlag() {
 		return flags;
 	}
 	
+	/**
+	 * Performs damage calculations on robot.
+	 */
 	public void addDamage() {
 		// Reduces health.
 		health --;;
@@ -227,6 +236,10 @@ public class Robot extends GameObject implements IDrawable
 		
 	}
 	
+	/**
+	 * Returns current health of robot.
+	 * @return health
+	 */
 	public int getHealth() {
 		return health;
 	}
