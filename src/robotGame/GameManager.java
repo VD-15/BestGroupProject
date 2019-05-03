@@ -43,7 +43,8 @@ public class GameManager extends GameObject implements IUpdatable {
 	private int playerNumber;
 	private int currentPlayer;
 	private boolean roundReady = false;
-	private String previousInstruction;
+	private String clickedInstruction;
+	private String previousInstruction; 
 
 	private Queue<Robot> robots;
 
@@ -280,8 +281,11 @@ public class GameManager extends GameObject implements IUpdatable {
 			{
 				currentRoundData[i] = null;
 				Logger.log(this, LogSeverity.INFO, "Instruction deleted");
-				Button b = (Button) Game.getGameObjectsByTag("instructionButton"+previousInstruction).get(0);
+				Button b = (Button) Game.getGameObjectsByTag("instructionButton"+clickedInstruction).get(0);
 				b.enable();
+				Button p = (Button) Game.getGameObjectsByTag("instructionButton"+previousInstruction).get(0);
+				p.disable();
+				clickedInstruction = previousInstruction;
 				InstructionViewer  iv = (InstructionViewer) Game.getGameObjectsByTag("InstructionViewer" + String.valueOf(currentPlayer)).get(0);
 				iv.removeBack();
 				Button g = (Button) Game.getGameObjectsByTag("buttonGo").get(0);
@@ -302,12 +306,13 @@ public class GameManager extends GameObject implements IUpdatable {
 	 */
 	public void programInstructions(String button)
 	{
-		if(previousInstruction != null)
+		if(clickedInstruction != null)
 		{
-			Button b = (Button) Game.getGameObjectsByTag("instructionButton"+previousInstruction).get(0);
+			previousInstruction = clickedInstruction;
+			Button b = (Button) Game.getGameObjectsByTag("instructionButton"+clickedInstruction).get(0);
 			b.enable();
 		}
-		previousInstruction = button;
+		clickedInstruction = button;
 		Button b = (Button) Game.getGameObjectsByTag("instructionButton"+button).get(0);
 		b.disable();
 		
@@ -318,6 +323,7 @@ public class GameManager extends GameObject implements IUpdatable {
 		for(int i= 0; i < currentRoundData.length;i++)
 		{
 			InstructionViewer  iv = (InstructionViewer) Game.getGameObjectsByTag("InstructionViewer" + String.valueOf(currentPlayer)).get(0);
+			
 			if(i == currentRoundData.length-1)
 			{
 				if(currentPlayer == playerNumber)
@@ -346,14 +352,17 @@ public class GameManager extends GameObject implements IUpdatable {
 						currentRoundData[i] = newInstruction;
 						iv.pushInstruction(newInstruction);
 						b.enable();
-						previousInstruction = null;
 						break;
 					}
 					else
 					{
 						currentPlayer++;
 						currentRoundData = players.get(currentPlayer-1).get(0);
-						i = 0;
+						newInstruction = translateInstruction(c);
+						currentRoundData[0] = newInstruction;
+						iv = (InstructionViewer) Game.getGameObjectsByTag("InstructionViewer" + String.valueOf(currentPlayer)).get(0);
+						iv.pushInstruction(newInstruction);
+						break;
 					}
 				}
 			}
@@ -367,7 +376,6 @@ public class GameManager extends GameObject implements IUpdatable {
 					break;
 				}
 			}
-			
 		}
 	}
 	/**
