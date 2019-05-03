@@ -443,9 +443,19 @@ public class GameManager extends GameObject implements IUpdatable {
 			for (int i=0;i < robots.size();i++)
 			{
 				Robot r = robots.poll();
-				r.setInstructions(players.get(r.getNumber()-1).poll());
+				Instruction[] temp = players.get(r.getNumber()-1).poll();
+				if(fromFile == true)
+				{
+					InstructionViewer  iv = (InstructionViewer) Game.getGameObjectsByTag("InstructionViewer" + r.getNumber()).get(0);
+					for(Instruction currentInstruction: temp)
+					{
+						iv.pushInstruction(currentInstruction);
+					}
+				}
+				
+				r.setInstructions(temp);
 				robots.offer(r);
-				Instruction[] temp = new Instruction[roundLength];
+				temp = new Instruction[roundLength];
 				players.get(r.getNumber()-1).offer(temp);
 			}
 			turnNumber = 1;
@@ -508,6 +518,14 @@ public class GameManager extends GameObject implements IUpdatable {
 				if(tile instanceof LaserEmitter)
 				{
 					tile.act();
+				}
+			}
+			if(fromFile == true)
+			{
+				if(turnNumber == roundLength)
+				{
+					Button g = (Button) Game.getGameObjectsByTag("buttonGo").get(0);
+					g.enable();
 				}
 			}
 		turnNumber++;
