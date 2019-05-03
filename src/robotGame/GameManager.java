@@ -10,6 +10,7 @@ import core.Game;
 import core.GameObject;
 import core.IUpdatable;
 import robotGame.CustomUI.InstructionViewer;
+import robotGame.CustomUI.PlayerLabel;
 import robotGame.tiles.BoardTile;
 import robotGame.tiles.LaserEmitter;
 import utils.LogSeverity;
@@ -21,7 +22,6 @@ import UI.Button;
  * GameManager
  * Instantiates board, and controls rounds
  * 
- * @author Jedd Morgan
  * @author Owen Craig
  * @version 02/05/2019
  */
@@ -108,6 +108,7 @@ public class GameManager extends GameObject implements IUpdatable {
 				Robot r = new Robot(startingLocations.get(i), i + 1);
 				Game.instantiate(r);
 				robots.offer(r);
+				//displayNames();
 			}
 		}
 		catch(Exception e)
@@ -296,9 +297,15 @@ public class GameManager extends GameObject implements IUpdatable {
 		}
 		
 	}
-	
-	
-	
+	/*
+	public void displayNames()
+	{
+		for(Robot r : robots)
+		{
+			PlayerLabel p = new PlayerLabel(r.getNumber());
+		}
+	}
+	*/
 	
 	/**
 	 * 
@@ -342,6 +349,7 @@ public class GameManager extends GameObject implements IUpdatable {
 					else
 					{
 						Logger.log(this, LogSeverity.WARNING, "All player instructions have been programmed. Click the run button to play the round");
+						b.enable();
 					}
 				}
 				else
@@ -362,6 +370,8 @@ public class GameManager extends GameObject implements IUpdatable {
 						currentRoundData[0] = newInstruction;
 						iv = (InstructionViewer) Game.getGameObjectsByTag("InstructionViewer" + String.valueOf(currentPlayer)).get(0);
 						iv.pushInstruction(newInstruction);
+						PlayerLabel p = (PlayerLabel) Game.getGameObjectsByTag("playerLabel").get(0);
+						p.setPlayerNumber(currentPlayer);
 						break;
 					}
 				}
@@ -528,13 +538,16 @@ public class GameManager extends GameObject implements IUpdatable {
 					tile.act();
 				}
 			}
-			if(fromFile == true)
+			if(turnNumber == roundLength )
 			{
-				if(turnNumber == roundLength)
+				if(fromFile == true)
 				{
 					Button g = (Button) Game.getGameObjectsByTag("buttonGo").get(0);
 					g.enable();
 				}
+				PlayerLabel p = (PlayerLabel) Game.getGameObjectsByTag("playerLabel").get(0);
+				p.setPlayerNumber(1);
+				
 			}
 		turnNumber++;
 	}
