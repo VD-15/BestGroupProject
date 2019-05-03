@@ -23,11 +23,13 @@ public class LaserEmitter extends BoardTile implements IUpdatable {
 	private final Direction direction;
 	/** {@link utils.Point Point} where the {@link robotGame.tiles.BoardTile tile} is indexed.*/
 	private final Point index;
-
+	/** Width of the laser beam,*/
 	private float laserWidth;
+	/** Time elapsed since the last act method occurred.*/
+	private float deltaT;
 
 	/**
-	 * Constructs a laser emitter.
+	 * Constructs a Laser Emitter.
 	 * @param index {@link utils.Point Point} where the {@link robotGame.tiles.BoardTile tile} is indexed.
 	 * @param direction {@link robotGame.Direction Direction} the tile is facing, must be EAST or SOUTH.
 	 */
@@ -49,11 +51,12 @@ public class LaserEmitter extends BoardTile implements IUpdatable {
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * {@inheritDoc}<br>
 	 * Searches tiles for end of board or receiver tile then damages {@link robotGame.Robot Robot}.
 	 */
 	public void act()
 	{
+		// How long the laser beam is.
 		laserWidth = 0;
 		// Whether the laser is firing horizontally or vertically.
 		boolean horizontal;
@@ -61,7 +64,7 @@ public class LaserEmitter extends BoardTile implements IUpdatable {
 		// Variable coordinate
 		int coord;
 
-		// Sets the coordinate accordingly
+		// Sets the coordinate accordingly.
 		if(direction == Direction.EAST) {
 			coord = index.x;
 			horizontal = true;
@@ -108,7 +111,7 @@ public class LaserEmitter extends BoardTile implements IUpdatable {
 			coord ++;
 		}
 	}
-
+	
 	@Override
 	public void draw(RenderBatch b) 
 	{
@@ -141,7 +144,6 @@ public class LaserEmitter extends BoardTile implements IUpdatable {
 				);
 	}
 	
-	private float deltaT;
 	@Override
 	public void update(double time) {
 

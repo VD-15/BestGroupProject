@@ -15,16 +15,31 @@ import utils.Vector2;
  */
 public class LaserReceiver extends BoardTile {
 	
+	/** Direction the laser receiver faces.*/
 	private final Direction direction;
 
+	/**
+	 * Constructs Laser Receiver.
+	 * @param index {@link utils.Point Point} where the {@link robotGame.tiles.BoardTile tile} is indexed.
+	 * @param direction The direction the receiver faces, can only be WEST or NORTH.
+	 */
 	public LaserReceiver(Point index, Direction direction) {
 		// Sets variables
 		super(index);
 		this.tag = "LaserReceiver";
 		this.sprite = "tileLaserReceiver";
-		this.direction = direction;
+		
+		if(direction != Direction.WEST && direction != Direction.NORTH) {
+			this.direction = Direction.EAST;
+		} else {
+			this.direction = direction;
+		}
 	}
 
+	/**
+	 * Returns the direction the receiver is facing.
+	 * @return direction
+	 */
 	public Direction getDirection() {
 		return direction;
 	}

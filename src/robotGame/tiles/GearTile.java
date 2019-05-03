@@ -15,8 +15,8 @@ public class GearTile extends BoardTile
 	private int rotation;
 
 	/**
-	 * 
-	 * @param index {@inheritDoc}
+	 * Constructs a Gear tile.
+	 * @param index {@link utils.Point Point} where the {@link robotGame.tiles.BoardTile tile} is indexed.
 	 * @param clockwise Boolean which determines what direction the gear acts in, true for clockwise, false for counterclockwise.
 	 */
 	public GearTile(Point index, boolean isClockwise) 
@@ -36,7 +36,7 @@ public class GearTile extends BoardTile
 	}
 	
 	/**
-     * {@inheritDoc}
+     * {@inheritDoc}<br>
      * Rotates the robot 90° according to its {@link robotGame.tiles.GearTile#rotation rotation} value.
      * */
     @Override

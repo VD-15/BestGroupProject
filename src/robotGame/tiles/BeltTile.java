@@ -61,6 +61,10 @@ public class BeltTile extends BoardTile
 		}
 	}
 	
+	/**
+	 * {@inheritDoc}<br>
+	 * Stored robot is rotated and moved in the direction the tile acts.
+	 */
 	@Override
 	public void onRobotEnter(Robot robot, Direction direction)
 	{
@@ -81,14 +85,8 @@ public class BeltTile extends BoardTile
 				currentRobot.rotate(rotation);
 			}
 		}
-		
-		
-		
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void draw(RenderBatch b) 
 	{
