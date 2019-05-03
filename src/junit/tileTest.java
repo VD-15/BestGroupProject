@@ -26,7 +26,7 @@ class tileTest {
 	 */
 	@BeforeEach
 	void setUp() throws Exception {
-		ContentManager.setRootDirectory("content/boards/testBoards/");
+		ContentManager.setRootDirectory("content/boards/");
 	}
 
 	@Test
