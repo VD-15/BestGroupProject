@@ -57,8 +57,9 @@ public class GlTest implements GLEventListener
 	 * this, we need a window. For the purposes of this demonstration, we've created one, but
 	 * the GL context it provides is weird and JUnit doesn't appear to like it. We can see
 	 * this because the maximum available texture units has been 0 on all machines we've
-	 * tested on. ANY OpenGL context SHOULD have at least one of these in order to work with
-	 * anything more advanced than a gradient color. This, to us means that there is something
+	 * tested on. ANY OpenGL context MUST have at least one of these in order to work with
+	 * anything more advanced than gradients. During normal operation, this number is 
+	 * around about 200 on all of our machines. This, to us means that there is something
 	 * going wrong between JUnit and Jogl, but we can't diagnose or fix it, as an extension,
 	 * we can't test the renderer with JUnit. To demonstrate this, the test below will always
 	 * fail even though by all accounts we've seen, they really shouldn't.
