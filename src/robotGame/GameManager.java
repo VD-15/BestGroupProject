@@ -9,7 +9,9 @@ import core.ContentManager;
 import core.Game;
 import core.GameObject;
 import core.IUpdatable;
+import core.Program;
 import robotGame.CustomUI.InstructionViewer;
+import robotGame.CustomUI.PlayerLabel;
 import robotGame.tiles.BoardTile;
 import robotGame.tiles.LaserEmitter;
 import utils.LogSeverity;
@@ -21,7 +23,6 @@ import UI.Button;
  * GameManager
  * Instantiates board, and controls rounds
  * 
- * @author Jedd Morgan
  * @author Owen Craig
  * @version 02/05/2019
  */
@@ -36,38 +37,62 @@ public class GameManager extends GameObject implements IUpdatable {
 
 	private static final int roundLength = 5;
 	
-	private static boolean fromFile;
+	
 	
 	private int roundNumber;
 	private int turnNumber = 0;
-	private int playerNumber;
+	
 	private int currentPlayer;
 	private boolean roundReady = false;
-	private String previousInstruction;
+	private String clickedInstruction;
+	private String previousInstruction; 
 
 	private Queue<Robot> robots;
 
 	private HashMap<Integer, LinkedList<Instruction[]>> players;
 	private ArrayList<Point> startingLocations;
 	
-	private final String programFile;
-	private final String boardFile;
+	private static boolean fromFile;
+	private int playerNumber;
+	private String programFile;
+	private String boardFile;
 
-	public GameManager(String boardFile, String programFile, boolean fromFile, int playerNumber) 
+	/**
+	 * 
+	 * @param boardFile
+	 * @param programFile
+	 * @param fromFile
+	 * @param playerNumber
+	 */
+	public GameManager(String[] args) 
 	{
 		this.tag = "gameManager";
-		this.boardFile = boardFile;
-		this.programFile = programFile;
-		this.fromFile = fromFile;
-		this.playerNumber = playerNumber; 
+		this.boardFile = args[0];
+		int p = -1;
+		try 
+		{
+			p = Integer.parseInt(args[1]);
+		}
+		catch(Exception e) {}
+
+		if(p > -1)
+		{
+			this.fromFile = false;
+			this.playerNumber = p;
+		}
+		else
+		{
+			this.programFile = args[1]; 
+		}
+		
 		players = new HashMap<Integer, LinkedList<Instruction[]>>();
 		robots = new LinkedList<Robot>();
 		
 	}
 	
-	public GameManager() 
+	public GameManager()
 	{
-		this("testBoard3", "2players-2rounds", false, 2);
+		this(Program.arguments);
 	}
 	
 	@Override
@@ -101,13 +126,15 @@ public class GameManager extends GameObject implements IUpdatable {
 			
 			//for the acceptable number of players
 			//i.e. the max unless the board is too small
-			for (int i = 0; i < Math.min(playerNumber, startingLocations.size()); i++)
+			for (int i = 0; i < Math.min(players.size(), startingLocations.size()); i++)
 			{
 				//creating the robots
 				Robot r = new Robot(startingLocations.get(i), i + 1);
 				Game.instantiate(r);
 				robots.offer(r);
+				//displayNames();
 			}
+			playerNumber = robots.size();
 		}
 		catch(Exception e)
 		{
@@ -116,11 +143,10 @@ public class GameManager extends GameObject implements IUpdatable {
 
 	}
 
-	/**
-	 * 
-	 * @return
-	 */
-	public static boolean getfromFile()
+	
+	
+	
+	public static boolean getFromFile()
 	{
 		return fromFile;
 	}
@@ -280,8 +306,11 @@ public class GameManager extends GameObject implements IUpdatable {
 			{
 				currentRoundData[i] = null;
 				Logger.log(this, LogSeverity.INFO, "Instruction deleted");
-				Button b = (Button) Game.getGameObjectsByTag("instructionButton"+previousInstruction).get(0);
+				Button b = (Button) Game.getGameObjectsByTag("instructionButton"+clickedInstruction).get(0);
 				b.enable();
+				Button p = (Button) Game.getGameObjectsByTag("instructionButton"+previousInstruction).get(0);
+				p.disable();
+				clickedInstruction = previousInstruction;
 				InstructionViewer  iv = (InstructionViewer) Game.getGameObjectsByTag("InstructionViewer" + String.valueOf(currentPlayer)).get(0);
 				iv.removeBack();
 				Button g = (Button) Game.getGameObjectsByTag("buttonGo").get(0);
@@ -292,9 +321,15 @@ public class GameManager extends GameObject implements IUpdatable {
 		}
 		
 	}
-	
-	
-	
+	/*
+	public void displayNames()
+	{
+		for(Robot r : robots)
+		{
+			PlayerLabel p = new PlayerLabel(r.getNumber());
+		}
+	}
+	*/
 	
 	/**
 	 * 
@@ -302,12 +337,13 @@ public class GameManager extends GameObject implements IUpdatable {
 	 */
 	public void programInstructions(String button)
 	{
-		if(previousInstruction != null)
+		if(clickedInstruction != null)
 		{
-			Button b = (Button) Game.getGameObjectsByTag("instructionButton"+previousInstruction).get(0);
+			previousInstruction = clickedInstruction;
+			Button b = (Button) Game.getGameObjectsByTag("instructionButton"+clickedInstruction).get(0);
 			b.enable();
 		}
-		previousInstruction = button;
+		clickedInstruction = button;
 		Button b = (Button) Game.getGameObjectsByTag("instructionButton"+button).get(0);
 		b.disable();
 		
@@ -318,6 +354,7 @@ public class GameManager extends GameObject implements IUpdatable {
 		for(int i= 0; i < currentRoundData.length;i++)
 		{
 			InstructionViewer  iv = (InstructionViewer) Game.getGameObjectsByTag("InstructionViewer" + String.valueOf(currentPlayer)).get(0);
+			
 			if(i == currentRoundData.length-1)
 			{
 				if(currentPlayer == playerNumber)
@@ -336,6 +373,7 @@ public class GameManager extends GameObject implements IUpdatable {
 					else
 					{
 						Logger.log(this, LogSeverity.WARNING, "All player instructions have been programmed. Click the run button to play the round");
+						b.enable();
 					}
 				}
 				else
@@ -346,14 +384,19 @@ public class GameManager extends GameObject implements IUpdatable {
 						currentRoundData[i] = newInstruction;
 						iv.pushInstruction(newInstruction);
 						b.enable();
-						previousInstruction = null;
 						break;
 					}
 					else
 					{
 						currentPlayer++;
 						currentRoundData = players.get(currentPlayer-1).get(0);
-						i = 0;
+						newInstruction = translateInstruction(c);
+						currentRoundData[0] = newInstruction;
+						iv = (InstructionViewer) Game.getGameObjectsByTag("InstructionViewer" + String.valueOf(currentPlayer)).get(0);
+						iv.pushInstruction(newInstruction);
+						PlayerLabel p = (PlayerLabel) Game.getGameObjectsByTag("playerLabel").get(0);
+						p.setPlayerNumber(currentPlayer);
+						break;
 					}
 				}
 			}
@@ -367,7 +410,6 @@ public class GameManager extends GameObject implements IUpdatable {
 					break;
 				}
 			}
-			
 		}
 	}
 	/**
@@ -520,13 +562,16 @@ public class GameManager extends GameObject implements IUpdatable {
 					tile.act();
 				}
 			}
-			if(fromFile == true)
+			if(turnNumber == roundLength )
 			{
-				if(turnNumber == roundLength)
+				if(fromFile == true)
 				{
 					Button g = (Button) Game.getGameObjectsByTag("buttonGo").get(0);
 					g.enable();
 				}
+				PlayerLabel p = (PlayerLabel) Game.getGameObjectsByTag("playerLabel").get(0);
+				p.setPlayerNumber(1);
+				
 			}
 		turnNumber++;
 	}
