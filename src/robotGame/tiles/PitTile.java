@@ -26,7 +26,7 @@ public class PitTile extends BoardTile
 	}
 	
 	/**
-	 * {@inheritDoc}
+	 * {@inheritDoc}<br>
 	 * Resets the location of the robot upon entry.
 	 */
 	@Override
