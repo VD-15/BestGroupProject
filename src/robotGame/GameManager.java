@@ -46,6 +46,7 @@ public class GameManager extends GameObject implements IUpdatable {
 	private boolean roundReady = false;
 	private String clickedInstruction;
 	private String previousInstruction; 
+	
 
 	private Queue<Robot> robots;
 

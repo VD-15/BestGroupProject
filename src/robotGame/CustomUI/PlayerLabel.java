@@ -54,4 +54,11 @@ public class PlayerLabel extends Label
 				break;
 		}
 	}
+	
+	public void winner(int playerNumber)
+	{
+		this.playerNumber = playerNumber;
+		this.text = "PLAYER " + String.valueOf(playerNumber) + "WINS!";
+		
+	}
 }
