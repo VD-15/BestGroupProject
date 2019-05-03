@@ -8,6 +8,7 @@ import java.util.Queue;
 import core.ContentManager;
 import core.Game;
 import core.GameObject;
+import core.GameWindow;
 import core.IUpdatable;
 import core.Program;
 import robotGame.CustomUI.InstructionViewer;
@@ -85,31 +86,47 @@ public class GameManager extends GameObject implements IUpdatable {
 	 */
 	public GameManager(String[] args) 
 	{
-		this.tag = "gameManager";
-		this.boardFile = args[0];
-		int p = -1;
-		try 
+		
+		if(args.length == 0)
 		{
-			p = Integer.parseInt(args[1]);
-		}
-		catch(Exception e) 
-		{
-			
-		}
-
-		if(p > -1)
-		{
-			this.fromFile = false;
-			this.playerNumber = p;
+			Logger.log(this, LogSeverity.ERROR, "there were no arguments. Please specify the boardFile followed by programfile or player number");
+			Game.stop();
+			this.boardFile = "empty-0x0.brd";
+			this.programFile = "empty-file.prg";
+			this.fromFile = true;
 		}
 		else
 		{
-			this.programFile = args[1];
-			this.fromFile = true;
+			this.tag = "gameManager";
+			this.boardFile = args[0];
+			int p = -1;
+			try 
+			{
+				p = Integer.parseInt(args[1]);
+			}
+			catch(Exception e) 
+			{
+				
+			}
+
+			if(p > -1)
+			{
+				this.fromFile = false;
+				this.playerNumber = p;
+			}
+			else
+			{
+				this.programFile = args[1];
+				this.fromFile = true;
+			}
+			
+			players = new HashMap<Integer, LinkedList<Instruction[]>>();
+			robots = new LinkedList<Robot>();
+			
 		}
 		
-		players = new HashMap<Integer, LinkedList<Instruction[]>>();
-		robots = new LinkedList<Robot>();
+		
+		
 		
 	}
 	
@@ -125,13 +142,15 @@ public class GameManager extends GameObject implements IUpdatable {
 	public void init() 
 	{
 		//creating a new board
-		board = new Board(boardFile);
+		ContentManager.loadText("boards/"+ this.boardFile, this.boardFile);
+		board = new Board(this.boardFile);
 		Game.instantiate(board);
 		startingLocations = board.getStartingLocations();
 
 		if(fromFile == true)
 		{
 			//getting player data
+			ContentManager.loadText("programs/" + this.programFile, this.programFile);
 			formatInstructions(ContentManager.getTextByName(this.programFile));
 		}
 		else
@@ -218,26 +237,33 @@ public class GameManager extends GameObject implements IUpdatable {
 	 */
 	private void formatInstructions(String[] text)
 	{
-		//checks for a format line 
-		if (!text[0].startsWith("format "))
+		if(text.length == 0)
 		{
-			Logger.log(this, LogSeverity.ERROR, "Could not discern format from instruction data.");
+			Logger.log(this, LogSeverity.ERROR, "empty board file");
 		}
-		//sets the formatVersion from the file
-		int formatVersion = Integer.valueOf(text[0].split("format ")[1]);
-
-		//switch determined by formatVersion
-		//runs a method for each format type
-		switch (formatVersion)
+		else
 		{
-		case 1:
-			roundNumber = text.length - 2;
-			players = loadInstructionsFormat1(text);
-			break;
-			//default error for an invalid formatVersion
-		default:
-			Logger.log(this, LogSeverity.ERROR, "Instruction data had invalid version: {" + formatVersion + "}");
-			break;
+			//checks for a format line 
+			if (!text[0].startsWith("format "))
+			{
+				Logger.log(this, LogSeverity.ERROR, "Could not discern format from instruction data.");
+			}
+			//sets the formatVersion from the file
+			int formatVersion = Integer.valueOf(text[0].split("format ")[1]);
+	
+			//switch determined by formatVersion
+			//runs a method for each format type
+			switch (formatVersion)
+			{
+			case 1:
+				roundNumber = text.length - 2;
+				players = loadInstructionsFormat1(text);
+				break;
+				//default error for an invalid formatVersion
+			default:
+				Logger.log(this, LogSeverity.ERROR, "Instruction data had invalid version: {" + formatVersion + "}");
+				break;
+			}
 		}
 	}
 
@@ -570,7 +596,7 @@ public class GameManager extends GameObject implements IUpdatable {
 				InstructionViewer  iv = (InstructionViewer) Game.getGameObjectsByTag("InstructionViewer" + r.getNumber()).get(0);
 				iv.removeFront();
 				
-				if(r.getFlag() == 4)
+				if(r.getFlag() == Board.getNumberOfFlags())
 				{
 					victory(r);
 				}

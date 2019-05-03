@@ -22,6 +22,7 @@ public class Board extends GameObject
 	private final String boardFile;
 
 	private static BoardTile[][] boardArray;
+	private static int numberOfFlags;
 
 	/** Array of starting points for robots */
 	private ArrayList<Point> startingLocations;
@@ -37,6 +38,7 @@ public class Board extends GameObject
 		super();
 		this.tag = "board";
 		this.boardFile = boardFile;
+		numberOfFlags = 0;
 
 		startingLocations = new ArrayList<Point>();
 		loadBoardFromText(ContentManager.getTextByName(boardFile));
@@ -153,6 +155,7 @@ public class Board extends GameObject
 				case '4':
 					// Flag
 					boardArray[p.x][p.y] = new FlagTile(p, Integer.valueOf(c - '0'));
+					numberOfFlags++;
 					break;
 					//Commented out because I want only one robot for testing
 				case 'A':
@@ -260,6 +263,11 @@ public class Board extends GameObject
 		}
 
 	}
+	
+	public static int getNumberOfFlags() 
+	{
+        return numberOfFlags;
+    }
 
 	/**
 	 * 
