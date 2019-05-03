@@ -6,6 +6,7 @@ import core.IUpdatable;
 import graphics.Color;
 import graphics.RenderBatch;
 import graphics.RenderInstance;
+import robotGame.GameManager;
 import utils.Region;
 import utils.Vector2;
 
@@ -55,9 +56,8 @@ public class DeleteInstructionButton extends Button implements IUpdatable
 	@Override
 	protected void onClick()
 	{
-		////////////////////////////////////////////
-		////THIS IS WHERE YOU WANT TO PUT STUFF!////
-		////////////////////////////////////////////
+		GameManager o = (GameManager) Game.getGameObjectsByTag("gameManager").get(0);
+		o.deleteInstruction();
 	}
 	
 	@Override

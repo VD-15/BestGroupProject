@@ -9,6 +9,7 @@ import core.ContentManager;
 import core.Game;
 import core.GameObject;
 import core.IUpdatable;
+import robotGame.CustomUI.InstructionViewer;
 import robotGame.tiles.BoardTile;
 import robotGame.tiles.LaserEmitter;
 import utils.LogSeverity;
@@ -263,6 +264,40 @@ public class GameManager extends GameObject implements IUpdatable {
 
 	/**
 	 * 
+	 */
+	public void deleteInstruction()
+	{
+		Instruction[] currentRoundData = players.get(currentPlayer-1).get(0);
+		
+		for(int i = 0; i < currentRoundData.length; i++ )
+		{
+			if(currentRoundData[0] == null)
+			{
+				Logger.log(this, LogSeverity.ERROR, "There are no instructions to delete");
+				break;
+			}
+			if(i == currentRoundData.length - 1 || currentRoundData[i+1] == null) 
+			{
+				currentRoundData[i] = null;
+				Logger.log(this, LogSeverity.INFO, "Instruction deleted");
+				Button b = (Button) Game.getGameObjectsByTag("instructionButton"+previousInstruction).get(0);
+				b.enable();
+				InstructionViewer  iv = (InstructionViewer) Game.getGameObjectsByTag("InstructionViewer" + String.valueOf(currentPlayer)).get(0);
+				iv.removeBack();
+				Button g = (Button) Game.getGameObjectsByTag("buttonGo").get(0);
+				g.disable();
+				roundReady = false;
+				break;
+			}
+		}
+		
+	}
+	
+	
+	
+	
+	/**
+	 * 
 	 * @param button the button that has been pressed
 	 */
 	public void programInstructions(String button)
@@ -278,21 +313,24 @@ public class GameManager extends GameObject implements IUpdatable {
 		
 		Instruction[] currentRoundData = players.get(currentPlayer-1).get(0);
 		char c = button.charAt(0);
-		
+		Instruction newInstruction;
+
 		for(int i= 0; i < currentRoundData.length;i++)
 		{
+			InstructionViewer  iv = (InstructionViewer) Game.getGameObjectsByTag("InstructionViewer" + String.valueOf(currentPlayer)).get(0);
 			if(i == currentRoundData.length-1)
 			{
 				if(currentPlayer == playerNumber)
 				{
 					if(currentRoundData[i] == null)
 					{
-						currentRoundData[i] = translateInstruction(c);
+						newInstruction = translateInstruction(c);
+						currentRoundData[i] = newInstruction;
+						iv.pushInstruction(newInstruction);
 						roundReady = true;
 						Button g = (Button) Game.getGameObjectsByTag("buttonGo").get(0);
 						g.enable();
 						b.enable();
-						previousInstruction = null;
 						break;
 					}
 					else
@@ -304,7 +342,9 @@ public class GameManager extends GameObject implements IUpdatable {
 				{
 					if(currentRoundData[i] == null)
 					{
-						currentRoundData[i] = translateInstruction(c);
+						newInstruction = translateInstruction(c);
+						currentRoundData[i] = newInstruction;
+						iv.pushInstruction(newInstruction);
 						b.enable();
 						previousInstruction = null;
 						break;
@@ -321,7 +361,9 @@ public class GameManager extends GameObject implements IUpdatable {
 			{
 				if(currentRoundData[i] == null)
 				{
-					currentRoundData[i] = translateInstruction(c);
+					newInstruction = translateInstruction(c);
+					currentRoundData[i] = newInstruction;
+					iv.pushInstruction(newInstruction);
 					break;
 				}
 			}
@@ -395,6 +437,9 @@ public class GameManager extends GameObject implements IUpdatable {
 	{
 		if(roundNumber != 0)
 		{
+			Button g = (Button) Game.getGameObjectsByTag("buttonGo").get(0);
+			g.disable();
+			
 			for (int i=0;i < robots.size();i++)
 			{
 				Robot r = robots.poll();
@@ -436,6 +481,10 @@ public class GameManager extends GameObject implements IUpdatable {
 				Robot r = robots.poll();
 				r.act();
 				robots.offer(r);
+				
+				InstructionViewer  iv = (InstructionViewer) Game.getGameObjectsByTag("InstructionViewer" + r.getNumber()).get(0);
+				iv.removeFront();
+				
 				if(r.getFlag() == 4)
 				{
 					victory(r);
