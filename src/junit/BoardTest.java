@@ -61,6 +61,16 @@ class BoardTest {
 		assertNotNull(ContentManager.getTextByName("testBoard2"));
 	}
 	
+	@Test
+	void testNotEmpty() 
+	{
+		ContentManager.setRootDirectory("content/");	
+		
+		ContentManager.loadText("boards/test1x1.brd","testBoard2");
+		board = new Board("testBoard2");
+		assertNotNull(ContentManager.getTextByName("testBoard2")[1]);
+	}
+	
 	
 
 }
