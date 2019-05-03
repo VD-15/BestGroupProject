@@ -85,7 +85,7 @@ public class InstructionViewer extends Panel
 	{
 		this.instructions.addLast(i);
 	}
-	
+
 	/**
 	 * Removes an instruction from the front of this instruction list
 	 * Has no effect if the list is empty
