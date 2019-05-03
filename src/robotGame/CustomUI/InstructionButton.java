@@ -38,7 +38,7 @@ public class InstructionButton extends Button implements IUpdatable
 		this.offset = offset;
 		this.tag = "instructionButton" + i.toString();
 		this.setWidth(64);
-		if (GameManager.getfromFile() == true)
+		if (GameManager.getFromFile() == true)
 		{
 			this.disable();
 		}

@@ -59,7 +59,6 @@ public class Game
 	 * application
 	 */
 	private static boolean isRunning = false;
-	
 	/**
 	 * Initialises the game in the given window
 	 * @param g
