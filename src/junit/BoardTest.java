@@ -30,7 +30,7 @@ class BoardTest {
 	@BeforeAll
 	public static void boardTest() {
 
-		ContentManager.setRootDirectory("content/boards/testBoards/");	
+		ContentManager.setRootDirectory("content/boards/");	
 		for(String b : boardString) {
 			ContentManager.loadText(b , b);
 		}
