@@ -190,6 +190,11 @@ public class Game
 		return window;
 	}
 	
+	public static void stop()
+	{
+		isRunning = false;
+	}
+	
 	/**
 	 * Retrieves a list of GameObjects that match a given tag
 	 * @param tag The tag to search for
