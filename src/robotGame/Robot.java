@@ -59,6 +59,7 @@ public class Robot extends GameObject implements IDrawable
 		this.tag = "robot";
 		this.health = DEFAULT_HEALTH;
 		this.flags = 0;
+		this.actions = new LinkedList<Instruction>();
 	}
 
 	/**
@@ -68,7 +69,6 @@ public class Robot extends GameObject implements IDrawable
 	public void init()
 	{
 		Board.getTile(index).onRobotEnter(this, DEFAULT_DIRECTION);
-		actions = new LinkedList<Instruction>();
 	}
 
 	/**
@@ -130,37 +130,38 @@ public class Robot extends GameObject implements IDrawable
 	/**
 	 * @param direction to move robot in
 	 */
-	public void move(Direction direction, int ammount) {
+	public void move(Direction direction, int amount) {
 		
 		Point pIndex = index.clone();
 		
-		Board.getTile(index).onRobotLeave(this);
+		BoardTile tile = Board.getTile(index);
+        if(tile != null) tile.onRobotLeave(this);
 
 		switch (direction)
 		{
 		case NORTH:
-			this.index.y -= ammount;
+			this.index.y -= amount;
 			break;
 		case SOUTH:
-			this.index.y += ammount;
+			this.index.y += amount;
 			break;
 		case EAST:
-			this.index.x += ammount;
+			this.index.x += amount;
 			break;
 		case WEST:
-			this.index.x -= ammount;
+			this.index.x -= amount;
 			break;
 		default:
 			Logger.log(this, LogSeverity.ERROR, "Robot" + number + " had invalid direction. Resetting to" + DEFAULT_DIRECTION);
 			facingDirection = DEFAULT_DIRECTION;
-			this.index.y += ammount;
+			this.index.y += amount;
 			break;
 		}
 	
 		setPosition(index);
 
 		if (!pIndex.equals(index))
-			Logger.log(this, LogSeverity.INFO, "Moving Robot" + number + " in direction " + direction + ammount + " from (" + pIndex.x + "," + pIndex.y + ") to (" + index.x + "," + index.y + ")" );
+			Logger.log(this, LogSeverity.INFO, "Moving Robot" + number + " in direction " + direction + amount + " from (" + pIndex.x + "," + pIndex.y + ") to (" + index.x + "," + index.y + ")" );
 
 		BoardTile b = Board.getTile(index);
 		
@@ -252,6 +253,23 @@ public class Robot extends GameObject implements IDrawable
 	 */
 	public int getHealth() {
 		return health;
+	}
+	
+	/**
+	 * Returns default direction of robot.
+	 * @return DEFAULT_DIRECTION
+	 */
+	public Direction getDefaultDirection() {
+		return DEFAULT_DIRECTION;
+	}
+	
+	/**
+	 * Returns facing direction of robot.
+	 * @return facingDirection
+	 */
+	public Direction getFacingDirection() 
+	{
+		return facingDirection;
 	}
 	
 	@Override

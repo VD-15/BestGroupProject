@@ -17,9 +17,9 @@ public class FlagTile extends BoardTile
 	private int flagNumber;
 
 	/**
-	 * Creates flag tile.
-	 * @param index
-	 * @param flagNumber
+	 * Constructs flag tile.
+	 * @param index {@link utils.Point Point} where the {@link robotGame.tiles.BoardTile tile} is indexed.
+	 * @param flagNumber The number of the flag.
 	 */
 	public FlagTile(Point index, int flagNumber) 
 	{

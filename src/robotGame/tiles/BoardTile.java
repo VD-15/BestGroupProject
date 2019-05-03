@@ -23,11 +23,15 @@ public class BoardTile extends GameObject implements IDrawable
 {
 	/** {@link robotGame.Robot Robot} instance stored in tile.*/
 	protected Robot currentRobot;
-	/** Default tile size for every tile*/
+	/** Default tile size for every tile.*/
 	protected final int TILE_SIZE = 64;
-
+	/** Stored value of the sprite for the tile.*/
 	protected String sprite;
 
+	/**
+	 * Constructs a generic tile.
+	 * @param index {@link utils.Point Point} where the {@link robotGame.tiles.BoardTile tile} is indexed.
+	 */
 	public BoardTile(Point index)
 	{
 		// Sets variables.
@@ -45,9 +49,6 @@ public class BoardTile extends GameObject implements IDrawable
 		return currentRobot;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	public void init()
 	{
 		// No implementation needed.
@@ -89,9 +90,6 @@ public class BoardTile extends GameObject implements IDrawable
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void draw(RenderBatch b)
 	{
@@ -106,13 +104,9 @@ public class BoardTile extends GameObject implements IDrawable
 				);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void destroy()
 	{
 		// No implementation required.
-
 	}
 }
