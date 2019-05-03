@@ -572,6 +572,8 @@ public class GameManager extends GameObject implements IUpdatable {
 	public void victory(Robot r)
 	{
 		Logger.log(this, LogSeverity.INFO, "Player "+ r.getNumber() +"has won!");
+		PlayerLabel p = (PlayerLabel) Game.getGameObjectsByTag("playerLabel").get(0);
+		p.winner(r.getNumber());;
 		
 		for(int i = 0; i < robots.size(); i++)
 		{
