@@ -82,13 +82,14 @@ public class Game
 		Game.instantiate(new PlayerLabel(1));
 		Game.instantiate(new GoButton());
 		Game.instantiate(new DeleteInstructionButton());
+		Game.instantiate(new GameManager());
 		Game.instantiate(new InstructionButton(new Vector2(10, 148), Instruction.FORWARD));
 		Game.instantiate(new InstructionButton(new Vector2(10, 222), Instruction.BACKWARD));
 		Game.instantiate(new InstructionButton(new Vector2(84, 148), Instruction.LEFT));
 		Game.instantiate(new InstructionButton(new Vector2(158, 148), Instruction.RIGHT));
 		Game.instantiate(new InstructionButton(new Vector2(84, 222), Instruction.UTURN));
 		Game.instantiate(new InstructionButton(new Vector2(158, 222), Instruction.WAIT));
-		Game.instantiate(new GameManager());
+		
 		
 		Game.instantiate(new InstructionViewer(1, new Vector2(10, 50)));
 		Game.instantiate(new InstructionViewer(2, new Vector2(10, 102)));
