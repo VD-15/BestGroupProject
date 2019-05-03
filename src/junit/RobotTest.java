@@ -30,7 +30,7 @@ class RobotTest {
 	@BeforeAll
 	static void setup() 
 	{
-		ContentManager.setRootDirectory("content/boards/testBoards/");	
+		ContentManager.setRootDirectory("content/boards/");	
 		robot = new Robot(new Point(), 0);
 	}
 	
