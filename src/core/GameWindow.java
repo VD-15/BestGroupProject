@@ -175,35 +175,7 @@ public class GameWindow implements GLEventListener
 		ContentManager.loadImage(gl, "textures/UI/font_small.png",			"fontSmall", 		2000, 	50);
 		ContentManager.createFont("fontSmall", new Point(20, 50));
 		
-		//Load boards
-		ContentManager.loadText("boards/testboard.brd", 					"testBoard");
-		ContentManager.loadText("boards/conveyor-loops.brd", 				"testBoard2");
-		ContentManager.loadText("boards/example-board.brd", 				"testBoard3");
-		ContentManager.loadText("boards/bigboard.brd", 						"testBoard4");
-		
-		
-		ContentManager.loadText("games/01-90degturn/board.brd", 			"testGame1");
-		ContentManager.loadText("games/01-90degturn/alice-wins.prg", 		"testInstruction0");
-		ContentManager.loadText("games/01-90degturn/alice-wins.prg", 		"testInstruction1");
-		
-		ContentManager.loadText("games/02-pits/board.brd", 					"testGame2");
-		ContentManager.loadText("games/02-pits/bob-wins-using-pit_edge.prg", 	"testInstruction2");
-		
-		ContentManager.loadText("games/04-conveyor-straight/board.brd", 	"testGame3");
-		ContentManager.loadText("games/04-conveyor-straight/bob-wins.prg", 	"testInstruction3");
-
-
-		//Load programs
-		ContentManager.loadText("programs/4players.prg", 					"4players");
-		ContentManager.loadText("programs/2players-2rounds.prg", 			"2players-2rounds");
-		
-		ContentManager.loadText("programs/0players.prg", 					"0players");
-		ContentManager.loadText("programs/1player-not_enough.prg", 			"1player-not_enough");
-		ContentManager.loadText("programs/2players-missing-program.prg", 	"2players-missing-program");
-		ContentManager.loadText("programs/2players-too-many-programs.prg", 	"2players-too-many-programs");
-		ContentManager.loadText("programs/wrong-format.prg", 				"wrong-format");
-		ContentManager.loadText("programs/empty-file.prg", 					"empty-file");
-		ContentManager.loadText("programs/1player-repeated.prg", 			"1players-repeated");
+	
 		
 		//Bindings for the MainCamera
 		//Up & down are inverted here due to the way handle the Y-axis, remember, +ve is down.
